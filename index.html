@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jose L. Trigo - Portfolio Técnico</title>
+  <meta name="description" content="Portfolio de Jose L. Trigo. Ethical Hacker, Security Researcher, Offensive Security, Pentesting." />
+
+  <style>
+    /* Reset minimal */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:"Fira Code",ui-monospace,SFMono-Regular,monospace;background:#D3E7F2;color:#cbd5dd;-webkit-font-smoothing:antialiased}
+    a{color:#7ee787;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Layout */
+    .wrap{max-width:1180px;margin:28px auto;padding:24px}
+    header{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo {
+      width:88px;height:88px;border-radius:10px;overflow:hidden;flex:0 0 88px;
+      background:linear-gradient(180deg,#081018 0,#0b1320 100%);display:flex;align-items:center;justify-content:center;
+      border:1px solid rgba(126,231,135,0.06);box-shadow:0 6px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02)
+    }
+    .logo img{width:92%;height:auto;display:block}
+
+    .title {line-height:1}
+    .title h1{margin:0;font-size:1.4rem;color:#7ee787;letter-spacing:0.6px}
+    .title p{margin:3px 0 0;font-size:0.85rem;color:#9fb6a8}
+
+    /* Contenedor centrado y ancho 75% */
+    .banner-nav-keys {
+        display:flex;
+        justify-content:center;
+        width:75%;
+        margin:0 auto;
+        padding:10px 0;
+        box-sizing:border-box;
+    }
+
+    /* Lista horizontal */
+    .keys-list {
+        list-style:none;
+        display:flex;
+        gap:14px;
+        padding:0;
+        margin:0;
+        width:100%;
+        justify-content:space-between; /* repartir espacio entre teclas */
+        align-items:center;
+    }
+
+    /* Estilo "tecla" */
+    .key {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:110px;           /* tamaño mínimo de cada tecla */
+        padding:10px 16px;
+        border-radius:8px;         /* esquina redondeada tipo tecla */
+        background: linear-gradient(180deg, #0f1720 0%, #0b1116 100%);
+        color:#dfffe0;
+        text-decoration:none;
+        font-weight:700;
+        letter-spacing:0.6px;
+        font-family: "Fira Code", monospace;
+        border:1px solid rgba(126,231,135,0.06);
+        box-shadow:
+            0 6px 14px rgba(2,6,10,0.6),        /* sombra externa */
+            inset 0 1px 0 rgba(255,255,255,0.02);/* brillo superior */
+        transition: transform .12s ease, box-shadow .12s ease, background .12s;
+        text-align:center;
+    }
+
+    /* Hover: ligero levantamiento y color */
+    .key:hover{
+        transform: translateY(-3px);
+        box-shadow:
+            0 14px 30px rgba(0,255,153,0.06),
+            inset 0 1px 0 rgba(255,255,255,0.03);
+        background: linear-gradient(180deg, #102022 0%, #0d171c 100%);
+        color:#ffffff;
+    }
+
+    /* Presionado: efecto "inset" como tecla pulsada */
+    .key:active,
+    .key[aria-current="page"]{
+        transform: translateY(1px);
+        box-shadow:
+            0 4px 8px rgba(2,6,10,0.6),
+            inset 0 5px 12px rgba(0,0,0,0.5);
+        background: linear-gradient(180deg, #081116 0%, #051014 100%);
+    }
+
+    /* Indicador de foco para accesibilidad */
+    .key:focus{
+        outline:3px solid rgba(94,150,255,0.18);
+        outline-offset:4px;
+        border-radius:8px;
+    }
+
+    /* Responsive: en pantallas pequeñas apilan o hacen scroll */
+    @media (max-width:720px){
+        .banner-nav-keys { width:94%; padding:8px 0; }
+        .keys-list { gap:8px; justify-content:space-between; flex-wrap:wrap; }
+        .key { min-width:44%; padding:10px; font-size:0.95rem; }
+    }
+
+
+    /* Hero banner */
+    .banner {
+      display:flex;gap:20px;align-items:center;padding:18px;border-radius:12px;
+      background:linear-gradient(90deg, rgba(8,10,12,0.85), rgba(6,8,10,0.6));
+      border:1px solid rgba(94,150,255,0.06);box-shadow:0 18px 60px rgba(4,8,16,0.6);
+      overflow:hidden;margin-bottom:28px;
+    }
+    .banner .left{flex:1;min-width:260px}
+    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
+    .banner h2{margin:0;color:#58a6ff;font-size:1.25rem;letter-spacing:0.4px}
+    .banner p{margin:8px 0 0;color:#a8bcc9}
+
+    .banner .tagline{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:6px;background:rgba(126,231,135,0.04);color:#7ee787;font-weight:600;font-size:0.85rem}
+
+    /* Terminal image container (right) */
+    .banner .term-wrap{width:380px;height:160px;border-radius:8px;border:1px solid rgba(126,231,135,0.06);overflow:hidden;background:#020204;display:flex;align-items:center;justify-content:center}
+    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.92;filter:grayscale(6%) contrast(1.02)}
+
+    /* Grid sections */
+    section{margin-bottom:28px}
+    h3.section-title{margin:0 0 10px;font-size:1.05rem;color:#7ee787}
+    p.lead{color:#9fb6a8;margin:6px 0 18px}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+
+    /* Terminal-style project cards */
+
+    .term-card{
+      background:#071018;border-radius:8px;border:1px solid rgba(126,231,135,0.06);overflow:hidden;
+      display:flex;flex-direction:column;min-height:160px;box-shadow:0 10px 28px rgba(2,6,10,0.6);
+      transition:transform .28s ease,box-shadow .28s ease;
+      background-image:linear-gradient(rgba(2,6,10,0.70), rgba(2,6,10,0.70)),url(Copilot_20251118_125510.png);background-size: contain; background-position: center; background-repeat: no-repeat ;
+    }
+    .term-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,255,153,0.06)}
+    .term-header{
+      display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(180deg,#0d1317,#0a1013);
+      border-bottom:1px solid rgba(126,231,135,0.03)
+    }
+    .term-dots{display:flex;gap:8px}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .dot.red{background:#ff5f56}
+    .dot.yellow{background:#ffbd2e}
+    .dot.green{background:#27c93f}
+    .term-title{margin-left:10px;color:#9fd7ff;font-weight:700;font-size:0.95rem}
+
+    .term-body{padding:14px;font-size:0.92rem;line-height:1.45;color:#9feea0;background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.02));white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px}
+    .prompt{color:#58a6ff;font-weight:700}
+    .output{color:#9feea0;font-family:inherit}
+
+    .meta{margin-top:auto;padding:12px;border-top:1px dashed rgba(126,231,135,0.03);display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#9fb6a8}
+
+    /* About / skills */
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .skill{background:rgba(126,231,135,0.04);padding:6px 8px;border-radius:6px;color:#7ee787;font-weight:600;font-size:0.85rem;border:1px solid rgba(126,231,135,0.03)}
+    /* Título de sección */
+  .tools-used h2 {
+    font-size: 1.8rem;
+    color: #00ffcc;
+    border-left: 4px solid #00ffcc;
+    padding-left: 10px;
+    margin: 2rem 1rem;
+  } 
+
+/* Grid de herramientas */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+  }
+
+/* Tarjeta individual */
+    .tool-card {
+      background-color: #1a1a1a;
+      border: 1px solid #00ffcc;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tool-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    /* Icono de herramienta */
+    .tool-card img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Nombre de herramienta */
+    .tool-card h3 {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+      color: #00ffcc;
+    }
+
+    /* Descripción */
+    .tool-card p {
+      font-size: 0.9rem;
+      color: #cccccc;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Enlace a proyecto */
+    .tool-card a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .tool-card a:hover {
+      text-decoration: underline;
+    }
+
+
+
+    /* Footer */
+    footer{padding:18px;margin-top:6px;border-top:1px solid rgba(126,231,135,0.03);color:#97b8a9;text-align:center;font-size:0.9rem;border-radius:6px}
+
+    /* Small responsive tweaks */
+    @media (max-width:880px){
+      header{flex-direction:column;align-items:flex-start}
+      .banner{flex-direction:column;gap:14px}
+      .banner .right{width:100%;height:auto}
+      .banner .term-wrap{width:100%;height:140px}
+    }
+
+    /* subtle entrance animations */
+    .fade-in {opacity:0;transform:translateY(8px);animation:fadeIn .7s ease forwards}
+    .fade-in.delay-1{animation-delay:0.08s}
+    .fade-in.delay-2{animation-delay:0.15s}
+    .fade-in.delay-3{animation-delay:0.22s}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
+    
+    /* Estilo del encabezado fijo */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #021323;
+      color: #00ffcc;
+      border-bottom: 1px solid #00ffcc;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Courier New', monospace;
+    }
+
+    .logo {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    
+    nav a {
+      margin-left: 1rem;
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Espacio para que el contenido no quede oculto debajo del header */
+    body {
+      padding-top: 60px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header -->
+     <!-- Encabezado fijo -->
+    <header class="fixed-header">
+      <div class="header-content">
+        <span class="logo">
+          <img src="logo.png" alt="Logo JT" class="logo-img" >
+        </span>
+        
+        
+      </div>
+    </header>
+
+    <header class="fade-in">
+      <div class="brand">
+        <div class="title">
+          <img src="banner2.png" class="banner" alt="JT IT logo" width="100%" />
+          
+        </div>
+      </div>
+
+      
+    </header>
+    <nav class="banner-nav-keys" aria-label="Navegación principal">
+        <ul class="keys-list">
+            <li><a class="key" href="#sobre">Sobre mí</a></li>
+            <li><a class="key" href="#proyectos">Proyectos</a></li>
+            <li><a class="key" href="#recursos">Recursos</a></li>
+            <li><a class="key" href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero / Banner -->
+    <div class="banner fade-in delay-1" role="region" aria-label="banner principal">
+      <div class="left">
+        <h2>Portfolio técnico y proyectos de ciberseguridad</h2>
+        <p class="lead">Auditorías, análisis forense, detección y explotación controlada. Aquí encontrarás proyectos, write-ups y herramientas open source.</p>
+        <div class="tagline">Profesional · Técnico · Orientado a resultados</div>
+      </div>
+      <div class="right">
+        <div class="term-wrap" aria-hidden="true">
+          <!-- Imagen del banner/terminal. Asegúrate de subir YgGHYKLLRwyM2SRxToDuF.png -->
+          <img src="portfolio.png"  />
+        </div>
+      </div>
+    </div>
+
+    <!-- Sobre mi -->
+    <section id="sobre" class="fade-in delay-2">
+      <h3 class="section-title">Sobre mí</h3>
+      <p class="lead">Ingeniero en informática, especializado en seguridad ofensiva y respuesta ante incidentes. Preparando documentación técnica y herramientas reproducibles.</p>
+      <div class="skills" aria-hidden="false">
+        <span class="skill">Python</span>
+        <span class="skill">Bash</span>
+        <span class="skill">TCP/IP</span>
+        <span class="skill">Wireshark</span>
+        <span class="skill">Snort / Suricata</span>
+        <span class="skill">Forense</span>
+      </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section id="proyectos" class="fade-in delay-3">
+      <h3 class="section-title">Proyectos destacados</h3>
+      <p class="lead">Cada ficha simula una terminal Linux. Haz click en el icono para ver más detalles (próximamente).</p>
+        
+      <div class="grid" aria-live="polite">
+        <!-- Proyecto 1 -->
+        <article class="term-card" role="article" aria-labelledby="p1-title">
+          <div class="term-header">
+            <div class="term-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div id="p1-title" class="term-title">Forense: Log Investigator</div>
+          </div>
+          <div class="term-body" id="proj1">
+            <div><span class="prompt">root@investigator:~$</span> python analyze_logs.py /data/traffic.pcap</div>
+            <div class="output" id="out1"></div>
+          </div>
+          <div class="meta">
+            <div>Python · Scapy · Wireshark</div>
+            <div><small>Fecha: Nov 2025</small></div>
+          </div>
+        </article>
+
+        <!-- Proyecto 2 -->
+        <article class="term-card" role="article" aria-labelledby="p2-title">
+          <div class="term-header">
+            <div class="term-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div id="p2-title" class="term-title">Detección: IDS Ruleset</div>
+          </div>
+          <div class="term-body" id="proj2">
+            <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
+            <div class="output" id="out2"></div>
+          </div>
+          <div class="meta">
+            <div>Snort · Suricata · Rules</div>
+            <div><small>Fecha: Oct 2025</small></div>
+          </div>
+        </article>
+
+        <!-- Proyecto 3 -->
+        <article class="term-card" role="article" aria-labelledby="p3-title">
+          <div class="term-header">
+            <div class="term-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div id="p3-title" class="term-title">Pentesting: OWASP Suite</div>
+          </div>
+          <div class="term-body" id="proj3">
+            <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
+            <div class="output" id="out3"></div>
+          </div>
+          <div class="meta">
+            <div>Burp · SQLi · XSS · Exploits</div>
+            <div><small>Fecha: Sep 2025</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Recursos -->
+    <section id="recursos" class="fade-in delay-2">
+      <h3 class="section-title">Recursos y utilidades</h3>
+      <p class="lead">Snippets, cheatsheets y enlaces a repositorios públicos.</p>
+      <div class="grid">
+        <div class="term-card" style="min-height:110px">
+          <div class="term-header" style="padding:8px 12px">
+            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <div class="term-title">Cheatsheet: Netcat</div>
+          </div>
+          <div class="term-body">nc -lvp 4444  # listener reverse shell</div>
+          <div class="meta"><div>Snippets</div><div><small>2025</small></div></div>
+        </div>
+        <div class="term-card" style="min-height:110px">
+          <div class="term-header" style="padding:8px 12px">
+            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <div class="term-title">Tooling: Automations</div>
+          </div>
+          <div class="term-body">Automatizaciones para recolección de logs y parsing con Python</div>
+          <div class="meta"><div>Scripts</div><div><small>2025</small></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="tools-used">
+        <h2>🧰 Herramientas utilizadas</h2>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <img src="icons/nmap.svg" alt="Nmap">
+            <h3>Nmap</h3>
+            <p>Reconocimiento de red en auditoría interna</p>
+            <a href="/proyectos/auditoria-red-interna">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <div class="tool-card">
+            <img src="icons/metasploit.svg" alt="Metasploit">
+            <h3>Metasploit</h3>
+            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
+            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+          </div>
+          <!-- Más herramientas -->
+        </div>
+      </section>
+
+
+    <!-- Contacto -->
+    <section id="contacto" class="fade-in delay-1">
+      <h3 class="section-title">Contacto</h3>
+      <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="min-width:240px">
+          <strong>Email</strong>
+          <div><a href="mailto:email@example.com">email@example.com</a></div>
+        </div>
+        <div style="min-width:240px">
+          <strong>GitHub</strong>
+          <div><a href="https://github.com/yourhandle" target="_blank" rel="noopener">github.com/yourhandle</a></div>
+        </div>
+        <div style="min-width:240px">
+          <strong>PGP</strong>
+          <div><small>Disponibilidad bajo petición</small></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="fade-in">
+      © 2025 Jose L. Trigo · Ethical Hacker · Última actualización Nov 2025
+    </footer>
+  </div>
+
+  <script>
+    // Hero typing effect
+    (function(){
+      const text = "Analizando vulnerabilidades... Fortificando infraestructuras... Documentando hallazgos técnicos...";
+      const el = document.getElementById('typing-text');
+      // create dynamic element in header if not present
+      const hero = document.querySelector('.banner .left');
+      const span = document.createElement('div');
+      span.style.marginTop = '12px';
+      span.style.color = '#7ee787';
+      span.style.fontWeight = '700';
+      span.style.fontSize = '0.95rem';
+      span.className = 'typing';
+      hero.appendChild(span);
+      let i=0;
+      function step(){
+        if(i<text.length){ span.textContent += text.charAt(i++); setTimeout(step, 50) }
+      }
+      step();
+    })();
+
+    // Terminal typing simulator for project outputs
+    function terminalSimulator(outId, lines, opts){
+      const out = document.getElementById(outId);
+      if(!out) return;
+      out.textContent = '';
+      let lineIndex = 0, charIndex = 0;
+      const speed = (opts && opts.speed) || 28;
+      const pause = (opts && opts.pause) || 600;
+
+      function write(){
+        if(lineIndex >= lines.length) return;
+        const line = lines[lineIndex];
+        if(charIndex < line.length){
+          out.textContent += line.charAt(charIndex++);
+          setTimeout(write, speed);
+        } else {
+          out.textContent += '\n';
+          charIndex = 0;
+          lineIndex++;
+          setTimeout(write, pause);
+        }
+      }
+      // start with a tiny delay so visible after page load
+      setTimeout(write, 420);
+    }
+
+    // sample outputs ( adapta a tus proyectos reales )
+    terminalSimulator('out1', [
+      '[*] Cargando pcap: /data/traffic.pcap',
+      '[*] Filtrando conexiones sospechosas (SYN flood, IP spoofing)...',
+      '[+] 12 sesiones marcadas como anómalas',
+      '[!] Artifacto: posible beaconing hacia 198.51.100.23'
+    ], {speed:22, pause:500});
+
+    terminalSimulator('out2', [
+      '[*] Cargando ruleset custom.rules',
+      '[*] Inyectando regla: ALERT TCP any any -> any 22 (msg:"SSH bruteforce"; sid:1000001;)',
+      '[+] Regla activada. Monitorizando alertas...'
+    ], {speed:26, pause:480});
+
+    terminalSimulator('out3', [
+      '[*] Iniciando escaneo OWASP Top10',
+      '[*] Detectando endpoint /login',
+      '[!] Posible SQLi en parametro "username": payload tested.',
+      '[+] Reporte generado: reports/owasp_pentest_2025.pdf'
+    ], {speed:24, pause:500});
+
+    // small accessibility: focus outline for keyboard users
+    document.addEventListener('keyup', function(e){
+      if(e.key === 'Tab'){
+        document.body.style.outline = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
