@@ -58,10 +58,29 @@
       justify-content: center;
       margin-bottom: 24px;
     }
-    header.main-header .title-img {
-      max-width: 100%;
+
+    /* Wrapper para el banner con el mismo estilo que las secciones */
+    .banner-image-wrapper {
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .banner-image-wrapper:hover {
+      border-color: #00a8ff;
+      box-shadow: 0 0 25px rgba(0, 168, 255, 0.15);
+    }
+
+    .banner-image-wrapper .title-img {
+      display: block;
+      width: 100%;
       height: auto;
-      border-radius: 6px;
+      border-radius: 4px;
     }
 
     /* Contenedor de Navegación */
@@ -169,16 +188,26 @@
 
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
 
+    /* Enlace para tarjetas de proyectos */
+    a.term-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+    a.term-card-link:hover {
+      transform: translateY(-4px);
+    }
+    a.term-card-link:hover .term-card {
+      border-color: #00a8ff;
+      box-shadow: 0 0 20px rgba(0, 168, 255, 0.25);
+    }
+
     /* Tarjetas de terminal con look Cibernético */
     .term-card{
       background:#020b14;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.2);overflow:hidden;
       display:flex;flex-direction:column;min-height:170px;box-shadow:0 10px 25px rgba(0,0,0,0.5);
       transition:transform .25s ease,box-shadow .25s ease, border-color .25s;
-    }
-    .term-card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 0 20px rgba(0, 168, 255, 0.25);
-      border-color: #00a8ff;
     }
     .term-header{
       display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;
@@ -309,9 +338,11 @@
       </div>
     </header>
 
-    <!-- Header Principal (Tu imagen banner limpia) -->
+    <!-- Header Principal con borde estilo sección -->
     <header class="main-header fade-in">
-      <img src="banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
+      <div class="banner-image-wrapper">
+        <img src="banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
+      </div>
     </header>
 
     <!-- Navegación -->
@@ -359,64 +390,70 @@
         
       <div class="grid" aria-live="polite">
         <!-- Proyecto 1 -->
-        <article class="term-card" role="article" aria-labelledby="p1-title">
-          <div class="term-header">
-            <div class="term-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+        <a href="/proyectos/log-investigator/" class="term-card-link">
+          <article class="term-card" role="article" aria-labelledby="p1-title">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div id="p1-title" class="term-title">Forense: Log Investigator</div>
             </div>
-            <div id="p1-title" class="term-title">Forense: Log Investigator</div>
-          </div>
-          <div class="term-body" id="proj1">
-            <div><span class="prompt">root@investigator:~$</span> python analyze_logs.py /data/traffic.pcap</div>
-            <div class="output" id="out1"></div>
-          </div>
-          <div class="meta">
-            <div>Python · Scapy · Wireshark</div>
-            <div><small>Nov 2025</small></div>
-          </div>
-        </article>
+            <div class="term-body" id="proj1">
+              <div><span class="prompt">root@investigator:~$</span> python analyze_logs.py /data/traffic.pcap</div>
+              <div class="output" id="out1"></div>
+            </div>
+            <div class="meta">
+              <div>Python · Scapy · Wireshark</div>
+              <div><small>Nov 2025</small></div>
+            </div>
+          </article>
+        </a>
 
         <!-- Proyecto 2 -->
-        <article class="term-card" role="article" aria-labelledby="p2-title">
-          <div class="term-header">
-            <div class="term-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+        <a href="/proyectos/ids-ruleset/" class="term-card-link">
+          <article class="term-card" role="article" aria-labelledby="p2-title">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div id="p2-title" class="term-title">Detección: IDS Ruleset</div>
             </div>
-            <div id="p2-title" class="term-title">Detección: IDS Ruleset</div>
-          </div>
-          <div class="term-body" id="proj2">
-            <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
-            <div class="output" id="out2"></div>
-          </div>
-          <div class="meta">
-            <div>Snort · Suricata · Rules</div>
-            <div><small>Oct 2025</small></div>
-          </div>
-        </article>
+            <div class="term-body" id="proj2">
+              <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
+              <div class="output" id="out2"></div>
+            </div>
+            <div class="meta">
+              <div>Snort · Suricata · Rules</div>
+              <div><small>Oct 2025</small></div>
+            </div>
+          </article>
+        </a>
 
         <!-- Proyecto 3 -->
-        <article class="term-card" role="article" aria-labelledby="p3-title">
-          <div class="term-header">
-            <div class="term-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+        <a href="/proyectos/owasp-suite/" class="term-card-link">
+          <article class="term-card" role="article" aria-labelledby="p3-title">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div id="p3-title" class="term-title">Pentesting: OWASP Suite</div>
             </div>
-            <div id="p3-title" class="term-title">Pentesting: OWASP Suite</div>
-          </div>
-          <div class="term-body" id="proj3">
-            <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
-            <div class="output" id="out3"></div>
-          </div>
-          <div class="meta">
-            <div>Burp · SQLi · XSS · Exploits</div>
-            <div><small>Sep 2025</small></div>
-          </div>
-        </article>
+            <div class="term-body" id="proj3">
+              <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
+              <div class="output" id="out3"></div>
+            </div>
+            <div class="meta">
+              <div>Burp · SQLi · XSS · Exploits</div>
+              <div><small>Sep 2025</small></div>
+            </div>
+          </article>
+        </a>
       </div>
     </section>
 
