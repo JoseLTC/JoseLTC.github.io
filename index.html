@@ -9,313 +9,312 @@
   <style>
     /* Reset minimal */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:"Fira Code",ui-monospace,SFMono-Regular,monospace;background:#D3E7F2;color:#cbd5dd;-webkit-font-smoothing:antialiased}
-    a{color:#7ee787;text-decoration:none}
-    a:hover{text-decoration:underline}
+    html,body{height:100%;margin:0;font-family:"Fira Code",ui-monospace,SFMono-Regular,monospace;background:#020b14;color:#cbd5dd;-webkit-font-smoothing:antialiased}
+    a{color:#00a8ff;text-decoration:none;transition:color 0.2s}
+    a:hover{color:#ffffff;text-decoration:none}
 
-    /* Layout */
+    /* Layout principal al estilo Panel */
     .wrap{max-width:1180px;margin:28px auto;padding:24px}
-    header{display:flex;gap:20px;align-items:center;margin-bottom:20px}
-    .brand{display:flex;gap:14px;align-items:center}
-    .logo {
-      width:88px;height:88px;border-radius:10px;overflow:hidden;flex:0 0 88px;
-      background:linear-gradient(180deg,#081018 0,#0b1320 100%);display:flex;align-items:center;justify-content:center;
-      border:1px solid rgba(126,231,135,0.06);box-shadow:0 6px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02)
-    }
-    .logo img{width:92%;height:auto;display:block}
-
-    .title {line-height:1}
-    .title h1{margin:0;font-size:1.4rem;color:#7ee787;letter-spacing:0.6px}
-    .title p{margin:3px 0 0;font-size:0.85rem;color:#9fb6a8}
-
-    /* Contenedor centrado y ancho 75% */
-    .banner-nav-keys {
-        display:flex;
-        justify-content:center;
-        width:75%;
-        margin:0 auto;
-        padding:10px 0;
-        box-sizing:border-box;
-    }
-
-    /* Lista horizontal */
-    .keys-list {
-        list-style:none;
-        display:flex;
-        gap:14px;
-        padding:0;
-        margin:0;
-        width:100%;
-        justify-content:space-between; /* repartir espacio entre teclas */
-        align-items:center;
-    }
-
-    /* Estilo "tecla" */
-    .key {
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        min-width:110px;           /* tamaño mínimo de cada tecla */
-        padding:10px 16px;
-        border-radius:8px;         /* esquina redondeada tipo tecla */
-        background: linear-gradient(180deg, #0f1720 0%, #0b1116 100%);
-        color:#dfffe0;
-        text-decoration:none;
-        font-weight:700;
-        letter-spacing:0.6px;
-        font-family: "Fira Code", monospace;
-        border:1px solid rgba(126,231,135,0.06);
-        box-shadow:
-            0 6px 14px rgba(2,6,10,0.6),        /* sombra externa */
-            inset 0 1px 0 rgba(255,255,255,0.02);/* brillo superior */
-        transition: transform .12s ease, box-shadow .12s ease, background .12s;
-        text-align:center;
-    }
-
-    /* Hover: ligero levantamiento y color */
-    .key:hover{
-        transform: translateY(-3px);
-        box-shadow:
-            0 14px 30px rgba(0,255,153,0.06),
-            inset 0 1px 0 rgba(255,255,255,0.03);
-        background: linear-gradient(180deg, #102022 0%, #0d171c 100%);
-        color:#ffffff;
-    }
-
-    /* Presionado: efecto "inset" como tecla pulsada */
-    .key:active,
-    .key[aria-current="page"]{
-        transform: translateY(1px);
-        box-shadow:
-            0 4px 8px rgba(2,6,10,0.6),
-            inset 0 5px 12px rgba(0,0,0,0.5);
-        background: linear-gradient(180deg, #081116 0%, #051014 100%);
-    }
-
-    /* Indicador de foco para accesibilidad */
-    .key:focus{
-        outline:3px solid rgba(94,150,255,0.18);
-        outline-offset:4px;
-        border-radius:8px;
-    }
-
-    /* Responsive: en pantallas pequeñas apilan o hacen scroll */
-    @media (max-width:720px){
-        .banner-nav-keys { width:94%; padding:8px 0; }
-        .keys-list { gap:8px; justify-content:space-between; flex-wrap:wrap; }
-        .key { min-width:44%; padding:10px; font-size:0.95rem; }
-    }
-
-
-    /* Hero banner */
-    .banner {
-      display:flex;gap:20px;align-items:center;padding:18px;border-radius:12px;
-      background:linear-gradient(90deg, rgba(8,10,12,0.85), rgba(6,8,10,0.6));
-      border:1px solid rgba(94,150,255,0.06);box-shadow:0 18px 60px rgba(4,8,16,0.6);
-      overflow:hidden;margin-bottom:28px;
-    }
-    .banner .left{flex:1;min-width:260px}
-    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
-    .banner h2{margin:0;color:#58a6ff;font-size:1.25rem;letter-spacing:0.4px}
-    .banner p{margin:8px 0 0;color:#a8bcc9}
-
-    .banner .tagline{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:6px;background:rgba(126,231,135,0.04);color:#7ee787;font-weight:600;font-size:0.85rem}
-
-    /* Terminal image container (right) */
-    .banner .term-wrap{width:380px;height:160px;border-radius:8px;border:1px solid rgba(126,231,135,0.06);overflow:hidden;background:#020204;display:flex;align-items:center;justify-content:center}
-    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.92;filter:grayscale(6%) contrast(1.02)}
-
-    /* Grid sections */
-    section{margin-bottom:28px}
-    h3.section-title{margin:0 0 10px;font-size:1.05rem;color:#7ee787}
-    p.lead{color:#9fb6a8;margin:6px 0 18px}
-
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-
-    /* Terminal-style project cards */
-
-    .term-card{
-      background:#071018;border-radius:8px;border:1px solid rgba(126,231,135,0.06);overflow:hidden;
-      display:flex;flex-direction:column;min-height:160px;box-shadow:0 10px 28px rgba(2,6,10,0.6);
-      transition:transform .28s ease,box-shadow .28s ease;
-      background-image:linear-gradient(rgba(2,6,10,0.70), rgba(2,6,10,0.70)),url(Copilot_20251118_125510.png);background-size: contain; background-position: center; background-repeat: no-repeat ;
-    }
-    .term-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,255,153,0.06)}
-    .term-header{
-      display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(180deg,#0d1317,#0a1013);
-      border-bottom:1px solid rgba(126,231,135,0.03)
-    }
-    .term-dots{display:flex;gap:8px}
-    .dot{width:12px;height:12px;border-radius:50%}
-    .dot.red{background:#ff5f56}
-    .dot.yellow{background:#ffbd2e}
-    .dot.green{background:#27c93f}
-    .term-title{margin-left:10px;color:#9fd7ff;font-weight:700;font-size:0.95rem}
-
-    .term-body{padding:14px;font-size:0.92rem;line-height:1.45;color:#9feea0;background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.02));white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px}
-    .prompt{color:#58a6ff;font-weight:700}
-    .output{color:#9feea0;font-family:inherit}
-
-    .meta{margin-top:auto;padding:12px;border-top:1px dashed rgba(126,231,135,0.03);display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#9fb6a8}
-
-    /* About / skills */
-    .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .skill{background:rgba(126,231,135,0.04);padding:6px 8px;border-radius:6px;color:#7ee787;font-weight:600;font-size:0.85rem;border:1px solid rgba(126,231,135,0.03)}
-    /* Título de sección */
-  .tools-used h2 {
-    font-size: 1.8rem;
-    color: #00ffcc;
-    border-left: 4px solid #00ffcc;
-    padding-left: 10px;
-    margin: 2rem 1rem;
-  } 
-
-/* Grid de herramientas */
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem 2rem;
-  }
-
-/* Tarjeta individual */
-    .tool-card {
-      background-color: #1a1a1a;
-      border: 1px solid #00ffcc;
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .tool-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #00ffcc;
-    }
-
-    /* Icono de herramienta */
-    .tool-card img {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Nombre de herramienta */
-    .tool-card h3 {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
-      color: #00ffcc;
-    }
-
-    /* Descripción */
-    .tool-card p {
-      font-size: 0.9rem;
-      color: #cccccc;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Enlace a proyecto */
-    .tool-card a {
-      color: #00ffcc;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .tool-card a:hover {
-      text-decoration: underline;
-    }
-
-
-
-    /* Footer */
-    footer{padding:18px;margin-top:6px;border-top:1px solid rgba(126,231,135,0.03);color:#97b8a9;text-align:center;font-size:0.9rem;border-radius:6px}
-
-    /* Small responsive tweaks */
-    @media (max-width:880px){
-      header{flex-direction:column;align-items:flex-start}
-      .banner{flex-direction:column;gap:14px}
-      .banner .right{width:100%;height:auto}
-      .banner .term-wrap{width:100%;height:140px}
-    }
-
-    /* subtle entrance animations */
-    .fade-in {opacity:0;transform:translateY(8px);animation:fadeIn .7s ease forwards}
-    .fade-in.delay-1{animation-delay:0.08s}
-    .fade-in.delay-2{animation-delay:0.15s}
-    .fade-in.delay-3{animation-delay:0.22s}
-    @keyframes fadeIn{to{opacity:1;transform:none}}
     
-    /* Estilo del encabezado fijo */
+    /* Encabezado fijo */
     .fixed-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #021323;
-      color: #00ffcc;
-      border-bottom: 1px solid #00ffcc;
+      background-color: #051628;
+      color: #e3edf7;
+      border-bottom: 1px solid #00a8ff;
       z-index: 1000;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0, 168, 255, 0.15);
     }
 
     .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: 'Courier New', monospace;
+      max-width: 1132px;
+      margin: 0 auto;
     }
 
-    .logo {
-      background: transparent;
-      border: none;
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    /* Ajuste para el contenido por el header fijo */
+    body {
+      padding-top: 70px;
+    }
+
+    header.main-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    header.main-header .title-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    /* Contenedor de Navegación */
+    .banner-nav-keys {
+        display:flex;
+        justify-content:center;
+        width:100%;
+        margin:0 auto 28px;
+        padding:10px 0;
+        box-sizing:border-box;
+    }
+
+    .keys-list {
+        list-style:none;
+        display:flex;
+        gap:16px;
+        padding:0;
+        margin:0;
+        width:100%;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    /* Botones/Teclas con iluminación Neón */
+    .key {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:110px;
+        flex: 1;
+        padding:12px 16px;
+        border-radius:6px;
+        background: linear-gradient(180deg, #051628 0%, #030e1a 100%);
+        color:#00a8ff;
+        text-decoration:none;
+        font-weight:700;
+        letter-spacing:0.8px;
+        border:1px solid #00a8ff;
+        box-shadow: 0 0 10px rgba(0, 168, 255, 0.1);
+        transition: transform .15s ease, box-shadow .15s ease, background .15s, color .15s;
+        text-align:center;
+    }
+
+    .key:hover{
+        transform: translateY(-3px);
+        box-shadow: 0 0 20px rgba(0, 168, 255, 0.4);
+        background: linear-gradient(180deg, #07223d 0%, #051628 100%);
+        color:#ffffff;
+    }
+
+    .key:active,
+    .key[aria-current="page"]{
+        transform: translateY(1px);
+        box-shadow: inset 0 4px 10px rgba(0,0,0,0.6);
+        background: #020b14;
+    }
+
+    .key:focus{
+        outline:2px solid rgba(0, 168, 255, 0.5);
+        outline-offset:4px;
+    }
+
+    @media (max-width:720px){
+        .keys-list { gap:10px; flex-wrap:wrap; }
+        .key { min-width:45%; padding:10px; font-size:0.9rem; }
+    }
+
+    /* Hero panel */
+    .banner {
+      display:flex;gap:20px;align-items:center;padding:24px;border-radius:8px;
+      background: #051628;
+      border:1px solid #00a8ff;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.1);
+      overflow:hidden;margin-bottom:28px;
+    }
+    .banner .left{flex:1;min-width:260px}
+    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
+    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;letter-spacing:0.4px}
+    .banner p.lead{margin:12px 0 0;color:#4a75a0; font-size:1rem;}
+
+    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0, 168, 255, 0.1);color:#00a8ff;font-weight:600;font-size:0.85rem;border: 1px solid rgba(0, 168, 255, 0.2)}
+
+    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
+    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.85}
+
+    /* Secciones Generales */
+    section{
+      margin-bottom:32px;
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    h3.section-title, .tools-used h2{
+      margin: 0 0 16px;
+      font-size: 1.25rem;
+      color: #e3edf7;
+      border-left: 4px solid #00a8ff;
+      padding-left: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    p.lead{color:#4a75a0;margin:6px 0 18px; font-size: 0.95rem;}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+
+    /* Tarjetas de terminal con look Cibernético */
+    .term-card{
+      background:#020b14;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.2);overflow:hidden;
+      display:flex;flex-direction:column;min-height:170px;box-shadow:0 10px 25px rgba(0,0,0,0.5);
+      transition:transform .25s ease,box-shadow .25s ease, border-color .25s;
+    }
+    .term-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 0 20px rgba(0, 168, 255, 0.25);
+      border-color: #00a8ff;
+    }
+    .term-header{
+      display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;
+      border-bottom:1px solid rgba(0, 168, 255, 0.15)
+    }
+    .term-dots{display:flex;gap:6px}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.red{background:#ff5f56}
+    .dot.yellow{background:#ffbd2e}
+    .dot.green{background:#27c93f}
+    .term-title{margin-left:8px;color:#e3edf7;font-weight:700;font-size:0.9rem}
+
+    .term-body{padding:16px;font-size:0.9rem;line-height:1.5;color:#4a75a0;white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px}
+    .prompt{color:#00a8ff;font-weight:700}
+    .output{color:#e3edf7;font-family:inherit}
+
+    .meta{margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0, 168, 255, 0.15);display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:#4a75a0}
+
+    /* Skills / Tags */
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .skill{background:rgba(0, 168, 255, 0.08);padding:6px 12px;border-radius:4px;color:#00a8ff;font-weight:600;font-size:0.85rem;border:1px solid rgba(0, 168, 255, 0.2)}
+
+    /* Grid de herramientas */
+    section.tools-used {
+      padding: 24px;
+    }
+    .tools-used h2 {
+      margin: 0 0 20px 0;
+      border-left: 4px solid #00a8ff;
+      padding-left: 12px;
+    } 
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
       padding: 0;
-      margin: 0;
     }
 
-    
-    nav a {
-      margin-left: 1rem;
-      color: #00ffcc;
+    /* Tarjeta individual de Herramientas */
+    .tool-card {
+      background-color: #020b14;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 6px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+    }
+    .tool-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.2);
+      border-color: #00a8ff;
+    }
+    .tool-card img {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 0.5rem;
+    }
+    .tool-card h3 {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+      color: #e3edf7;
+    }
+    .tool-card p {
+      font-size: 0.85rem;
+      color: #4a75a0;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+    .tool-card a {
+      color: #00a8ff;
       text-decoration: none;
       font-weight: bold;
+      font-size: 0.85rem;
+    }
+    .tool-card a:hover {
+      color: #ffffff;
     }
 
-    nav a:hover {
-      text-decoration: underline;
+    /* Contacto info blocks */
+    .contact-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .contact-block {
+      min-width: 240px;
+      flex: 1;
+      background: #020b14;
+      padding: 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, 0.15);
+    }
+    .contact-block strong {
+      color: #e3edf7;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
     }
 
-    /* Espacio para que el contenido no quede oculto debajo del header */
-    body {
-      padding-top: 60px;
+    /* Footer */
+    footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0, 168, 255, 0.15);color:#4a75a0;text-align:center;font-size:0.85rem;}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .banner{flex-direction:column;gap:16px}
+      .banner .right{width:100%;height:auto}
+      .banner .term-wrap{width:100%;height:140px}
     }
+
+    /* Entrance animations */
+    .fade-in {opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
+    .fade-in.delay-1{animation-delay:0.1s}
+    .fade-in.delay-2{animation-delay:0.2s}
+    .fade-in.delay-3{animation-delay:0.3s}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
 
   </style>
 </head>
 <body>
   <div class="wrap">
 
-    <!-- Header -->
-     <!-- Encabezado fijo -->
+    <!-- Encabezado fijo superior -->
     <header class="fixed-header">
       <div class="header-content">
-        <span class="logo">
-          <img src="logo.png" alt="Logo JT" class="logo-img" >
+        <span class="logo-container">
+          <img src="logo.png" alt="Logo JT" class="logo-img" />
         </span>
-        
-        
       </div>
     </header>
 
-    <header class="fade-in">
-      <div class="brand">
-        <div class="title">
-          <img src="banner2.png" class="banner" alt="JT IT logo" width="100%" />
-          
-        </div>
-      </div>
-
-      
+    <!-- Header Principal (Tu imagen banner limpia) -->
+    <header class="main-header fade-in">
+      <img src="banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
     </header>
+
+    <!-- Navegación -->
     <nav class="banner-nav-keys" aria-label="Navegación principal">
         <ul class="keys-list">
             <li><a class="key" href="#sobre">Sobre mí</a></li>
@@ -325,7 +324,7 @@
         </ul>
     </nav>
 
-    <!-- Hero / Banner -->
+    <!-- Hero / Banner Informativo -->
     <div class="banner fade-in delay-1" role="region" aria-label="banner principal">
       <div class="left">
         <h2>Portfolio técnico y proyectos de ciberseguridad</h2>
@@ -334,8 +333,7 @@
       </div>
       <div class="right">
         <div class="term-wrap" aria-hidden="true">
-          <!-- Imagen del banner/terminal. Asegúrate de subir YgGHYKLLRwyM2SRxToDuF.png -->
-          <img src="portfolio.png"  />
+          <img src="portfolio.png" alt="Terminal visualizer" />
         </div>
       </div>
     </div>
@@ -357,7 +355,7 @@
     <!-- Proyectos -->
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos destacados</h3>
-      <p class="lead">Cada ficha simula una terminal Linux. Haz click en el icono para ver más detalles (próximamente).</p>
+      <p class="lead">Cada ficha simula una terminal Linux con respuestas interactivas automatizadas por scripts.</p>
         
       <div class="grid" aria-live="polite">
         <!-- Proyecto 1 -->
@@ -376,7 +374,7 @@
           </div>
           <div class="meta">
             <div>Python · Scapy · Wireshark</div>
-            <div><small>Fecha: Nov 2025</small></div>
+            <div><small>Nov 2025</small></div>
           </div>
         </article>
 
@@ -396,7 +394,7 @@
           </div>
           <div class="meta">
             <div>Snort · Suricata · Rules</div>
-            <div><small>Fecha: Oct 2025</small></div>
+            <div><small>Oct 2025</small></div>
           </div>
         </article>
 
@@ -416,7 +414,7 @@
           </div>
           <div class="meta">
             <div>Burp · SQLi · XSS · Exploits</div>
-            <div><small>Fecha: Sep 2025</small></div>
+            <div><small>Sep 2025</small></div>
           </div>
         </article>
       </div>
@@ -445,7 +443,9 @@
         </div>
       </div>
     </section>
-    <section class="tools-used">
+
+    <!-- Herramientas -->
+    <section class="tools-used fade-in delay-3">
         <h2>🧰 Herramientas utilizadas</h2>
         <div class="tool-grid">
           <div class="tool-card">
@@ -472,69 +472,31 @@
             <p>Explotación de vulnerabilidad en CTF VulnHub</p>
             <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
           </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
-          </div>
-          <!-- Más herramientas -->
         </div>
-      </section>
-
+    </section>
 
     <!-- Contacto -->
     <section id="contacto" class="fade-in delay-1">
       <h3 class="section-title">Contacto</h3>
       <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
-      <div style="display:flex;gap:18px;flex-wrap:wrap">
-        <div style="min-width:240px">
+      <div class="contact-grid">
+        <div class="contact-block">
           <strong>Email</strong>
-          <div><a href="mailto:email@example.com">email@example.com</a></div>
+          <div><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></div>
         </div>
-        <div style="min-width:240px">
+        <div class="contact-block">
           <strong>GitHub</strong>
-          <div><a href="https://github.com/yourhandle" target="_blank" rel="noopener">github.com/yourhandle</a></div>
+          <div><a href="https://joseltc.github.io/" target="_blank" rel="noopener">joseltc.github.io/</a></div>
         </div>
-        <div style="min-width:240px">
+        <div class="contact-block">
           <strong>PGP</strong>
-          <div><small>Disponibilidad bajo petición</small></div>
+          <div><small style="color:#4a75a0">Disponibilidad bajo petición</small></div>
         </div>
       </div>
     </section>
 
     <footer class="fade-in">
-      © 2025 Jose L. Trigo · Ethical Hacker · Última actualización Nov 2025
+      © 2026 Jose L. Trigo · Ethical Hacker · Última actualización en entornos estables.
     </footer>
   </div>
 
@@ -542,12 +504,10 @@
     // Hero typing effect
     (function(){
       const text = "Analizando vulnerabilidades... Fortificando infraestructuras... Documentando hallazgos técnicos...";
-      const el = document.getElementById('typing-text');
-      // create dynamic element in header if not present
       const hero = document.querySelector('.banner .left');
       const span = document.createElement('div');
-      span.style.marginTop = '12px';
-      span.style.color = '#7ee787';
+      span.style.marginTop = '14px';
+      span.style.color = '#00a8ff';
       span.style.fontWeight = '700';
       span.style.fontSize = '0.95rem';
       span.className = 'typing';
@@ -581,11 +541,10 @@
           setTimeout(write, pause);
         }
       }
-      // start with a tiny delay so visible after page load
       setTimeout(write, 420);
     }
 
-    // sample outputs ( adapta a tus proyectos reales )
+    // sample outputs
     terminalSimulator('out1', [
       '[*] Cargando pcap: /data/traffic.pcap',
       '[*] Filtrando conexiones sospechosas (SYN flood, IP spoofing)...',
@@ -606,7 +565,6 @@
       '[+] Reporte generado: reports/owasp_pentest_2025.pdf'
     ], {speed:24, pause:500});
 
-    // small accessibility: focus outline for keyboard users
     document.addEventListener('keyup', function(e){
       if(e.key === 'Tab'){
         document.body.style.outline = 'none';
