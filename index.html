@@ -6,10 +6,25 @@
   <title>Jose L. Trigo - Portfolio Técnico</title>
   <meta name="description" content="Portfolio de Jose L. Trigo. Ethical Hacker, Security Researcher, Offensive Security, Pentesting." />
 
+  <!-- 1. IMPORTACIÓN DE LAS FUENTES DESDE GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
     /* Reset minimal */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:"Fira Code",ui-monospace,SFMono-Regular,monospace;background:#020b14;color:#cbd5dd;-webkit-font-smoothing:antialiased}
+    
+    /* 2. FUENTE BASE PRINCIPAL (Fira Sans para párrafos y lectura cómoda) */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Fira Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      background:#020b14;
+      color:#cbd5dd;
+      -webkit-font-smoothing:antialiased
+    }
+    
     a{color:#00a8ff;text-decoration:none;transition:color 0.2s}
     a:hover{color:#ffffff;text-decoration:none}
 
@@ -105,6 +120,7 @@
     }
 
     /* Botones/Teclas con iluminación Neón */
+    /* 3. FUENTE DE CONSOLA PARA BOTONES (JetBrains Mono) */
     .key {
         display:inline-flex;
         align-items:center;
@@ -116,6 +132,7 @@
         background: linear-gradient(180deg, #051628 0%, #030e1a 100%);
         color:#00a8ff;
         text-decoration:none;
+        font-family: "JetBrains Mono", monospace;
         font-weight:700;
         letter-spacing:0.8px;
         border:1px solid #00a8ff;
@@ -158,10 +175,30 @@
     }
     .banner .left{flex:1;min-width:260px}
     .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
-    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;letter-spacing:0.4px}
+    
+    /* 4. FUENTE JETBRAINS MONO PARA TÍTULOS PRINCIPALES */
+    .banner h2{
+      margin:0;
+      color:#e3edf7;
+      font-size:1.4rem;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      letter-spacing:0.4px
+    }
     .banner p.lead{margin:12px 0 0;color:#4a75a0; font-size:1rem;}
 
-    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0, 168, 255, 0.1);color:#00a8ff;font-weight:600;font-size:0.85rem;border: 1px solid rgba(0, 168, 255, 0.2)}
+    .banner .tagline{
+      display:inline-block;
+      margin-top:16px;
+      padding:6px 12px;
+      border-radius:4px;
+      background:rgba(0, 168, 255, 0.1);
+      color:#00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight:600;
+      font-size:0.85rem;
+      border: 1px solid rgba(0, 168, 255, 0.2)
+    }
 
     .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
     .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.85}
@@ -175,12 +212,15 @@
       padding: 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
+    
+    /* 5. TÍTULOS DE SECCIÓN EN MODO TERMINAL */
     h3.section-title, .tools-used h2{
       margin: 0 0 16px;
       font-size: 1.25rem;
       color: #e3edf7;
       border-left: 4px solid #00a8ff;
       padding-left: 12px;
+      font-family: "JetBrains Mono", monospace;
       font-weight: 700;
       letter-spacing: 0.5px;
     }
@@ -218,17 +258,55 @@
     .dot.red{background:#ff5f56}
     .dot.yellow{background:#ffbd2e}
     .dot.green{background:#27c93f}
-    .term-title{margin-left:8px;color:#e3edf7;font-weight:700;font-size:0.9rem}
+    
+    .term-title{
+      margin-left:8px;
+      color:#e3edf7;
+      font-family: "JetBrains Mono", monospace;
+      font-weight:700;
+      font-size:0.9rem
+    }
 
-    .term-body{padding:16px;font-size:0.9rem;line-height:1.5;color:#4a75a0;white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px}
+    /* 6. EL CONTENIDO DE LA FALSA TERMINAL SE QUEDA EN MONOSPACE */
+    .term-body{
+      padding:16px;
+      font-size:0.9rem;
+      line-height:1.5;
+      color:#4a75a0;
+      white-space:pre-wrap;
+      min-height:96px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+    }
     .prompt{color:#00a8ff;font-weight:700}
     .output{color:#e3edf7;font-family:inherit}
 
-    .meta{margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0, 168, 255, 0.15);display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:#4a75a0}
+    .meta{
+      margin-top:auto;
+      padding:12px 16px;
+      border-top:1px dashed rgba(0, 168, 255, 0.15);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:0.8rem;
+      color:#4a75a0;
+      font-family: "JetBrains Mono", monospace;
+    }
 
     /* Skills / Tags */
     .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .skill{background:rgba(0, 168, 255, 0.08);padding:6px 12px;border-radius:4px;color:#00a8ff;font-weight:600;font-size:0.85rem;border:1px solid rgba(0, 168, 255, 0.2)}
+    .skill{
+      background:rgba(0, 168, 255, 0.08);
+      padding:6px 12px;
+      border-radius:4px;
+      color:#00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight:600;
+      font-size:0.85rem;
+      border:1px solid rgba(0, 168, 255, 0.2)
+    }
 
     /* Grid de herramientas */
     section.tools-used {
@@ -269,6 +347,7 @@
       font-size: 1.1rem;
       margin: 0.5rem 0;
       color: #e3edf7;
+      font-family: "JetBrains Mono", monospace;
     }
     .tool-card p {
       font-size: 0.85rem;
@@ -305,10 +384,19 @@
       display: block;
       margin-bottom: 6px;
       font-size: 0.9rem;
+      font-family: "JetBrains Mono", monospace;
     }
 
     /* Footer */
-    footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0, 168, 255, 0.15);color:#4a75a0;text-align:center;font-size:0.85rem;}
+    footer{
+      padding:20px;
+      margin-top:12px;
+      border-top:1px solid rgba(0, 168, 255, 0.15);
+      color:#4a75a0;
+      text-align:center;
+      font-size:0.85rem;
+      font-family: "JetBrains Mono", monospace;
+    }
 
     /* Responsive */
     @media (max-width:880px){
@@ -324,12 +412,16 @@
     .fade-in.delay-3{animation-delay:0.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
 
+    /* Estilo para el texto generado por JS */
+    .typing {
+      font-family: "JetBrains Mono", monospace;
+    }
+
   </style>
 </head>
 <body>
+  <!-- [El resto de tu HTML permanece intacto y sin cambios] -->
   <div class="wrap">
-
-    <!-- Encabezado fijo superior -->
     <header class="fixed-header">
       <div class="header-content">
         <span class="logo-container">
@@ -338,14 +430,12 @@
       </div>
     </header>
 
-    <!-- Header Principal con borde estilo sección -->
     <header class="main-header fade-in">
       <div class="banner-image-wrapper">
         <img src="banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
       </div>
     </header>
 
-    <!-- Navegación -->
     <nav class="banner-nav-keys" aria-label="Navegación principal">
         <ul class="keys-list">
             <li><a class="key" href="#sobre">Sobre mí</a></li>
@@ -355,7 +445,6 @@
         </ul>
     </nav>
 
-    <!-- Hero / Banner Informativo -->
     <div class="banner fade-in delay-1" role="region" aria-label="banner principal">
       <div class="left">
         <h2>Portfolio técnico y proyectos de ciberseguridad</h2>
@@ -369,7 +458,6 @@
       </div>
     </div>
 
-    <!-- Sobre mi -->
     <section id="sobre" class="fade-in delay-2">
       <h3 class="section-title">Sobre mí</h3>
       <p class="lead">Ingeniero en informática, especializado en seguridad ofensiva y respuesta ante incidentes. Preparando documentación técnica y herramientas reproducibles.</p>
@@ -383,13 +471,11 @@
       </div>
     </section>
 
-    <!-- Proyectos -->
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos destacados</h3>
       <p class="lead">Cada ficha simula una terminal Linux con respuestas interactivas automatizadas por scripts.</p>
         
       <div class="grid" aria-live="polite">
-        <!-- Proyecto 1 -->
         <a href="/proyectos/log-investigator/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p1-title">
             <div class="term-header">
@@ -411,7 +497,6 @@
           </article>
         </a>
 
-        <!-- Proyecto 2 -->
         <a href="/proyectos/ids-ruleset/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p2-title">
             <div class="term-header">
@@ -433,7 +518,6 @@
           </article>
         </a>
 
-        <!-- Proyecto 3 -->
         <a href="/proyectos/owasp-suite/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p3-title">
             <div class="term-header">
@@ -457,7 +541,6 @@
       </div>
     </section>
 
-    <!-- Recursos -->
     <section id="recursos" class="fade-in delay-2">
       <h3 class="section-title">Recursos y utilidades</h3>
       <p class="lead">Snippets, cheatsheets y enlaces a repositorios públicos.</p>
@@ -481,7 +564,6 @@
       </div>
     </section>
 
-    <!-- Herramientas -->
     <section class="tools-used fade-in delay-3">
         <h2>🧰 Herramientas utilizadas</h2>
         <div class="tool-grid">
@@ -512,7 +594,6 @@
         </div>
     </section>
 
-    <!-- Contacto -->
     <section id="contacto" class="fade-in delay-1">
       <h3 class="section-title">Contacto</h3>
       <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
