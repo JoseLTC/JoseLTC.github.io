@@ -182,6 +182,9 @@
       border-radius: 8px;
       padding: 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      
+      /* Solución al solapamiento: margen superior virtual al hacer scroll por id */
+      scroll-margin-top: 90px;
     }
     
     h3.section-title, .tools-used h2{
@@ -349,6 +352,9 @@
       .header-content { flex-direction: column; gap: 10px; }
       body { padding-top: 110px; }
       .nav-item { padding: 6px 10px; font-size: 0.75rem; }
+      section {
+        scroll-margin-top: 130px; /* Un poco más de margen en móvil ya que el header es más alto verticalmente */
+      }
     }
 
     /* Animaciones de entrada */
