@@ -61,7 +61,7 @@
       display: block;
     }
 
-    /* Nueva Navegación Integrada en el Header */
+    /* Navegación Integrada en el Header */
     .nav-list {
       list-style: none;
       display: flex;
@@ -69,6 +69,7 @@
       padding: 0;
       margin: 0;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .nav-item {
@@ -100,6 +101,12 @@
     .nav-item:active {
       transform: translateY(1px);
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .nav-item.active {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
     }
 
     /* Ajuste para evitar solapamiento por el header fijo */
@@ -182,8 +189,6 @@
       border-radius: 8px;
       padding: 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      
-      /* Solución al solapamiento: margen superior virtual al hacer scroll por id */
       scroll-margin-top: 90px;
     }
     
@@ -341,6 +346,28 @@
     /* Elemento inyectado dinámicamente por JS */
     .typing { font-family: "JetBrains Mono", monospace; }
 
+    /* Botón "Ver todas las herramientas" */
+    .btn-tools {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 24px;
+      background: transparent;
+      border: 2px solid #00a8ff;
+      color: #00a8ff;
+      border-radius: 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .btn-tools:hover {
+      background: #00a8ff;
+      color: #020b14;
+      box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
     /* Responsive General y Media Queries */
     @media (max-width: 880px){
       .banner{flex-direction:column;gap:16px}
@@ -353,7 +380,7 @@
       body { padding-top: 110px; }
       .nav-item { padding: 6px 10px; font-size: 0.75rem; }
       section {
-        scroll-margin-top: 130px; /* Un poco más de margen en móvil ya que el header es más alto verticalmente */
+        scroll-margin-top: 130px;
       }
     }
 
@@ -375,9 +402,9 @@
         </span>
         <nav class="header-nav" aria-label="Navegación principal">
           <ul class="nav-list">
-            <li><a class="nav-item" href="#sobre">Sobre mí</a></li>
+            <li><a class="nav-item active" href="#sobre">Sobre mí</a></li>
             <li><a class="nav-item" href="#proyectos">Proyectos</a></li>
-            <li><a class="nav-item" href="#recursos">Recursos</a></li>
+            <li><a class="nav-item" href="herramientas/">🧰 Herramientas</a></li>
             <li><a class="nav-item" href="#contacto">Contacto</a></li>
           </ul>
         </nav>
@@ -421,7 +448,7 @@
       <p class="lead">Cada ficha simula una terminal Linux con respuestas interactivas automatizadas por scripts.</p>
         
       <div class="grid" aria-live="polite">
-        <a href="/proyectos/log-investigator/" class="term-card-link">
+        <a href="proyectos/log-investigator/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p1-title">
             <div class="term-header">
               <div class="term-dots">
@@ -442,7 +469,7 @@
           </article>
         </a>
 
-        <a href="/proyectos/ids-ruleset/" class="term-card-link">
+        <a href="proyectos/ids-ruleset/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p2-title">
             <div class="term-header">
               <div class="term-dots">
@@ -463,7 +490,7 @@
           </article>
         </a>
 
-        <a href="/proyectos/owasp-suite/" class="term-card-link">
+        <a href="proyectos/owasp-suite/" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="p3-title">
             <div class="term-header">
               <div class="term-dots">
@@ -507,6 +534,9 @@
           <div class="meta"><div>Scripts</div><div><small>2025</small></div></div>
         </div>
       </div>
+      <div style="text-align:center; margin-top:20px;">
+        <a href="herramientas/" class="btn-tools">🧰 Ver todas las herramientas</a>
+      </div>
     </section>
 
     <section class="tools-used fade-in delay-3">
@@ -516,25 +546,25 @@
             <img src="icons/nmap.svg" alt="Nmap">
             <h3>Nmap</h3>
             <p>Reconocimiento de red en auditoría interna</p>
-            <a href="/proyectos/auditoria-red-interna">Ver proyecto</a>
+            <a href="herramientas/escaneo.html">Ver herramientas</a>
           </div>
           <div class="tool-card">
             <img src="icons/metasploit.svg" alt="Metasploit">
             <h3>Metasploit</h3>
             <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+            <a href="herramientas/explotacion.html">Ver herramientas</a>
           </div>
           <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+            <img src="icons/gobuster.svg" alt="Gobuster">
+            <h3>Gobuster</h3>
+            <p>Enumeración de directorios en web</p>
+            <a href="herramientas/enumeracion-web.html">Ver herramientas</a>
           </div>
           <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="/proyectos/vulnhub-ctf3">Ver proyecto</a>
+            <img src="icons/wireshark.svg" alt="Wireshark">
+            <h3>Wireshark</h3>
+            <p>Análisis de tráfico en incidentes</p>
+            <a href="herramientas/escucha-captura.html">Ver herramientas</a>
           </div>
         </div>
     </section>
@@ -549,7 +579,7 @@
         </div>
         <div class="contact-block">
           <strong>GitHub</strong>
-          <div><a href="https://joseltc.github.io/" target="_blank" rel="noopener">joseltc.github.io/</a></div>
+          <div><a href="https://github.com/JoseLTC" target="_blank" rel="noopener">github.com/JoseLTC</a></div>
         </div>
         <div class="contact-block">
           <strong>PGP</strong>
