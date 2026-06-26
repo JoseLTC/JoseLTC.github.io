@@ -52,22 +52,7 @@
     .fade-in.delay-2{animation-delay:.2s}
     .fade-in.delay-3{animation-delay:.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
-
-    /* --- ESTILO NUEVO PARA LOS ICONOS DE LAS HERRAMIENTAS --- */
-    .tool-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-    }
-    .tool-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
+    .tool-icon{font-size:1.5rem}
   </style>
 </head>
 <body>
@@ -116,44 +101,6 @@
             <span class="cmd"><span class="prompt">msf6 &gt;</span> set LHOST 192.168.1.100</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
-        </div>
-      </div>
-
-      <!-- Nmap (NUEVO CON IMAGEN) -->
-      <div class="tool-card">
-        <div class="tool-name">
-          <span class="tool-icon"><img src="imagenes/nmap.png" alt="Nmap logo" /></span>
-          <h3>Nmap</h3>
-          <span class="badge">Escaneo</span>
-        </div>
-        <p class="desc">Escáner de red para descubrimiento de puertos, servicios y SO.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> nmap -sV -sC -A -Pn -p- 192.168.1.1</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-        </div>
-        <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nmap -p 80,443 --script=http-enum 192.168.1.1</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nmap -sn 192.168.1.0/24</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Netcat (NUEVO CON IMAGEN) -->
-      <div class="tool-card">
-        <div class="tool-name">
-          <span class="tool-icon"><img src="imagenes/netcat.png" alt="Netcat logo" /></span>
-          <h3>Netcat (nc)</h3>
-          <span class="badge">Versátil</span>
-        </div>
-        <p class="desc">Escaneo de puertos manual y creación de conexiones TCP/UDP.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> nc -zv 192.168.1.1 1-1000 2>&1 | grep -v 'Connection refused'</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
       </div>
 

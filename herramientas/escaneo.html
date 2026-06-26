@@ -241,7 +241,28 @@
     .fade-in.delay-3{animation-delay:0.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
 
-    .tool-icon { font-size: 1.5rem; }
+    /* --- ESTILO PARA ICONOS --- */
+    .tool-icon { 
+      font-size: 1.5rem; 
+      line-height: 1;
+    }
+    
+    .tool-icon-img {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;  /* Mismo tamaño que los emojis */
+      height: 1.5rem; /* Mismo tamaño que los emojis */
+    }
+    .tool-icon-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      
+      /* ESTO ES LO NUEVO: Invierte el color de la imagen si es oscura */
+      filter: invert(1) brightness(2) hue-rotate(180deg);
+    }
   </style>
 </head>
 <body>
@@ -281,7 +302,7 @@
       <!-- Nmap -->
       <div class="tool-card">
         <div class="tool-name">
-          <span class="tool-icon">🌐</span>
+          <span class="tool-icon-img"><img src="imagenes/nmap.png" alt="Nmap logo" /></span>
           <h3>Nmap</h3>
           <span class="badge">Estándar</span>
         </div>
@@ -334,10 +355,10 @@
         </div>
       </div>
 
-      <!-- Netcat (escaneo) -->
+      <!-- Netcat -->
       <div class="tool-card">
         <div class="tool-name">
-          <span class="tool-icon">🔗</span>
+          <span class="tool-icon-img"><img src="imagenes/netcat.png" alt="Netcat logo" /></span>
           <h3>Netcat (nc)</h3>
           <span class="badge">Versátil</span>
         </div>
