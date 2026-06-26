@@ -137,39 +137,7 @@
       margin-top: 10px;
     }
 
-    .categoria-card {
-      background: #020b14;
-      border: 1px solid rgba(0, 168, 255, 0.2);
-      border-radius: 8px;
-      padding: 20px;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    .categoria-card:hover {
-      transform: translateY(-5px);
-      border-color: #00a8ff;
-      box-shadow: 0 0 30px rgba(0, 168, 255, 0.15);
-    }
-
-    .categoria-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
-    .categoria-card h3 { color: #e3edf7; font-family: "JetBrains Mono", monospace; font-size: 1.1rem; margin: 8px 0; }
-    .categoria-card p { color: #4a75a0; font-size: 0.9rem; margin: 8px 0; }
-
-    .categoria-card .tool-count {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 4px 12px;
-      background: rgba(0, 168, 255, 0.1);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      color: #00a8ff;
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    /* --- ESTILO NUEVO PARA LAS IMÁGENES-TARJETA --- */
+    /* --- ESTILO PARA LAS IMÁGENES-TARJETA (TODAS LAS TARJETAS) --- */
     .imagen-card {
       background: transparent;
       border: 1px solid rgba(0, 168, 255, 0.2);
@@ -181,7 +149,7 @@
       display: block;
       width: 100%;
       height: auto;
-      align-self: start; /* Para que en el grid no se estiren si no hace falta */
+      align-self: start; 
     }
 
     .imagen-card:hover {
@@ -262,43 +230,34 @@
       <h3 class="section-title">📋 Fases de Pentesting</h3>
       <div class="categoria-grid">
         
-        <!-- TARJETA CON IMAGEN: Escaneo y Reconocimiento -->
+        <!-- Escaneo y Reconocimiento -->
         <a href="escaneo.html" class="imagen-card">
           <img src="imagenes/esc-rec.png" alt="Escaneo y Reconocimiento" />
         </a>
 
-        <!-- TARJETA CON IMAGEN: Enumeración Web -->
+        <!-- Enumeración Web -->
         <a href="enumeracion-web.html" class="imagen-card">
           <img src="imagenes/enum_web.png" alt="Enumeración Web" />
         </a>
 
-        <!-- RESTO DE TARJETAS CON TEXTO -->
-        <a href="explotacion.html" class="categoria-card">
-          <span class="categoria-icon">💥</span>
-          <h3>Explotación</h3>
-          <p>Frameworks, exploits, fuerza bruta, inyecciones.</p>
-          <span class="tool-count">5 herramientas</span>
+        <!-- Explotación -->
+        <a href="explotacion.html" class="imagen-card">
+          <img src="imagenes/exploit.png" alt="Explotación" />
         </a>
 
-        <a href="escucha-captura.html" class="categoria-card">
-          <span class="categoria-icon">📡</span>
-          <h3>Escucha y Captura</h3>
-          <p>Netcat, tcpdump, Wireshark, análisis de tráfico.</p>
-          <span class="tool-count">4 herramientas</span>
+        <!-- Escucha y Captura -->
+        <a href="escucha-captura.html" class="imagen-card">
+          <img src="imagenes/esc_cap.png" alt="Escucha y Captura" />
         </a>
 
-        <a href="post-explotacion.html" class="categoria-card">
-          <span class="categoria-icon">🔐</span>
-          <h3>Post-Explotación</h3>
-          <p>Elevación de privilegios, extracción de credenciales.</p>
-          <span class="tool-count">3 herramientas</span>
+        <!-- Post-Explotación -->
+        <a href="post-explotacion.html" class="imagen-card">
+          <img src="imagenes/post_expl.png" alt="Post-Explotación" />
         </a>
 
-        <a href="forense.html" class="categoria-card">
-          <span class="categoria-icon">🛡️</span>
-          <h3>Forense y Defensa</h3>
-          <p>Análisis de memoria, logs, detección de intrusiones.</p>
-          <span class="tool-count">4 herramientas</span>
+        <!-- Forense y Defensa -->
+        <a href="forense.html" class="imagen-card">
+          <img src="imagenes/for_def.png" alt="Forense y Defensa" />
         </a>
 
       </div>
