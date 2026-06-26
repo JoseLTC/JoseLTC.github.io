@@ -132,12 +132,13 @@
 
     .categoria-grid {
       display: grid;
+      /* Usamos 1fr para que las tarjetas ocupen todo el ancho disponible y se repartan equitativamente */
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       margin-top: 10px;
     }
 
-    /* --- ESTILO PARA LAS IMÁGENES-TARJETA (TODAS LAS TARJETAS) --- */
+    /* --- ESTILO PARA LAS IMÁGENES-TARJETA --- */
     .imagen-card {
       background: transparent;
       border: 1px solid rgba(0, 168, 255, 0.2);
@@ -148,8 +149,8 @@
       color: inherit;
       display: block;
       width: 100%;
-      height: auto;
-      align-self: start; 
+      height: 100%; /* CRUCIAL: Hace que todas las tarjetas ocupen toda la altura de la celda de la cuadrícula */
+      align-self: stretch; /* CRUCIAL: Fuerza a la tarjeta a estirarse para igualar la altura de sus vecinas */
     }
 
     .imagen-card:hover {
@@ -158,11 +159,27 @@
       box-shadow: 0 0 30px rgba(0, 168, 255, 0.15);
     }
 
-    .imagen-card img {
-      display: block;
+    /* --- CONTENEDOR DE LA IMAGEN CON PROPORCIÓN FIJA --- */
+    .imagen-wrapper {
+      position: relative;
       width: 100%;
-      height: auto;
-      object-fit: contain; /* Asegura que la imagen se vea completa sin deformarse */
+      /* Esto fuerza a que el contenedor de la imagen siempre tenga una proporción de 1:1 (cuadrado perfecto). 
+         Cambia el 100% por 75% si quieres que sean rectángulos (proporción 4:3) */
+      aspect-ratio: 1 / 1; 
+      overflow: hidden;
+      display: block;
+    }
+
+    .imagen-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Mantiene la proporción de la imagen, la ajusta al cajón sin cortarla */
+      display: block;
+      padding: 10px; /* Un pequeño padding para que la imagen no toque los bordes */
+      box-sizing: border-box;
     }
 
     footer{
@@ -232,32 +249,44 @@
         
         <!-- Escaneo y Reconocimiento -->
         <a href="escaneo.html" class="imagen-card">
-          <img src="imagenes/esc-rec.png" alt="Escaneo y Reconocimiento" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/esc-rec.png" alt="Escaneo y Reconocimiento" />
+          </div>
         </a>
 
         <!-- Enumeración Web -->
         <a href="enumeracion-web.html" class="imagen-card">
-          <img src="imagenes/enum_web.png" alt="Enumeración Web" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/enum_web.png" alt="Enumeración Web" />
+          </div>
         </a>
 
         <!-- Explotación -->
         <a href="explotacion.html" class="imagen-card">
-          <img src="imagenes/explot.png" alt="Explotación" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/exploit.png" alt="Explotación" />
+          </div>
         </a>
 
         <!-- Escucha y Captura -->
         <a href="escucha-captura.html" class="imagen-card">
-          <img src="imagenes/esc_cap.png" alt="Escucha y Captura" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/esc_cap.png" alt="Escucha y Captura" />
+          </div>
         </a>
 
         <!-- Post-Explotación -->
         <a href="post-explotacion.html" class="imagen-card">
-          <img src="imagenes/post_expl.png" alt="Post-Explotación" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/post_expl.png" alt="Post-Explotación" />
+          </div>
         </a>
 
         <!-- Forense y Defensa -->
         <a href="forense.html" class="imagen-card">
-          <img src="imagenes/for_def.png" alt="Forense y Defensa" />
+          <div class="imagen-wrapper">
+            <img src="imagenes/for_def.png" alt="Forense y Defensa" />
+          </div>
         </a>
 
       </div>
