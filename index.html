@@ -11,384 +11,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Reset minimal */
     *,*::before,*::after{box-sizing:border-box}
-    
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: "Fira Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-      background:#020b14;
-      color:#cbd5dd;
-      -webkit-font-smoothing:antialiased
-    }
-    
-    a{color:#00a8ff;text-decoration:none;transition:color 0.2s}
-    a:hover{color:#ffffff;text-decoration:none}
-
-    /* Layout principal al estilo Panel */
+    html,body{height:100%;margin:0;font-family:"Fira Sans",sans-serif;background:#020b14;color:#cbd5dd;-webkit-font-smoothing:antialiased}
+    a{color:#00a8ff;text-decoration:none;transition:color .2s}
+    a:hover{color:#fff;text-decoration:none}
     .wrap{max-width:1180px;margin:28px auto;padding:24px}
-    
-    /* Encabezado fijo superior con z-index alto */
-    .fixed-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #000D1F;
-      color: #e3edf7;
-      border-bottom: 1px solid #00a8ff;
-      z-index: 1000;
-      padding: 0.5rem 1.5rem;
-      box-shadow: 0 2px 20px rgba(0, 168, 255, 0.15);
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1132px;
-      margin: 0 auto;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-    }
-    .logo-img {
-      height: 38px;
-      width: auto;
-      display: block;
-    }
-
-    /* Navegación Integrada en el Header */
-    .nav-list {
-      list-style: none;
-      display: flex;
-      gap: 12px;
-      padding: 0;
-      margin: 0;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .nav-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px 14px;
-      border-radius: 4px;
-      background: #020b14;
-      color: #00a8ff;
-      text-decoration: none;
-      font-family: "JetBrains Mono", monospace;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(0, 168, 255, 0.4);
-      box-shadow: 0 0 8px rgba(0, 168, 255, 0.05);
-      transition: all 0.2s ease;
-    }
-
-    .nav-item:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 12px rgba(0, 168, 255, 0.3);
-      background: #051628;
-      color: #ffffff;
-      border-color: #00a8ff;
-    }
-
-    .nav-item:active {
-      transform: translateY(1px);
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-    }
-
-    .nav-item.active {
-      background: #00a8ff;
-      color: #020b14;
-      border-color: #00a8ff;
-    }
-
-    /* Ajuste para evitar solapamiento por el header fijo */
-    body {
-      padding-top: 70px;
-    }
-
-    header.main-header {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-
-    /* Wrapper para el banner */
-    .banner-image-wrapper {
-      background: #051628;
-      border: 1px solid rgba(0, 168, 255, 0.2);
-      border-radius: 8px;
-      padding: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .banner-image-wrapper:hover {
-      border-color: #00a8ff;
-      box-shadow: 0 0 25px rgba(0, 168, 255, 0.15);
-    }
-
-    .banner-image-wrapper .title-img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-
-    /* Hero panel / Contenedor descriptivo superior */
-    .banner {
-      display:flex;gap:20px;align-items:center;padding:24px;border-radius:8px;
-      background: #051628;
-      border:1px solid #00a8ff;
-      box-shadow: 0 0 15px rgba(0, 168, 255, 0.1);
-      overflow:hidden;margin-bottom:28px;
-    }
+    .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
+    .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
+    .logo-container{display:flex;align-items:center}
+    .logo-img{height:38px;width:auto;display:block}
+    .nav-list{list-style:none;display:flex;gap:12px;padding:0;margin:0;align-items:center;flex-wrap:wrap}
+    .nav-item{display:inline-flex;align-items:center;justify-content:center;padding:6px 14px;border-radius:4px;background:#020b14;color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;letter-spacing:.5px;border:1px solid rgba(0,168,255,.4);box-shadow:0 0 8px rgba(0,168,255,.05);transition:all .2s ease}
+    .nav-item:hover{transform:translateY(-1px);box-shadow:0 0 12px rgba(0,168,255,.3);background:#051628;color:#fff;border-color:#00a8ff}
+    .nav-item.active{background:#00a8ff;color:#020b14;border-color:#00a8ff}
+    body{padding-top:70px}
+    header.main-header{display:flex;justify-content:center;margin-bottom:24px}
+    .banner-image-wrapper{background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:border-color .3s,box-shadow .3s;display:inline-block;width:100%}
+    .banner-image-wrapper:hover{border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.15)}
+    .banner-image-wrapper .title-img{display:block;width:100%;height:auto;border-radius:4px}
+    .banner{display:flex;gap:20px;align-items:center;padding:24px;border-radius:8px;background:#051628;border:1px solid #00a8ff;box-shadow:0 0 15px rgba(0,168,255,.1);overflow:hidden;margin-bottom:28px}
     .banner .left{flex:1;min-width:260px}
     .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
-    
-    .banner h2{
-      margin:0;
-      color:#e3edf7;
-      font-size:1.4rem;
-      font-family: "JetBrains Mono", monospace;
-      font-weight: 700;
-      letter-spacing:0.4px
-    }
-    .banner p.lead{margin:12px 0 0;color:#4a75a0; font-size:1rem;}
-
-    .banner .tagline{
-      display:inline-block;
-      margin-top:16px;
-      padding:6px 12px;
-      border-radius:4px;
-      background:rgba(0, 168, 255, 0.1);
-      color:#00a8ff;
-      font-family: "JetBrains Mono", monospace;
-      font-weight:600;
-      font-size:0.85rem;
-      border: 1px solid rgba(0, 168, 255, 0.2)
-    }
-
-    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
-    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.85}
-
-    /* Secciones Generales */
-    section{
-      margin-bottom:32px;
-      background: #051628;
-      border: 1px solid rgba(0, 168, 255, 0.2);
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      scroll-margin-top: 90px;
-    }
-    
-    h3.section-title, .tools-used h2{
-      margin: 0 0 16px;
-      font-size: 1.25rem;
-      color: #e3edf7;
-      border-left: 4px solid #00a8ff;
-      padding-left: 12px;
-      font-family: "JetBrains Mono", monospace;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    p.lead{color:#4a75a0;margin:6px 0 18px; font-size: 0.95rem;}
-
+    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.4px}
+    .banner p.lead{margin:12px 0 0;color:#4a75a0;font-size:1rem}
+    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0,168,255,.1);color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
+    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0,168,255,.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
+    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:.85}
+    section{margin-bottom:32px;background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.3);scroll-margin-top:90px}
+    h3.section-title{margin:0 0 16px;font-size:1.25rem;color:#e3edf7;border-left:4px solid #00a8ff;padding-left:12px;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.5px}
+    p.lead{color:#4a75a0;margin:6px 0 18px;font-size:.95rem}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-
-    /* Enlaces reactivos en tarjetas de proyectos */
-    a.term-card-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: transform 0.25s ease;
-    }
-    a.term-card-link:hover {
-      transform: translateY(-4px);
-    }
-    a.term-card-link:hover .term-card {
-      border-color: #00a8ff;
-      box-shadow: 0 0 20px rgba(0, 168, 255, 0.25);
-    }
-
-    /* Tarjetas estilo terminal de comandos */
-    .term-card{
-      background:#020b14;border-radius:6px;border:1px solid rgba(0, 168, 255, 0.2);overflow:hidden;
-      display:flex;flex-direction:column;min-height:170px;box-shadow:0 10px 25px rgba(0,0,0,0.5);
-      transition:transform .25s ease,box-shadow .25s ease, border-color .25s;
-    }
-    .term-header{
-      display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;
-      border-bottom:1px solid rgba(0, 168, 255, 0.15)
-    }
+    a.term-card-link{text-decoration:none;color:inherit;display:block;transition:transform .25s}
+    a.term-card-link:hover{transform:translateY(-4px)}
+    a.term-card-link:hover .term-card{border-color:#00a8ff;box-shadow:0 0 20px rgba(0,168,255,.25)}
+    .term-card{background:#020b14;border-radius:6px;border:1px solid rgba(0,168,255,.2);overflow:hidden;display:flex;flex-direction:column;min-height:170px;box-shadow:0 10px 25px rgba(0,0,0,.5);transition:transform .25s,box-shadow .25s,border-color .25s}
+    .term-header{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;border-bottom:1px solid rgba(0,168,255,.15)}
     .term-dots{display:flex;gap:6px}
     .dot{width:10px;height:10px;border-radius:50%}
     .dot.red{background:#ff5f56}
     .dot.yellow{background:#ffbd2e}
     .dot.green{background:#27c93f}
-    
-    .term-title{
-      margin-left:8px;
-      color:#e3edf7;
-      font-family: "JetBrains Mono", monospace;
-      font-weight:700;
-      font-size:0.9rem
-    }
-
-    .term-body{
-      padding:16px;
-      font-size:0.9rem;
-      line-height:1.5;
-      color:#4a75a0;
-      white-space:pre-wrap;
-      min-height:96px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      font-family: "JetBrains Mono", ui-monospace, monospace;
-    }
+    .term-title{margin-left:8px;color:#e3edf7;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem}
+    .term-body{padding:16px;font-size:.9rem;line-height:1.5;color:#4a75a0;white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px;font-family:"JetBrains Mono",ui-monospace,monospace}
     .prompt{color:#00a8ff;font-weight:700}
     .output{color:#e3edf7;font-family:inherit}
-
-    .meta{
-      margin-top:auto;
-      padding:12px 16px;
-      border-top:1px dashed rgba(0, 168, 255, 0.15);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-size:0.8rem;
-      color:#4a75a0;
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    /* Skills / Tecnologías */
+    .meta{margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0,168,255,.15);display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#4a75a0;font-family:"JetBrains Mono",monospace}
     .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .skill{
-      background:rgba(0, 168, 255, 0.08);
-      padding:6px 12px;
-      border-radius:4px;
-      color:#00a8ff;
-      font-family: "JetBrains Mono", monospace;
-      font-weight:600;
-      font-size:0.85rem;
-      border:1px solid rgba(0, 168, 255, 0.2)
-    }
-
-    /* Herramientas Grid */
-    section.tools-used { padding: 24px; }
-    .tools-used h2 { margin: 0 0 20px 0; border-left: 4px solid #00a8ff; padding-left: 12px; } 
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.25rem;
-      padding: 0;
-    }
-
-    .tool-card {
-      background-color: #020b14;
-      border: 1px solid rgba(0, 168, 255, 0.2);
-      border-radius: 6px;
-      padding: 1.25rem;
-      text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
-    }
-    .tool-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 15px rgba(0, 168, 255, 0.2);
-      border-color: #00a8ff;
-    }
-    .tool-card img { width: 42px; height: 42px; margin-bottom: 0.5rem; }
-    .tool-card h3 { font-size: 1.1rem; margin: 0.5rem 0; color: #e3edf7; font-family: "JetBrains Mono", monospace; }
-    .tool-card p { font-size: 0.85rem; color: #4a75a0; margin-bottom: 0.75rem; line-height: 1.4; }
-    .tool-card a { color: #00a8ff; text-decoration: none; font-weight: bold; font-size: 0.85rem; }
-    .tool-card a:hover { color: #ffffff; }
-
-    /* Contacto */
-    .contact-grid { display: flex; gap: 24px; flex-wrap: wrap; }
-    .contact-block {
-      min-width: 240px;
-      flex: 1;
-      background: #020b14;
-      padding: 16px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 168, 255, 0.15);
-    }
-    .contact-block strong {
-      color: #e3edf7;
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    /* Footer */
-    footer{
-      padding:20px;
-      margin-top:12px;
-      border-top:1px solid rgba(0, 168, 255, 0.15);
-      color:#4a75a0;
-      text-align:center;
-      font-size:0.85rem;
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    /* Elemento inyectado dinámicamente por JS */
-    .typing { font-family: "JetBrains Mono", monospace; }
-
-    /* Botón "Ver todas las herramientas" */
-    .btn-tools {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 24px;
-      background: transparent;
-      border: 2px solid #00a8ff;
-      color: #00a8ff;
-      border-radius: 6px;
-      font-family: "JetBrains Mono", monospace;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-    .btn-tools:hover {
-      background: #00a8ff;
-      color: #020b14;
-      box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
-      transform: translateY(-2px);
-    }
-
-    /* Responsive General y Media Queries */
-    @media (max-width: 880px){
-      .banner{flex-direction:column;gap:16px}
-      .banner .right{width:100%;height:auto}
-      .banner .term-wrap{width:100%;height:140px}
-    }
-
-    @media (max-width: 720px) {
-      .header-content { flex-direction: column; gap: 10px; }
-      body { padding-top: 110px; }
-      .nav-item { padding: 6px 10px; font-size: 0.75rem; }
-      section {
-        scroll-margin-top: 130px;
-      }
-    }
-
-    /* Animaciones de entrada */
-    .fade-in {opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
-    .fade-in.delay-1{animation-delay:0.1s}
-    .fade-in.delay-2{animation-delay:0.2s}
-    .fade-in.delay-3{animation-delay:0.3s}
+    .skill{background:rgba(0,168,255,.08);padding:6px 12px;border-radius:4px;color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
+    .contact-grid{display:flex;gap:24px;flex-wrap:wrap}
+    .contact-block{min-width:240px;flex:1;background:#020b14;padding:16px;border-radius:6px;border:1px solid rgba(0,168,255,.15)}
+    .contact-block strong{color:#e3edf7;display:block;margin-bottom:6px;font-size:.9rem;font-family:"JetBrains Mono",monospace}
+    footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0,168,255,.15);color:#4a75a0;text-align:center;font-size:.85rem;font-family:"JetBrains Mono",monospace}
+    .typing{font-family:"JetBrains Mono",monospace}
+    .btn-tools{display:inline-block;margin-top:12px;padding:10px 24px;background:transparent;border:2px solid #00a8ff;color:#00a8ff;border-radius:6px;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem;transition:all .3s;text-decoration:none}
+    .btn-tools:hover{background:#00a8ff;color:#020b14;box-shadow:0 0 30px rgba(0,168,255,.3);transform:translateY(-2px)}
+    @media(max-width:880px){.banner{flex-direction:column;gap:16px}.banner .right{width:100%;height:auto}.banner .term-wrap{width:100%;height:140px}}
+    @media(max-width:720px){.header-content{flex-direction:column;gap:10px}body{padding-top:110px}.nav-item{padding:6px 10px;font-size:.75rem}section{scroll-margin-top:130px}}
+    .fade-in{opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
+    .fade-in.delay-1{animation-delay:.1s}
+    .fade-in.delay-2{animation-delay:.2s}
+    .fade-in.delay-3{animation-delay:.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
   </style>
 </head>
@@ -433,7 +115,7 @@
     <section id="sobre" class="fade-in delay-2">
       <h3 class="section-title">Sobre mí</h3>
       <p class="lead">Ingeniero en informática, especializado en seguridad ofensiva y respuesta ante incidentes. Preparando documentación técnica y herramientas reproducibles.</p>
-      <div class="skills" aria-hidden="false">
+      <div class="skills">
         <span class="skill">Python</span>
         <span class="skill">Bash</span>
         <span class="skill">TCP/IP</span>
@@ -539,36 +221,6 @@
       </div>
     </section>
 
-    <section class="tools-used fade-in delay-3">
-        <h2>🧰 Herramientas utilizadas</h2>
-        <div class="tool-grid">
-          <div class="tool-card">
-            <img src="icons/nmap.svg" alt="Nmap">
-            <h3>Nmap</h3>
-            <p>Reconocimiento de red en auditoría interna</p>
-            <a href="herramientas/escaneo.html">Ver herramientas</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/metasploit.svg" alt="Metasploit">
-            <h3>Metasploit</h3>
-            <p>Explotación de vulnerabilidad en CTF VulnHub</p>
-            <a href="herramientas/explotacion.html">Ver herramientas</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/gobuster.svg" alt="Gobuster">
-            <h3>Gobuster</h3>
-            <p>Enumeración de directorios en web</p>
-            <a href="herramientas/enumeracion-web.html">Ver herramientas</a>
-          </div>
-          <div class="tool-card">
-            <img src="icons/wireshark.svg" alt="Wireshark">
-            <h3>Wireshark</h3>
-            <p>Análisis de tráfico en incidentes</p>
-            <a href="herramientas/escucha-captura.html">Ver herramientas</a>
-          </div>
-        </div>
-    </section>
-
     <section id="contacto" class="fade-in delay-1">
       <h3 class="section-title">Contacto</h3>
       <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
@@ -594,7 +246,6 @@
   </div>
 
   <script>
-    // Hero typing effect interactivo
     (function(){
       const text = "Analizando vulnerabilidades... Fortificando infraestructuras... Documentando hallazgos técnicos...";
       const hero = document.querySelector('.banner .left');
@@ -612,7 +263,6 @@
       step();
     })();
 
-    // Simulador del Output de la Falsa Consola
     function terminalSimulator(outId, lines, opts){
       const out = document.getElementById(outId);
       if(!out) return;
@@ -637,7 +287,6 @@
       setTimeout(write, 420);
     }
 
-    // Inicialización de simulación de líneas
     terminalSimulator('out1', [
       '[*] Cargando pcap: /data/traffic.pcap',
       '[*] Filtrando conexiones sospechosas (SYN flood, IP spoofing)...',
