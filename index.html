@@ -40,22 +40,6 @@
     section{margin-bottom:32px;background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.3);scroll-margin-top:90px}
     h3.section-title{margin:0 0 16px;font-size:1.25rem;color:#e3edf7;border-left:4px solid #00a8ff;padding-left:12px;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.5px}
     p.lead{color:#4a75a0;margin:6px 0 18px;font-size:.95rem}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-    a.term-card-link{text-decoration:none;color:inherit;display:block;transition:transform .25s}
-    a.term-card-link:hover{transform:translateY(-4px)}
-    a.term-card-link:hover .term-card{border-color:#00a8ff;box-shadow:0 0 20px rgba(0,168,255,.25)}
-    .term-card{background:#020b14;border-radius:6px;border:1px solid rgba(0,168,255,.2);overflow:hidden;display:flex;flex-direction:column;min-height:170px;box-shadow:0 10px 25px rgba(0,0,0,.5);transition:transform .25s,box-shadow .25s,border-color .25s}
-    .term-header{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;border-bottom:1px solid rgba(0,168,255,.15)}
-    .term-dots{display:flex;gap:6px}
-    .dot{width:10px;height:10px;border-radius:50%}
-    .dot.red{background:#ff5f56}
-    .dot.yellow{background:#ffbd2e}
-    .dot.green{background:#27c93f}
-    .term-title{margin-left:8px;color:#e3edf7;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem}
-    .term-body{padding:16px;font-size:.9rem;line-height:1.5;color:#4a75a0;white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px;font-family:"JetBrains Mono",ui-monospace,monospace}
-    .prompt{color:#00a8ff;font-weight:700}
-    .output{color:#e3edf7;font-family:inherit}
-    .meta{margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0,168,255,.15);display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#4a75a0;font-family:"JetBrains Mono",monospace}
     .skills{display:flex;flex-wrap:wrap;gap:10px}
     .skill{background:rgba(0,168,255,.08);padding:6px 12px;border-radius:4px;color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
     .contact-grid{display:flex;gap:24px;flex-wrap:wrap}
@@ -72,6 +56,86 @@
     .fade-in.delay-2{animation-delay:.2s}
     .fade-in.delay-3{animation-delay:.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
+
+    /* --- NUEVOS ESTILOS PARA PROYECTOS EN 2 COLUMNAS --- */
+    .project-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 32px;
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .project-row:hover {
+      transform: translateY(-4px);
+      border-color: #00a8ff;
+      box-shadow: 0 0 25px rgba(0, 168, 255, 0.2);
+    }
+
+    .project-row .col-image {
+      flex: 1 1 300px;
+      min-width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #051628;
+      padding: 10px;
+    }
+
+    .project-row .col-image img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: contain;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .project-row .col-terminal {
+      flex: 1 1 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-row .term-card {
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      flex: 1;
+      min-height: auto;
+      padding: 0;
+      background: transparent;
+    }
+
+    .project-row .term-card .term-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 168, 255, 0.15);
+      background: transparent;
+    }
+
+    .project-row .term-card .term-body {
+      padding: 16px;
+      min-height: 150px;
+      background: #020b14;
+    }
+
+    .project-row .term-card .meta {
+      border-top: 1px solid rgba(0, 168, 255, 0.15);
+      background: #020b14;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      .project-row { flex-direction: column; }
+      .project-row .col-image { flex: auto; padding: 20px; }
+      .project-row .col-image img { max-height: 200px; }
+    }
   </style>
 </head>
 <body>
@@ -127,59 +191,62 @@
 
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos destacados</h3>
-      <p class="lead">Cada ficha simula una terminal Linux con respuestas interactivas automatizadas por scripts.</p>
+      <p class="lead">Cada proyecto combina una imagen descriptiva y una terminal con los pasos clave de la resolución.</p>
         
-      <div class="grid" aria-live="polite">
+      <!-- PROYECTO 1: MR. ROBOT -->
+      <a href="proyectos/mr_robot_ctf/index.html" class="project-row" aria-label="Ver proyecto Mr. Robot CTF">
         
-        <!-- MR. ROBOT CTF (ESTILO TERMINAL CON MARCA DE AGUA) -->
-        <a href="proyectos/mr_robot_ctf/index.html" class="term-card-link">
-          <article class="term-card" role="article" aria-labelledby="mrrobot-title">
+        <!-- Columna Izquierda: Imagen -->
+        <div class="col-image">
+          <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF Portada" />
+        </div>
+
+        <!-- Columna Derecha: Terminal -->
+        <div class="col-terminal">
+          <div class="term-card">
             <div class="term-header">
               <div class="term-dots">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div id="mrrobot-title" class="term-title">CTF: Mr. Robot (VulnHub)</div>
+              <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
             </div>
-            
-            <div class="term-body" style="position:relative; overflow:hidden; min-height: 180px; padding: 16px;">
-              
-              <!-- IMAGEN DE FONDO (Marca de agua sutil y descentrada) -->
-              <div style="position:absolute; top:-20px; right:-20px; width:80%; height:80%; z-index:1; pointer-events:none;">
-                <img src="imagenes/mr_robot.png" alt="" style="width:100%; height:100%; object-fit:contain; opacity:0.15; transform: rotate(5deg);" />
+            <div class="term-body" id="proj-mrrobot">
+              <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
+              <div class="output">
+                [*] Puerto 80 abierto (WordPress)<br>
+                [*] Puerto 443 abierto<br>
+                [!] Encontrada llave RSA en /home/robot/<br>
+                [+] ¡Acceso root conseguido!
               </div>
-              
-              <!-- TEXTO DE LA TERMINAL -->
-              <div style="position:relative; z-index:2;">
-                <div style="color:#4a75a0; font-family:'JetBrains Mono', monospace; font-size:0.85rem; margin-bottom:6px;">
-                  <span style="color:#00a8ff; font-weight:700;">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X
-                </div>
-                <div class="output" style="font-family: 'JetBrains Mono', monospace; color:#e3edf7; font-size:0.85rem; line-height:1.5;">
-                  [*] Puerto 80 abierto (WordPress)<br>
-                  [*] Puerto 443 abierto<br>
-                  [!] Encontrada llave RSA en /home/robot/<br>
-                  [+] ¡Acceso root conseguido!
-                </div>
-              </div>
-              
             </div>
             <div class="meta">
               <div>WordPress · SUID · Escalada</div>
               <div><small>Mar 2026</small></div>
             </div>
-          </article>
-        </a>
+          </div>
+        </div>
+      </a>
 
-        <a href="proyectos/ids-ruleset/" class="term-card-link">
-          <article class="term-card" role="article" aria-labelledby="p2-title">
+      <!-- PROYECTO 2: IDS RULESET -->
+      <a href="proyectos/ids-ruleset/" class="project-row" aria-label="Ver proyecto IDS Ruleset">
+        
+        <!-- Columna Izquierda: Imagen (Puedes poner una imagen si tienes, de momento pongo el fondo oscuro) -->
+        <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem;">
+          🛡️ IDS / IPS Lab
+        </div>
+
+        <!-- Columna Derecha: Terminal -->
+        <div class="col-terminal">
+          <div class="term-card">
             <div class="term-header">
               <div class="term-dots">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div id="p2-title" class="term-title">Detección: IDS Ruleset</div>
+              <div class="term-title">Detección: IDS Ruleset</div>
             </div>
             <div class="term-body" id="proj2">
               <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
@@ -189,18 +256,28 @@
               <div>Snort · Suricata · Rules</div>
               <div><small>Oct 2025</small></div>
             </div>
-          </article>
-        </a>
+          </div>
+        </div>
+      </a>
 
-        <a href="proyectos/owasp-suite/" class="term-card-link">
-          <article class="term-card" role="article" aria-labelledby="p3-title">
+      <!-- PROYECTO 3: OWASP SUITE -->
+      <a href="proyectos/owasp-suite/" class="project-row" aria-label="Ver proyecto OWASP Suite">
+        
+        <!-- Columna Izquierda: Imagen (Marcador de posición) -->
+        <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem;">
+          🌐 OWASP Top 10
+        </div>
+
+        <!-- Columna Derecha: Terminal -->
+        <div class="col-terminal">
+          <div class="term-card">
             <div class="term-header">
               <div class="term-dots">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div id="p3-title" class="term-title">Pentesting: OWASP Suite</div>
+              <div class="term-title">Pentesting: OWASP Suite</div>
             </div>
             <div class="term-body" id="proj3">
               <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
@@ -210,9 +287,10 @@
               <div>Burp · SQLi · XSS · Exploits</div>
               <div><small>Sep 2025</small></div>
             </div>
-          </article>
-        </a>
-      </div>
+          </div>
+        </div>
+      </a>
+
     </section>
 
     <section id="recursos" class="fade-in delay-2">
