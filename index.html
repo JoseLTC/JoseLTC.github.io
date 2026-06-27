@@ -131,7 +131,7 @@
         
       <div class="grid" aria-live="polite">
         
-        <!-- MR. ROBOT CTF (RUTA Y DISEÑO CORREGIDOS) -->
+        <!-- MR. ROBOT CTF (ESTILO TERMINAL CON MARCA DE AGUA) -->
         <a href="proyectos/mr_robot_ctf/index.html" class="term-card-link">
           <article class="term-card" role="article" aria-labelledby="mrrobot-title">
             <div class="term-header">
@@ -143,20 +143,27 @@
               <div id="mrrobot-title" class="term-title">CTF: Mr. Robot (VulnHub)</div>
             </div>
             
-            <div class="term-body" style="position:relative; overflow:hidden; min-height: 180px; padding: 0;">
-              <!-- IMAGEN DE FONDO (Opacidad aumentada y sin fondo negro que la tape) -->
-              <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; background-color: #020b14;">
-                <img src="imagenes/mr_robot.png" alt="Mr Robot CTF" style="width:100%; height:100%; object-fit:contain; opacity:0.55; display:block;" />
+            <div class="term-body" style="position:relative; overflow:hidden; min-height: 180px; padding: 16px;">
+              
+              <!-- IMAGEN DE FONDO (Marca de agua sutil y descentrada) -->
+              <div style="position:absolute; top:-20px; right:-20px; width:80%; height:80%; z-index:1; pointer-events:none;">
+                <img src="imagenes/mr_robot.png" alt="" style="width:100%; height:100%; object-fit:contain; opacity:0.15; transform: rotate(5deg);" />
               </div>
               
-              <!-- TEXTO DE LA DESCRIPCIÓN (Con text-shadow para leerse sin fondo) -->
-              <div style="position:relative; z-index:2; padding:20px; display:flex; flex-direction:column; height:100%; justify-content:center; align-items:center; text-align:center;">
-                <div style="color:#00a8ff; font-size:0.95rem; line-height:1.6; font-weight:500; text-shadow: 2px 2px 8px rgba(2, 11, 20, 0.95), 0px 0px 10px rgba(2, 11, 20, 0.8); border-left: 2px solid #00a8ff; padding-left: 15px; max-width: 90%;">
-                  CTF de nivel intermedio basado en la serie Mr. Robot. Explotación de WordPress, escalada de privilegios mediante SUID y obtención de acceso root en un escenario realista.
+              <!-- TEXTO DE LA TERMINAL -->
+              <div style="position:relative; z-index:2;">
+                <div style="color:#4a75a0; font-family:'JetBrains Mono', monospace; font-size:0.85rem; margin-bottom:6px;">
+                  <span style="color:#00a8ff; font-weight:700;">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X
+                </div>
+                <div class="output" style="font-family: 'JetBrains Mono', monospace; color:#e3edf7; font-size:0.85rem; line-height:1.5;">
+                  [*] Puerto 80 abierto (WordPress)<br>
+                  [*] Puerto 443 abierto<br>
+                  [!] Encontrada llave RSA en /home/robot/<br>
+                  [+] ¡Acceso root conseguido!
                 </div>
               </div>
+              
             </div>
-            
             <div class="meta">
               <div>WordPress · SUID · Escalada</div>
               <div><small>Mar 2026</small></div>
