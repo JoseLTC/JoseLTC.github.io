@@ -129,6 +129,30 @@
       border-top: 1px solid rgba(0, 168, 255, 0.15);
       background: #020b14;
       margin-top: auto;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-row .term-card .btn-project {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid #00a8ff;
+      color: #00a8ff;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .project-row .term-card .btn-project:hover {
+      background: #00a8ff;
+      color: #020b14;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
     }
 
     @media (max-width: 768px) {
@@ -211,6 +235,10 @@
                 <span class="dot green"></span>
               </div>
               <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
+              <!-- DESCRIPCIÓN AÑADIDA DEBAJO DEL TÍTULO -->
+              <div style="color:#4a75a0; font-size:0.75rem; font-family:'JetBrains Mono', monospace; margin-top: 4px;">
+                CTF de nivel intermedio. Explotación de WordPress, escalada de privilegios mediante SUID.
+              </div>
             </div>
             <div class="term-body" id="proj-mrrobot">
               <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
@@ -223,7 +251,11 @@
             </div>
             <div class="meta">
               <div>WordPress · SUID · Escalada</div>
-              <div><small>Mar 2026</small></div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <small>Mar 2026</small>
+                <!-- BOTÓN AÑADIDO -->
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
             </div>
           </div>
         </div>
@@ -232,7 +264,7 @@
       <!-- PROYECTO 2: IDS RULESET -->
       <a href="proyectos/ids-ruleset/" class="project-row" aria-label="Ver proyecto IDS Ruleset">
         
-        <!-- Columna Izquierda: Imagen (Puedes poner una imagen si tienes, de momento pongo el fondo oscuro) -->
+        <!-- Columna Izquierda: Imagen -->
         <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem;">
           🛡️ IDS / IPS Lab
         </div>
@@ -254,7 +286,10 @@
             </div>
             <div class="meta">
               <div>Snort · Suricata · Rules</div>
-              <div><small>Oct 2025</small></div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <small>Oct 2025</small>
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
             </div>
           </div>
         </div>
@@ -263,7 +298,7 @@
       <!-- PROYECTO 3: OWASP SUITE -->
       <a href="proyectos/owasp-suite/" class="project-row" aria-label="Ver proyecto OWASP Suite">
         
-        <!-- Columna Izquierda: Imagen (Marcador de posición) -->
+        <!-- Columna Izquierda: Imagen -->
         <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem;">
           🌐 OWASP Top 10
         </div>
@@ -285,7 +320,10 @@
             </div>
             <div class="meta">
               <div>Burp · SQLi · XSS · Exploits</div>
-              <div><small>Sep 2025</small></div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <small>Sep 2025</small>
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
             </div>
           </div>
         </div>
