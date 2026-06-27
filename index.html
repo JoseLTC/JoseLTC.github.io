@@ -16,25 +16,32 @@
     a{color:#00a8ff;text-decoration:none;transition:color .2s}
     a:hover{color:#fff;text-decoration:none}
     
-    /* --- LAYOUT DE 2 COLUMNAS --- */
-    .wrap{max-width:1280px;margin:28px auto;padding:24px; display: flex; gap: 30px; align-items: flex-start;}
+    .wrap{max-width:1280px;margin:28px auto;padding:24px;}
     
-    /* Barra lateral izquierda (Estilo LinkedIn - SIN STICKY) */
+    /* --- BLOQUE SUPERIOR (Perfil + Banner) --- */
+    .top-row {
+      display: flex;
+      gap: 30px;
+      align-items: stretch; /* Fuerza a que el sidebar y el banner tengan la misma altura */
+      margin-bottom: 32px;
+    }
+    
+    /* Barra lateral izquierda (Estilo LinkedIn - Ahora solo arriba) */
     .sidebar {
       flex: 0 0 320px; /* Ancho fijo de 320px */
-      align-self: flex-start;
       background: #051628;
       border: 1px solid rgba(0, 168, 255, 0.2);
       border-radius: 12px;
       padding: 0;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      align-self: stretch; /* Se estira para igualar la altura del banner */
     }
 
     .sidebar .profile-header {
       background: #000D1F;
       padding: 24px 20px 20px;
-      text-align: left; /* Alineado a la izquierda */
+      text-align: left;
       border-bottom: 1px solid rgba(0, 168, 255, 0.1);
     }
 
@@ -44,7 +51,7 @@
       border-radius: 50%;
       border: 2px solid #00a8ff;
       object-fit: cover;
-      margin: 0 0 12px 0; /* Margen inferior, sin centrado */
+      margin: 0 0 12px 0;
       display: block;
       background: #020b14;
     }
@@ -84,7 +91,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      justify-content: flex-start; /* Alineado a la izquierda */
+      justify-content: flex-start;
       margin-bottom: 0;
     }
 
@@ -99,13 +106,48 @@
       border: 1px solid rgba(0,168,255,.2);
     }
 
-    /* Contenido principal (Derecha) */
-    .main-content {
-      flex: 1;
-      min-width: 0; /* Para que el flex no se rompa en móviles */
+    /* --- CONTENEDOR DEL BANNER DERECHO --- */
+    .banner-wrapper {
+      flex: 1; /* Ocupa el resto del ancho */
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
-    /* --- RESTO DE ESTILOS --- */
+    .banner-image-wrapper {
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: border-color .3s,box-shadow .3s;
+      display: inline-block;
+      width: 100%;
+    }
+    .banner-image-wrapper:hover {border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.15)}
+    .banner-image-wrapper .title-img {display:block;width:100%;height:auto;border-radius:4px}
+
+    .banner {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      padding: 24px;
+      border-radius: 8px;
+      background: #051628;
+      border: 1px solid #00a8ff;
+      box-shadow: 0 0 15px rgba(0,168,255,.1);
+      overflow: hidden;
+      flex: 1; /* Se estira para llenar el espacio vertical */
+    }
+    .banner .left{flex:1;min-width:260px}
+    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
+    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.4px}
+    .banner p.lead{margin:12px 0 0;color:#4a75a0;font-size:1rem}
+    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0,168,255,.1);color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
+    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0,168,255,.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
+    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:.85}
+
+    /* --- RESTO DE ESTILOS (Ancho completo) --- */
     .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
     .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
     .logo-container{display:flex;align-items:center}
@@ -115,18 +157,7 @@
     .nav-item:hover{transform:translateY(-1px);box-shadow:0 0 12px rgba(0,168,255,.3);background:#051628;color:#fff;border-color:#00a8ff}
     .nav-item.active{background:#00a8ff;color:#020b14;border-color:#00a8ff}
     body{padding-top:70px}
-    header.main-header{display:flex;justify-content:center;margin-bottom:24px}
-    .banner-image-wrapper{background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:border-color .3s,box-shadow .3s;display:inline-block;width:100%}
-    .banner-image-wrapper:hover{border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.15)}
-    .banner-image-wrapper .title-img{display:block;width:100%;height:auto;border-radius:4px}
-    .banner{display:flex;gap:20px;align-items:center;padding:24px;border-radius:8px;background:#051628;border:1px solid #00a8ff;box-shadow:0 0 15px rgba(0,168,255,.1);overflow:hidden;margin-bottom:28px}
-    .banner .left{flex:1;min-width:260px}
-    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
-    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.4px}
-    .banner p.lead{margin:12px 0 0;color:#4a75a0;font-size:1rem}
-    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0,168,255,.1);color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
-    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0,168,255,.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
-    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:.85}
+    
     section{margin-bottom:32px;background:#051628;border:1px solid rgba(0,168,255,.2);border-radius:8px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.3);scroll-margin-top:90px}
     h3.section-title{margin:0 0 16px;font-size:1.25rem;color:#e3edf7;border-left:4px solid #00a8ff;padding-left:12px;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.5px}
     p.lead{color:#4a75a0;margin:6px 0 18px;font-size:.95rem}
@@ -162,10 +193,24 @@
     .project-row .col-terminal .btn-project:hover {background:#00a8ff;color:#020b14;border-color:#00a8ff;box-shadow:0 0 15px rgba(0,168,255,.3);}
 
     /* --- RESPONSIVE --- */
-    @media(max-width:880px){.banner{flex-direction:column;gap:16px}.banner .right{width:100%;height:auto}.banner .term-wrap{width:100%;height:140px}}
-    @media(max-width:960px){.wrap{flex-direction:column;}.sidebar{flex:auto;width:100%;}}
-    @media(max-width:768px){.project-row{flex-direction:column;}.project-row .col-image{border-right:1px solid rgba(0,168,255,.2);border-bottom:none;border-top-left-radius:8px;border-top-right-radius:8px;border-bottom-left-radius:0;}.project-row .col-terminal .term-card{border-left:1px solid rgba(0,168,255,.2);border-top:none;border-top-left-radius:0;border-top-right-radius:0;border-bottom-left-radius:8px;border-bottom-right-radius:8px;}}
-    @media(max-width:720px){.header-content{flex-direction:column;gap:10px}body{padding-top:110px}.nav-item{padding:6px 10px;font-size:.75rem}section{scroll-margin-top:130px}}
+    @media(max-width:960px){
+      .top-row {flex-direction:column;}
+      .sidebar {flex:auto;width:100%;}
+      .banner-wrapper {flex:auto;width:100%;}
+      .banner .right {flex:0 0 auto;width:100%;}
+      .banner .term-wrap {width:100%;height:auto;min-height:160px;}
+    }
+    @media(max-width:768px){
+      .project-row{flex-direction:column;}
+      .project-row .col-image{border-right:1px solid rgba(0,168,255,.2);border-bottom:none;border-top-left-radius:8px;border-top-right-radius:8px;border-bottom-left-radius:0;}
+      .project-row .col-terminal .term-card{border-left:1px solid rgba(0,168,255,.2);border-top:none;border-top-left-radius:0;border-top-right-radius:0;border-bottom-left-radius:8px;border-bottom-right-radius:8px;}
+    }
+    @media(max-width:720px){
+      .header-content{flex-direction:column;gap:10px}
+      body{padding-top:110px}
+      .nav-item{padding:6px 10px;font-size:.75rem}
+      section{scroll-margin-top:130px}
+    }
     
     .fade-in{opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
     .fade-in.delay-1{animation-delay:.1s}
@@ -192,209 +237,210 @@
       </div>
     </header>
 
-    <!-- BARRA LATERAL IZQUIERDA (ESTILO LINKEDIN - SIN STICKY) -->
-    <aside class="sidebar fade-in delay-1">
-      <div class="profile-header">
-        <!-- Círculo vacío (sin placeholder) -->
-        <div class="profile-img"></div>
-        <h2>José Luis Trigo</h2>
-        <div class="profile-title">Ethical Hacker &amp; Security Researcher</div>
-        <div class="profile-location">Salamanca, España</div>
-      </div>
-      <div class="profile-body">
-        <p>Ingeniero en informática especializado en seguridad ofensiva. Apasionado por el análisis forense, el pentesting y la creación de herramientas open source.</p>
-        <div class="profile-skills">
-          <span class="skill">Python</span>
-          <span class="skill">Bash</span>
-          <span class="skill">Wireshark</span>
-          <span class="skill">Forense</span>
-          <span class="skill">Snort</span>
+    <!-- BLOQUE SUPERIOR: Sidebar a la izquierda, Banner a la derecha -->
+    <div class="top-row fade-in delay-1">
+      
+      <!-- BARRA LATERAL -->
+      <aside class="sidebar">
+        <div class="profile-header">
+          <div class="profile-img"></div>
+          <h2>José Luis Trigo</h2>
+          <div class="profile-title">Ethical Hacker &amp; Security Researcher</div>
+          <div class="profile-location">Salamanca, España</div>
         </div>
-      </div>
-    </aside>
+        <div class="profile-body">
+          <p>Ingeniero en informática especializado en seguridad ofensiva. Apasionado por el análisis forense, el pentesting y la creación de herramientas open source.</p>
+          <div class="profile-skills">
+            <span class="skill">Python</span>
+            <span class="skill">Bash</span>
+            <span class="skill">Wireshark</span>
+            <span class="skill">Forense</span>
+            <span class="skill">Snort</span>
+          </div>
+        </div>
+      </aside>
 
-    <!-- CONTENIDO PRINCIPAL (DERECHA) -->
-    <main class="main-content">
-
-      <header class="main-header fade-in" style="margin-top:0;">
+      <!-- BANNER PRINCIPAL -->
+      <div class="banner-wrapper">
         <div class="banner-image-wrapper">
           <img src="imagenes/banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
         </div>
-      </header>
 
-      <div class="banner fade-in delay-1" role="region" aria-label="banner principal">
-        <div class="left">
-          <h2 style="font-size:1.6rem;">Bienvenido a mi Portfolio</h2>
-          <p class="lead">Aquí encontrarás proyectos prácticos de ciberseguridad, write-ups de CTFs y herramientas open source que he desarrollado para auditorías, análisis forense y explotación controlada.</p>
-          <div class="tagline">Profesional · Técnico · Orientado a resultados</div>
-        </div>
-        <div class="right">
-          <div class="term-wrap" aria-hidden="true">
-            <img src="imagenes/portfolio.png" alt="Terminal visualizer" />
+        <div class="banner" role="region" aria-label="banner principal">
+          <div class="left">
+            <h2 style="font-size:1.6rem;">Bienvenido a mi Portfolio</h2>
+            <p class="lead">Aquí encontrarás proyectos prácticos de ciberseguridad, write-ups de CTFs y herramientas open source que he desarrollado para auditorías, análisis forense y explotación controlada.</p>
+            <div class="tagline">Profesional · Técnico · Orientado a resultados</div>
+          </div>
+          <div class="right">
+            <div class="term-wrap" aria-hidden="true">
+              <img src="imagenes/portfolio.png" alt="Terminal visualizer" />
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <section id="proyectos" class="fade-in delay-3">
-        <h3 class="section-title">Proyectos destacados</h3>
-        <p class="lead">Cada proyecto combina una imagen descriptiva y una terminal con los pasos clave de la resolución.</p>
-          
-        <!-- PROYECTO 1: MR. ROBOT -->
-        <a href="proyectos/mr_robot_ctf/index.html" class="project-row" aria-label="Ver proyecto Mr. Robot CTF">
-          <div class="col-image">
-            <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF Portada" />
-          </div>
-          <div class="col-terminal">
-            <div class="term-card">
-              <div class="term-header">
-                <div class="term-dots">
-                  <span class="dot red"></span>
-                  <span class="dot yellow"></span>
-                  <span class="dot green"></span>
-                </div>
-                <div>
-                  <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
-                  <div class="term-desc">CTF de nivel intermedio. Explotación de WordPress, escalada de privilegios mediante SUID.</div>
-                </div>
+    <!-- BLOQUE INFERIOR: Secciones a ancho completo -->
+    <section id="proyectos" class="fade-in delay-3">
+      <h3 class="section-title">Proyectos destacados</h3>
+      <p class="lead">Cada proyecto combina una imagen descriptiva y una terminal con los pasos clave de la resolución.</p>
+        
+      <!-- PROYECTO 1: MR. ROBOT -->
+      <a href="proyectos/mr_robot_ctf/index.html" class="project-row" aria-label="Ver proyecto Mr. Robot CTF">
+        <div class="col-image">
+          <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF Portada" />
+        </div>
+        <div class="col-terminal">
+          <div class="term-card">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
               </div>
-              <div class="term-body" id="proj-mrrobot">
-                <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
-                <div class="output">
-                  [*] Puerto 80 abierto (WordPress)<br>
-                  [*] Puerto 443 abierto<br>
-                  [!] Encontrada llave RSA en /home/robot/<br>
-                  [+] ¡Acceso root conseguido!
-                </div>
-              </div>
-              <div class="meta">
-                <div>WordPress · SUID · Escalada</div>
-                <div>
-                  <small>Mar 2026</small>
-                  <span class="btn-project">Ir al proyecto →</span>
-                </div>
+              <div>
+                <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
+                <div class="term-desc">CTF de nivel intermedio. Explotación de WordPress, escalada de privilegios mediante SUID.</div>
               </div>
             </div>
-          </div>
-        </a>
-
-        <!-- PROYECTO 2: IDS RULESET -->
-        <a href="proyectos/ids-ruleset/" class="project-row" aria-label="Ver proyecto IDS Ruleset">
-          <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem; flex-direction:column;">
-            <div style="font-size: 2.5rem; margin-bottom:8px;">🛡️</div>
-            <div>IDS / IPS Lab</div>
-          </div>
-          <div class="col-terminal">
-            <div class="term-card">
-              <div class="term-header">
-                <div class="term-dots">
-                  <span class="dot red"></span>
-                  <span class="dot yellow"></span>
-                  <span class="dot green"></span>
-                </div>
-                <div>
-                  <div class="term-title">Detección: IDS Ruleset</div>
-                  <div class="term-desc">Reglas personalizadas para Snort/Suricata. Detección de tráfico malicioso.</div>
-                </div>
-              </div>
-              <div class="term-body" id="proj2">
-                <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
-                <div class="output" id="out2"></div>
-              </div>
-              <div class="meta">
-                <div>Snort · Suricata · Rules</div>
-                <div>
-                  <small>Oct 2025</small>
-                  <span class="btn-project">Ir al proyecto →</span>
-                </div>
+            <div class="term-body" id="proj-mrrobot">
+              <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
+              <div class="output">
+                [*] Puerto 80 abierto (WordPress)<br>
+                [*] Puerto 443 abierto<br>
+                [!] Encontrada llave RSA en /home/robot/<br>
+                [+] ¡Acceso root conseguido!
               </div>
             </div>
-          </div>
-        </a>
-
-        <!-- PROYECTO 3: OWASP SUITE -->
-        <a href="proyectos/owasp-suite/" class="project-row" aria-label="Ver proyecto OWASP Suite">
-          <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem; flex-direction:column;">
-            <div style="font-size: 2.5rem; margin-bottom:8px;">🌐</div>
-            <div>OWASP Top 10</div>
-          </div>
-          <div class="col-terminal">
-            <div class="term-card">
-              <div class="term-header">
-                <div class="term-dots">
-                  <span class="dot red"></span>
-                  <span class="dot yellow"></span>
-                  <span class="dot green"></span>
-                </div>
-                <div>
-                  <div class="term-title">Pentesting: OWASP Suite</div>
-                  <div class="term-desc">Suite de herramientas para auditoría de aplicaciones web. SQLi, XSS, CSRF.</div>
-                </div>
-              </div>
-              <div class="term-body" id="proj3">
-                <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
-                <div class="output" id="out3"></div>
-              </div>
-              <div class="meta">
-                <div>Burp · SQLi · XSS · Exploits</div>
-                <div>
-                  <small>Sep 2025</small>
-                  <span class="btn-project">Ir al proyecto →</span>
-                </div>
+            <div class="meta">
+              <div>WordPress · SUID · Escalada</div>
+              <div>
+                <small>Mar 2026</small>
+                <span class="btn-project">Ir al proyecto →</span>
               </div>
             </div>
-          </div>
-        </a>
-      </section>
-
-      <section id="recursos" class="fade-in delay-2">
-        <h3 class="section-title">Recursos y utilidades</h3>
-        <p class="lead">Snippets, cheatsheets y enlaces a repositorios públicos.</p>
-        <div class="grid">
-          <div class="term-card" style="min-height:110px">
-            <div class="term-header" style="padding:8px 12px">
-              <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-              <div class="term-title">Cheatsheet: Netcat</div>
-            </div>
-            <div class="term-body">nc -lvp 4444  # listener reverse shell</div>
-            <div class="meta"><div>Snippets</div><div><small>2025</small></div></div>
-          </div>
-          <div class="term-card" style="min-height:110px">
-            <div class="term-header" style="padding:8px 12px">
-              <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-              <div class="term-title">Tooling: Automations</div>
-            </div>
-            <div class="term-body">Automatizaciones para recolección de logs y parsing con Python</div>
-            <div class="meta"><div>Scripts</div><div><small>2025</small></div></div>
           </div>
         </div>
-        <div style="text-align:center; margin-top:20px;">
-          <a href="herramientas/" class="btn-tools">🧰 Ver todas las herramientas</a>
-        </div>
-      </section>
+      </a>
 
-      <section id="contacto" class="fade-in delay-1">
-        <h3 class="section-title">Contacto</h3>
-        <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
-        <div class="contact-grid">
-          <div class="contact-block">
-            <strong>Email</strong>
-            <div><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></div>
-          </div>
-          <div class="contact-block">
-            <strong>LinkedIn</strong>
-            <div><a href="https://www.linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></div>
-          </div>
-          <div class="contact-block">
-            <strong>GitHub</strong>
-            <div><a href="https://github.com/JoseLTC" target="_blank" rel="noopener">github.com/JoseLTC</a></div>
+      <!-- PROYECTO 2: IDS RULESET -->
+      <a href="proyectos/ids-ruleset/" class="project-row" aria-label="Ver proyecto IDS Ruleset">
+        <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem; flex-direction:column;">
+          <div style="font-size: 2.5rem; margin-bottom:8px;">🛡️</div>
+          <div>IDS / IPS Lab</div>
+        </div>
+        <div class="col-terminal">
+          <div class="term-card">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div>
+                <div class="term-title">Detección: IDS Ruleset</div>
+                <div class="term-desc">Reglas personalizadas para Snort/Suricata. Detección de tráfico malicioso.</div>
+              </div>
+            </div>
+            <div class="term-body" id="proj2">
+              <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
+              <div class="output" id="out2"></div>
+            </div>
+            <div class="meta">
+              <div>Snort · Suricata · Rules</div>
+              <div>
+                <small>Oct 2025</small>
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </a>
 
-      <footer class="fade-in">
-        © 2026 Jose L. Trigo · Ethical Hacker · Última actualización en entornos estables.
-      </footer>
-    </main>
+      <!-- PROYECTO 3: OWASP SUITE -->
+      <a href="proyectos/owasp-suite/" class="project-row" aria-label="Ver proyecto OWASP Suite">
+        <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem; flex-direction:column;">
+          <div style="font-size: 2.5rem; margin-bottom:8px;">🌐</div>
+          <div>OWASP Top 10</div>
+        </div>
+        <div class="col-terminal">
+          <div class="term-card">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div>
+                <div class="term-title">Pentesting: OWASP Suite</div>
+                <div class="term-desc">Suite de herramientas para auditoría de aplicaciones web. SQLi, XSS, CSRF.</div>
+              </div>
+            </div>
+            <div class="term-body" id="proj3">
+              <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
+              <div class="output" id="out3"></div>
+            </div>
+            <div class="meta">
+              <div>Burp · SQLi · XSS · Exploits</div>
+              <div>
+                <small>Sep 2025</small>
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <section id="recursos" class="fade-in delay-2">
+      <h3 class="section-title">Recursos y utilidades</h3>
+      <p class="lead">Snippets, cheatsheets y enlaces a repositorios públicos.</p>
+      <div class="grid">
+        <div class="term-card" style="min-height:110px">
+          <div class="term-header" style="padding:8px 12px">
+            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <div class="term-title">Cheatsheet: Netcat</div>
+          </div>
+          <div class="term-body">nc -lvp 4444  # listener reverse shell</div>
+          <div class="meta"><div>Snippets</div><div><small>2025</small></div></div>
+        </div>
+        <div class="term-card" style="min-height:110px">
+          <div class="term-header" style="padding:8px 12px">
+            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <div class="term-title">Tooling: Automations</div>
+          </div>
+          <div class="term-body">Automatizaciones para recolección de logs y parsing con Python</div>
+          <div class="meta"><div>Scripts</div><div><small>2025</small></div></div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:20px;">
+        <a href="herramientas/" class="btn-tools">🧰 Ver todas las herramientas</a>
+      </div>
+    </section>
+
+    <section id="contacto" class="fade-in delay-1">
+      <h3 class="section-title">Contacto</h3>
+      <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
+      <div class="contact-grid">
+        <div class="contact-block">
+          <strong>Email</strong>
+          <div><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></div>
+        </div>
+        <div class="contact-block">
+          <strong>LinkedIn</strong>
+          <div><a href="https://www.linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></div>
+        </div>
+        <div class="contact-block">
+          <strong>GitHub</strong>
+          <div><a href="https://github.com/JoseLTC" target="_blank" rel="noopener">github.com/JoseLTC</a></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="fade-in">
+      © 2026 Jose L. Trigo · Ethical Hacker · Última actualización en entornos estables.
+    </footer>
   </div>
 
   <script>
