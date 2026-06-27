@@ -80,7 +80,6 @@
     <header class="fixed-header">
       <div class="header-content">
         <span class="logo-container">
-          <!-- RUTA CORREGIDA: de logo.png a imagenes/logo.png -->
           <img src="imagenes/logo.png" alt="Logo JT" class="logo-img" />
         </span>
         <nav class="header-nav" aria-label="Navegación principal">
@@ -96,7 +95,6 @@
 
     <header class="main-header fade-in">
       <div class="banner-image-wrapper">
-        <!-- RUTA CORREGIDA: de banner2.png a imagenes/banner2.png -->
         <img src="imagenes/banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
       </div>
     </header>
@@ -109,7 +107,6 @@
       </div>
       <div class="right">
         <div class="term-wrap" aria-hidden="true">
-          <!-- RUTA CORREGIDA: de portfolio.png a imagenes/portfolio.png -->
           <img src="imagenes/portfolio.png" alt="Terminal visualizer" />
         </div>
       </div>
@@ -133,23 +130,36 @@
       <p class="lead">Cada ficha simula una terminal Linux con respuestas interactivas automatizadas por scripts.</p>
         
       <div class="grid" aria-live="polite">
-        <a href="proyectos/log-investigator/" class="term-card-link">
-          <article class="term-card" role="article" aria-labelledby="p1-title">
+        
+        <!-- NUEVA TARJETA: MR. ROBOT CTF (Reemplaza a Log Investigator) -->
+        <a href="proyectos/mr_robot/" class="term-card-link">
+          <article class="term-card" role="article" aria-labelledby="mrrobot-title">
             <div class="term-header">
               <div class="term-dots">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div id="p1-title" class="term-title">Forense: Log Investigator</div>
+              <div id="mrrobot-title" class="term-title">CTF: Mr. Robot (VulnHub)</div>
             </div>
-            <div class="term-body" id="proj1">
-              <div><span class="prompt">root@investigator:~$</span> python analyze_logs.py /data/traffic.pcap</div>
-              <div class="output" id="out1"></div>
+            <div class="term-body" style="position:relative; overflow:hidden; min-height: 180px; padding: 0;">
+              
+              <!-- IMAGEN DE FONDO CON TRANSPARENCIA -->
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;">
+                <img src="imagenes/mr_robot.png" alt="Mr Robot CTF" style="width:100%; height:100%; object-fit:cover; opacity:0.3;" />
+              </div>
+              
+              <!-- TEXTO DE LA DESCRIPCIÓN (Encima de la imagen) -->
+              <div style="position:relative; z-index:2; padding:16px; display:flex; flex-direction:column; height:100%; justify-content:center;">
+                <div style="color:#e3edf7; font-size:0.95rem; line-height:1.6; background:rgba(2, 11, 20, 0.7); padding:12px; border-radius:4px; border-left:2px solid #00a8ff;">
+                  CTF de nivel intermedio basado en la serie Mr. Robot. Explotación de WordPress, escalada de privilegios mediante SUID y obtención de acceso root en un escenario realista.
+                </div>
+              </div>
+              
             </div>
             <div class="meta">
-              <div>Python · Scapy · Wireshark</div>
-              <div><small>Nov 2025</small></div>
+              <div>WordPress · SUID · Escalada</div>
+              <div><small>Mar 2026</small></div>
             </div>
           </article>
         </a>
@@ -289,13 +299,6 @@
       }
       setTimeout(write, 420);
     }
-
-    terminalSimulator('out1', [
-      '[*] Cargando pcap: /data/traffic.pcap',
-      '[*] Filtrando conexiones sospechosas (SYN flood, IP spoofing)...',
-      '[+] 12 sesiones marcadas como anómalas',
-      '[!] Artifacto: posible beaconing hacia 198.51.100.23'
-    ], {speed:22, pause:500});
 
     terminalSimulator('out2', [
       '[*] Cargando ruleset custom.rules',
