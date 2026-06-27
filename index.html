@@ -187,21 +187,6 @@
     .project-row .col-terminal .btn-project {display:inline-block;background:transparent;border:1px solid rgba(0,168,255,.4);color:#00a8ff;padding:4px 14px;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:700;transition:all 0.3s;text-decoration:none;margin-left:10px;}
     .project-row .col-terminal .btn-project:hover {background:#00a8ff;color:#020b14;border-color:#00a8ff;box-shadow:0 0 15px rgba(0,168,255,.3);}
 
-    /* --- NUEVA SECCIÓN: TARJETA DE ACCESO A HERRAMIENTAS --- */
-    .tools-access-wrapper {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s ease;
-    }
-    .tools-access-wrapper:hover {
-      transform: translateY(-4px);
-    }
-    .tools-access-wrapper:hover .term-card {
-      border-color: #00a8ff;
-      box-shadow: 0 0 25px rgba(0, 168, 255, 0.2);
-    }
-    
     /* --- RESPONSIVE --- */
     @media(max-width:960px){
       .top-row {flex-direction:column;}
@@ -402,26 +387,30 @@
       </a>
     </section>
 
-    <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS -->
+    <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS (ESTILO TERMINAL CORREGIDO) -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
       <p class="lead">Explora el catálogo completo de herramientas que he ido utilizando en mis proyectos y auditorías.</p>
       
-      <a href="herramientas/index.html" class="tools-access-wrapper">
-        <div class="term-card">
-          <div class="term-header">
-            <div class="term-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+      <a href="herramientas/index.html" style="text-decoration: none; color: inherit; display: block;">
+        <div class="term-card" style="background: #020b14; border: 1px solid rgba(0, 168, 255, 0.2); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; min-height: 170px; box-shadow: 0 10px 25px rgba(0,0,0,.5); transition: all 0.25s ease; margin-bottom: 0;">
+          
+          <!-- Encabezado con los puntitos -->
+          <div class="term-header" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #051628; border-bottom: 1px solid rgba(0, 168, 255, 0.15);">
+            <div class="term-dots" style="display: flex; gap: 6px;">
+              <span class="dot red" style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+              <span class="dot yellow" style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+              <span class="dot green" style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
             </div>
             <div>
-              <div class="term-title">Acceso al Catálogo</div>
-              <div class="term-desc">Organizado por fases de pentesting (Escaneo, Enumeración, Explotación...)</div>
+              <div class="term-title" style="margin-left: 8px; color: #e3edf7; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem;">Acceso al Catálogo</div>
+              <div class="term-desc" style="color: #4a75a0; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; margin-left: 8px; margin-top: 2px;">Organizado por fases de pentesting (Escaneo, Enumeración, Explotación...)</div>
             </div>
           </div>
-          <div class="term-body" style="min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="color: #00a8ff; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; margin-bottom: 8px;">
+
+          <!-- Cuerpo de la terminal (Texto y comando) -->
+          <div class="term-body" style="padding: 16px; font-size: 0.9rem; line-height: 1.5; color: #4a75a0; white-space: pre-wrap; min-height: 96px; display: flex; flex-direction: column; gap: 8px; font-family: 'JetBrains Mono', ui-monospace, monospace; flex: 1;">
+            <div style="color: #00a8ff; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; margin-bottom: 4px;">
               <span class="prompt">root@portfolio:~$</span> ./acceder_herramientas.sh
             </div>
             <div class="output" style="color: #e3edf7; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
@@ -430,13 +419,34 @@
               [*] Haz clic para explorar las 6 fases de pentesting.
             </div>
           </div>
-          <div class="meta" style="border-top: 1px dashed rgba(0,168,255,.15); padding: 12px 16px; display: flex; justify-content: flex-end; align-items: center;">
-            <span class="btn-project" style="background: transparent; border: 1px solid rgba(0,168,255,.4); color: #00a8ff; padding: 4px 14px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; transition: all 0.3s;">
+
+          <!-- Pie de página con el botón -->
+          <div class="meta" style="margin-top: auto; padding: 12px 16px; border-top: 1px dashed rgba(0, 168, 255, 0.15); display: flex; justify-content: flex-end; align-items: center; font-size: 0.8rem; color: #4a75a0; font-family: 'JetBrains Mono', monospace;">
+            <span class="btn-project" style="background: transparent; border: 1px solid rgba(0, 168, 255, 0.4); color: #00a8ff; padding: 4px 14px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; transition: all 0.3s; text-decoration: none; display: inline-block;">
               Ir al catálogo →
             </span>
           </div>
+          
         </div>
       </a>
+      
+      <!-- Efecto hover forzado para el contenedor padre (para que se ilumine igual que las otras tarjetas) -->
+      <style>
+        #herramientas a:hover .term-card {
+          border-color: #00a8ff !important;
+          box-shadow: 0 0 20px rgba(0, 168, 255, 0.25) !important;
+          transform: translateY(-4px);
+        }
+        #herramientas a .term-card {
+          transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        }
+        #herramientas a:hover .btn-project {
+          background: #00a8ff !important;
+          color: #020b14 !important;
+          border-color: #00a8ff !important;
+          box-shadow: 0 0 15px rgba(0, 168, 255, 0.3) !important;
+        }
+      </style>
     </section>
 
     <section id="contacto" class="fade-in delay-1">
