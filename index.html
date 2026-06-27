@@ -169,7 +169,14 @@
     .project-row {display:flex;flex-wrap:wrap;gap:0;margin-bottom:32px;background:transparent;border-radius:8px;transition:all 0.3s ease;text-decoration:none;color:inherit;overflow:hidden;}
     .project-row:hover .col-terminal .term-card {border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.2);}
     .project-row .col-image {flex:1 1 300px;min-width:250px;display:flex;align-items:center;justify-content:center;background:#020b14;padding:10px;border:1px solid rgba(0,168,255,.2);border-right:none;border-top-left-radius:8px;border-bottom-left-radius:8px;}
-    .project-row .col-image img {width:100%;height:auto;max-height:250px;object-fit:contain;border-radius:4px;display:block;}
+    .project-row .col-image img {
+      width: 100%;
+      height: 100%;
+      max-height: 250px;
+      object-fit: cover; /* CAMBIADO DE CONTAIN A COVER */
+      border-radius: 4px;
+      display: block;
+    }
     .project-row .col-terminal {flex:1 1 400px;display:flex;flex-direction:column;}
     .project-row .col-terminal .term-card {background:#020b14;border:1px solid rgba(0,168,255,.2);border-left:none;border-top-right-radius:8px;border-bottom-right-radius:8px;overflow:hidden;display:flex;flex-direction:column;flex:1;transition:all 0.3s ease;min-height:170px;}
     .project-row .col-terminal .term-header {display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;border-bottom:1px solid rgba(0,168,255,.15);}
@@ -186,6 +193,22 @@
     .project-row .col-terminal .meta {margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0,168,255,.15);display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#4a75a0;font-family:"JetBrains Mono",monospace;}
     .project-row .col-terminal .btn-project {display:inline-block;background:transparent;border:1px solid rgba(0,168,255,.4);color:#00a8ff;padding:4px 14px;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:700;transition:all 0.3s;text-decoration:none;margin-left:10px;}
     .project-row .col-terminal .btn-project:hover {background:#00a8ff;color:#020b14;border-color:#00a8ff;box-shadow:0 0 15px rgba(0,168,255,.3);}
+
+    /* --- SECCIÓN HERRAMIENTAS --- */
+    #herramientas a:hover .term-card {
+      border-color: #00a8ff !important;
+      box-shadow: 0 0 20px rgba(0, 168, 255, 0.25) !important;
+      transform: translateY(-4px);
+    }
+    #herramientas a .term-card {
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    #herramientas a:hover .btn-project {
+      background: #00a8ff !important;
+      color: #020b14 !important;
+      border-color: #00a8ff !important;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.3) !important;
+    }
 
     /* --- RESPONSIVE --- */
     @media(max-width:960px){
@@ -387,7 +410,7 @@
       </a>
     </section>
 
-    <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS (ESTILO TERMINAL CORREGIDO) -->
+    <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
       <p class="lead">Explora el catálogo completo de herramientas que he ido utilizando en mis proyectos y auditorías.</p>
@@ -429,24 +452,6 @@
           
         </div>
       </a>
-      
-      <!-- Efecto hover forzado para el contenedor padre (para que se ilumine igual que las otras tarjetas) -->
-      <style>
-        #herramientas a:hover .term-card {
-          border-color: #00a8ff !important;
-          box-shadow: 0 0 20px rgba(0, 168, 255, 0.25) !important;
-          transform: translateY(-4px);
-        }
-        #herramientas a .term-card {
-          transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-        }
-        #herramientas a:hover .btn-project {
-          background: #00a8ff !important;
-          color: #020b14 !important;
-          border-color: #00a8ff !important;
-          box-shadow: 0 0 15px rgba(0, 168, 255, 0.3) !important;
-        }
-      </style>
     </section>
 
     <section id="contacto" class="fade-in delay-1">
