@@ -22,20 +22,20 @@
     .top-row {
       display: flex;
       gap: 30px;
-      align-items: stretch; /* Fuerza a que el sidebar y el banner tengan la misma altura */
+      align-items: stretch;
       margin-bottom: 32px;
     }
     
-    /* Barra lateral izquierda (Estilo LinkedIn - Ahora solo arriba) */
+    /* Barra lateral izquierda */
     .sidebar {
-      flex: 0 0 320px; /* Ancho fijo de 320px */
+      flex: 0 0 320px;
       background: #051628;
       border: 1px solid rgba(0, 168, 255, 0.2);
       border-radius: 12px;
       padding: 0;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      align-self: stretch; /* Se estira para igualar la altura del banner */
+      align-self: stretch;
     }
 
     .sidebar .profile-header {
@@ -50,7 +50,6 @@
       height: 100px;
       border-radius: 50%;
       border: 2px solid #00a8ff;
-      object-fit: cover;
       margin: 0 0 12px 0;
       display: block;
       background: #020b14;
@@ -108,7 +107,7 @@
 
     /* --- CONTENEDOR DEL BANNER DERECHO --- */
     .banner-wrapper {
-      flex: 1; /* Ocupa el resto del ancho */
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -137,7 +136,7 @@
       border: 1px solid #00a8ff;
       box-shadow: 0 0 15px rgba(0,168,255,.1);
       overflow: hidden;
-      flex: 1; /* Se estira para llenar el espacio vertical */
+      flex: 1;
     }
     .banner .left{flex:1;min-width:260px}
     .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
@@ -147,7 +146,7 @@
     .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0,168,255,.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
     .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:.85}
 
-    /* --- RESTO DE ESTILOS (Ancho completo) --- */
+    /* --- RESTO DE ESTILOS --- */
     .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
     .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
     .logo-container{display:flex;align-items:center}
@@ -166,7 +165,6 @@
     .contact-block{min-width:240px;flex:1;background:#020b14;padding:16px;border-radius:6px;border:1px solid rgba(0,168,255,.15)}
     .contact-block strong{color:#e3edf7;display:block;margin-bottom:6px;font-size:.9rem;font-family:"JetBrains Mono",monospace}
     footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0,168,255,.15);color:#4a75a0;text-align:center;font-size:.85rem;font-family:"JetBrains Mono",monospace}
-    .typing{font-family:"JetBrains Mono",monospace}
     .btn-tools{display:inline-block;margin-top:12px;padding:10px 24px;background:transparent;border:2px solid #00a8ff;color:#00a8ff;border-radius:6px;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem;transition:all .3s;text-decoration:none}
     .btn-tools:hover{background:#00a8ff;color:#020b14;box-shadow:0 0 30px rgba(0,168,255,.3);transform:translateY(-2px)}
     
@@ -191,6 +189,33 @@
     .project-row .col-terminal .meta {margin-top:auto;padding:12px 16px;border-top:1px dashed rgba(0,168,255,.15);display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#4a75a0;font-family:"JetBrains Mono",monospace;}
     .project-row .col-terminal .btn-project {display:inline-block;background:transparent;border:1px solid rgba(0,168,255,.4);color:#00a8ff;padding:4px 14px;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:700;transition:all 0.3s;text-decoration:none;margin-left:10px;}
     .project-row .col-terminal .btn-project:hover {background:#00a8ff;color:#020b14;border-color:#00a8ff;box-shadow:0 0 15px rgba(0,168,255,.3);}
+
+    /* --- NUEVO ESTILO PARA EL CATÁLOGO DE HERRAMIENTAS --- */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .tool-item {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-radius: 8px;
+      padding: 20px 16px;
+      transition: all 0.3s ease;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .tool-item:hover {
+      transform: translateY(-5px);
+      border-color: #00a8ff;
+      box-shadow: 0 0 25px rgba(0, 168, 255, 0.15);
+    }
+    .tool-item .tool-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+    .tool-item h4 { color: #e3edf7; font-family: "JetBrains Mono", monospace; font-size: 1rem; margin: 0; }
+    .tool-item p { color: #4a75a0; font-size: 0.8rem; margin: 4px 0 0; }
 
     /* --- RESPONSIVE --- */
     @media(max-width:960px){
@@ -229,15 +254,15 @@
         </span>
         <nav class="header-nav" aria-label="Navegación principal">
           <ul class="nav-list">
-            <li><a class="nav-item active" href="#proyectos">Proyectos</a></li>
-            <li><a class="nav-item" href="herramientas/">Herramientas</a></li>
+            <li><a class="nav-item" href="#proyectos">Proyectos</a></li>
+            <li><a class="nav-item active" href="#herramientas">Herramientas</a></li>
             <li><a class="nav-item" href="#contacto">Contacto</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <!-- BLOQUE SUPERIOR: Sidebar a la izquierda, Banner a la derecha -->
+    <!-- BLOQUE SUPERIOR -->
     <div class="top-row fade-in delay-1">
       
       <!-- BARRA LATERAL -->
@@ -245,11 +270,11 @@
         <div class="profile-header">
           <div class="profile-img"></div>
           <h2>José Luis Trigo</h2>
-          <div class="profile-title">Ethical Hacker &amp; Security Researcher</div>
-          <div class="profile-location">Salamanca, España</div>
+          <div class="profile-title">Ethical Hacker &amp; Pentester</div>
+          <div class="profile-location">España</div>
         </div>
         <div class="profile-body">
-          <p>Ingeniero en informática especializado en seguridad ofensiva. Apasionado por el análisis forense, el pentesting y la creación de herramientas open source.</p>
+          <p>Administrador de Sistemas informáticos especializado en ciberseguridad. Apasionado por el análisis forense, el pentesting y la seguridad ofensiva.</p>
           <div class="profile-skills">
             <span class="skill">Python</span>
             <span class="skill">Bash</span>
@@ -270,7 +295,6 @@
           <div class="left">
             <h2 style="font-size:1.6rem;">Bienvenido a mi Portfolio</h2>
             <p class="lead">Aquí encontrarás proyectos prácticos de ciberseguridad, write-ups de CTFs y herramientas open source que he desarrollado para auditorías, análisis forense y explotación controlada.</p>
-            <div class="tagline">Profesional · Técnico · Orientado a resultados</div>
           </div>
           <div class="right">
             <div class="term-wrap" aria-hidden="true">
@@ -281,7 +305,7 @@
       </div>
     </div>
 
-    <!-- BLOQUE INFERIOR: Secciones a ancho completo -->
+    <!-- BLOQUE INFERIOR -->
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos destacados</h3>
       <p class="lead">Cada proyecto combina una imagen descriptiva y una terminal con los pasos clave de la resolución.</p>
@@ -393,29 +417,47 @@
       </a>
     </section>
 
-    <section id="recursos" class="fade-in delay-2">
-      <h3 class="section-title">Recursos y utilidades</h3>
-      <p class="lead">Snippets, cheatsheets y enlaces a repositorios públicos.</p>
-      <div class="grid">
-        <div class="term-card" style="min-height:110px">
-          <div class="term-header" style="padding:8px 12px">
-            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-            <div class="term-title">Cheatsheet: Netcat</div>
-          </div>
-          <div class="term-body">nc -lvp 4444  # listener reverse shell</div>
-          <div class="meta"><div>Snippets</div><div><small>2025</small></div></div>
-        </div>
-        <div class="term-card" style="min-height:110px">
-          <div class="term-header" style="padding:8px 12px">
-            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-            <div class="term-title">Tooling: Automations</div>
-          </div>
-          <div class="term-body">Automatizaciones para recolección de logs y parsing con Python</div>
-          <div class="meta"><div>Scripts</div><div><small>2025</small></div></div>
-        </div>
-      </div>
-      <div style="text-align:center; margin-top:20px;">
-        <a href="herramientas/" class="btn-tools">🧰 Ver todas las herramientas</a>
+    <!-- NUEVA SECCIÓN: CATÁLOGO DE HERRAMIENTAS -->
+    <section id="herramientas" class="fade-in delay-2">
+      <h3 class="section-title">Catálogo de Herramientas</h3>
+      <p class="lead">Accede a las herramientas y scripts que utilizo habitualmente en mis auditorías y análisis.</p>
+      
+      <div class="tools-grid">
+        <a href="herramientas/escaneo.html" class="tool-item">
+          <span class="tool-icon">🔍</span>
+          <h4>Escaneo y Reconocimiento</h4>
+          <p>Nmap, Masscan, RustScan</p>
+        </a>
+
+        <a href="herramientas/enumeracion-web.html" class="tool-item">
+          <span class="tool-icon">🕵️</span>
+          <h4>Enumeración Web</h4>
+          <p>Gobuster, FFuf, Dirb</p>
+        </a>
+
+        <a href="herramientas/explotacion.html" class="tool-item">
+          <span class="tool-icon">💥</span>
+          <h4>Explotación</h4>
+          <p>Metasploit, SQLMap, Hydra</p>
+        </a>
+
+        <a href="herramientas/escucha-captura.html" class="tool-item">
+          <span class="tool-icon">📡</span>
+          <h4>Escucha y Captura</h4>
+          <p>Netcat, Tcpdump, Wireshark</p>
+        </a>
+
+        <a href="herramientas/post-explotacion.html" class="tool-item">
+          <span class="tool-icon">🔐</span>
+          <h4>Post-Explotación</h4>
+          <p>Mimikatz, Impacket, BloodHound</p>
+        </a>
+
+        <a href="herramientas/forense.html" class="tool-item">
+          <span class="tool-icon">🛡️</span>
+          <h4>Forense y Defensa</h4>
+          <p>Autopsy, Sleuth Kit, Snort</p>
+        </a>
       </div>
     </section>
 
@@ -444,22 +486,6 @@
   </div>
 
   <script>
-    (function(){
-      const text = "Analizando vulnerabilidades... Fortificando infraestructuras... Documentando hallazgos técnicos...";
-      const hero = document.querySelector('.banner .left');
-      const span = document.createElement('div');
-      span.style.marginTop = '14px';
-      span.style.color = '#00a8ff';
-      span.style.fontWeight = '700';
-      span.style.fontSize = '0.95rem';
-      span.className = 'typing';
-      hero.appendChild(span);
-      let i=0;
-      function step(){
-        if(i<text.length){ span.textContent += text.charAt(i++); setTimeout(step, 50) }
-      }
-      step();
-    })();
 
     function terminalSimulator(outId, lines, opts){
       const out = document.getElementById(outId);
