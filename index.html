@@ -165,28 +165,63 @@
     .contact-block strong{color:#e3edf7;display:block;margin-bottom:6px;font-size:.9rem;font-family:"JetBrains Mono",monospace}
     footer{padding:20px;margin-top:12px;border-top:1px solid rgba(0,168,255,.15);color:#4a75a0;text-align:center;font-size:.85rem;font-family:"JetBrains Mono",monospace}
     
-    /* --- PROYECTOS 2 COLUMNAS --- */
+    /* --- PROYECTOS 2 COLUMNAS (MODIFICADO) --- */
     .project-row {display:flex;flex-wrap:wrap;gap:0;margin-bottom:32px;background:transparent;border-radius:8px;transition:all 0.3s ease;text-decoration:none;color:inherit;overflow:hidden;}
     .project-row:hover .col-terminal .term-card {border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.2);}
-    .project-row .col-image {flex:1 1 300px;min-width:250px;display:flex;align-items:center;justify-content:center;background:#020b14;padding:10px;border:1px solid rgba(0,168,255,.2);border-right:none;border-top-left-radius:8px;border-bottom-left-radius:8px;}
+    
+    /* CAMBIO 1: El contenedor de la imagen crece con la imagen y no tiene padding */
+    .project-row .col-image {
+      flex: 1 1 300px;
+      min-width: 250px;
+      display: flex;
+      align-items: flex-start; /* Alinea la imagen arriba */
+      justify-content: center;
+      background: #020b14;
+      padding: 0; /* Sin padding para que la imagen ocupe todo */
+      border: 1px solid rgba(0, 168, 255, 0.2);
+      border-right: none;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+    
+    /* CAMBIO 2: Imagen en tamaño real, sin cortes ni altura forzada */
     .project-row .col-image img {
       width: 100%;
-      height: auto;
+      height: auto; /* Altura automática para mostrar la imagen entera */
       max-height: none;
-      object-fit: contain; 
+      object-fit: contain;
       border-radius: 4px;
       display: block;
     }
+    
     .project-row .col-terminal {flex:1 1 400px;display:flex;flex-direction:column;}
     .project-row .col-terminal .term-card {background:#020b14;border:1px solid rgba(0,168,255,.2);border-left:none;border-top-right-radius:8px;border-bottom-right-radius:8px;overflow:hidden;display:flex;flex-direction:column;flex:1;transition:all 0.3s ease;min-height:170px;}
-    .project-row .col-terminal .term-header {display:flex;align-items:center;gap:8px;padding:10px 14px;background:#051628;border-bottom:1px solid rgba(0,168,255,.15);}
+    
+    /* CAMBIO 3: El encabezado de la terminal ahora tiene el título a ancho completo */
+    .project-row .col-terminal .term-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #051628;
+      border-bottom: 1px solid rgba(0, 168, 255, 0.15);
+      width: 100%;
+    }
     .project-row .col-terminal .term-dots {display:flex;gap:6px;}
     .project-row .col-terminal .dot {width:10px;height:10px;border-radius:50%;}
     .project-row .col-terminal .dot.red {background:#ff5f56;}
     .project-row .col-terminal .dot.yellow {background:#ffbd2e;}
     .project-row .col-terminal .dot.green {background:#27c93f;}
-    .project-row .col-terminal .term-title {margin-left:8px;color:#e3edf7;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem;}
-    .project-row .col-terminal .term-desc {color:#4a75a0;font-family:"JetBrains Mono",monospace;font-size:.75rem;margin-left:8px;margin-top:2px;}
+    
+    /* El título ahora ocupa todo el espacio restante */
+    .project-row .col-terminal .term-title {
+      flex: 1;
+      color: #e3edf7;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    
     .project-row .col-terminal .term-body {padding:16px;font-size:.9rem;line-height:1.5;color:#4a75a0;white-space:pre-wrap;min-height:96px;display:flex;flex-direction:column;gap:8px;font-family:"JetBrains Mono",ui-monospace,monospace;flex:1;}
     .project-row .col-terminal .prompt {color:#00a8ff;font-weight:700;}
     .project-row .col-terminal .output {color:#e3edf7;font-family:inherit;}
@@ -316,10 +351,7 @@
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div>
-                <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
-                <div class="term-desc">CTF de nivel intermedio. Explotación de WordPress, escalada de privilegios mediante SUID.</div>
-              </div>
+              <div class="term-title">CTF: Mr. Robot (VulnHub)</div>
             </div>
             <div class="term-body" id="proj-mrrobot">
               <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
@@ -355,10 +387,7 @@
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div>
-                <div class="term-title">Detección: IDS Ruleset</div>
-                <div class="term-desc">Reglas personalizadas para Snort/Suricata. Detección de tráfico malicioso.</div>
-              </div>
+              <div class="term-title">Detección: IDS Ruleset</div>
             </div>
             <div class="term-body" id="proj2">
               <div><span class="prompt">root@ids:~$</span> sudo snort -c /etc/snort/snort.conf -A console</div>
@@ -389,10 +418,7 @@
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div>
-                <div class="term-title">Pentesting: OWASP Suite</div>
-                <div class="term-desc">Suite de herramientas para auditoría de aplicaciones web. SQLi, XSS, CSRF.</div>
-              </div>
+              <div class="term-title">Pentesting: OWASP Suite</div>
             </div>
             <div class="term-body" id="proj3">
               <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
