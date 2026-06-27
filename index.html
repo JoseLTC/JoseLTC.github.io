@@ -19,11 +19,9 @@
     /* --- LAYOUT DE 2 COLUMNAS --- */
     .wrap{max-width:1280px;margin:28px auto;padding:24px; display: flex; gap: 30px; align-items: flex-start;}
     
-    /* Barra lateral izquierda (Estilo LinkedIn) */
+    /* Barra lateral izquierda (Estilo LinkedIn - SIN STICKY) */
     .sidebar {
       flex: 0 0 320px; /* Ancho fijo de 320px */
-      position: sticky;
-      top: 90px; /* Se pega al techo al hacer scroll */
       align-self: flex-start;
       background: #051628;
       border: 1px solid rgba(0, 168, 255, 0.2);
@@ -36,17 +34,17 @@
     .sidebar .profile-header {
       background: #000D1F;
       padding: 24px 20px 20px;
-      text-align: center;
+      text-align: left; /* Alineado a la izquierda */
       border-bottom: 1px solid rgba(0, 168, 255, 0.1);
     }
 
     .sidebar .profile-img {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      border: 3px solid #00a8ff;
+      border: 2px solid #00a8ff;
       object-fit: cover;
-      margin: 0 auto 12px;
+      margin: 0 0 12px 0; /* Margen inferior, sin centrado */
       display: block;
       background: #020b14;
     }
@@ -79,15 +77,15 @@
       font-size: 0.85rem;
       line-height: 1.5;
       margin: 0 0 16px 0;
-      text-align: center;
+      text-align: left;
     }
 
     .sidebar .profile-skills {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      justify-content: center;
-      margin-bottom: 16px;
+      justify-content: flex-start; /* Alineado a la izquierda */
+      margin-bottom: 0;
     }
 
     .sidebar .profile-skills .skill {
@@ -101,32 +99,13 @@
       border: 1px solid rgba(0,168,255,.2);
     }
 
-    .sidebar .profile-footer {
-      border-top: 1px solid rgba(0, 168, 255, 0.1);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sidebar .profile-footer a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #4a75a0;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-    .sidebar .profile-footer a:hover { color: #00a8ff; }
-    .sidebar .profile-footer a span { font-size: 1.2rem; }
-
     /* Contenido principal (Derecha) */
     .main-content {
       flex: 1;
       min-width: 0; /* Para que el flex no se rompa en móviles */
     }
 
-    /* --- RESTO DE ESTILOS (Manteniendo tu diseño original) --- */
+    /* --- RESTO DE ESTILOS --- */
     .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
     .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
     .logo-container{display:flex;align-items:center}
@@ -152,8 +131,6 @@
     h3.section-title{margin:0 0 16px;font-size:1.25rem;color:#e3edf7;border-left:4px solid #00a8ff;padding-left:12px;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.5px}
     p.lead{color:#4a75a0;margin:6px 0 18px;font-size:.95rem}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-    .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .skill{background:rgba(0,168,255,.08);padding:6px 12px;border-radius:4px;color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
     .contact-grid{display:flex;gap:24px;flex-wrap:wrap}
     .contact-block{min-width:240px;flex:1;background:#020b14;padding:16px;border-radius:6px;border:1px solid rgba(0,168,255,.15)}
     .contact-block strong{color:#e3edf7;display:block;margin-bottom:6px;font-size:.9rem;font-family:"JetBrains Mono",monospace}
@@ -186,7 +163,7 @@
 
     /* --- RESPONSIVE --- */
     @media(max-width:880px){.banner{flex-direction:column;gap:16px}.banner .right{width:100%;height:auto}.banner .term-wrap{width:100%;height:140px}}
-    @media(max-width:960px){.wrap{flex-direction:column;}.sidebar{flex:auto;width:100%;position:static;top:auto;}}
+    @media(max-width:960px){.wrap{flex-direction:column;}.sidebar{flex:auto;width:100%;}}
     @media(max-width:768px){.project-row{flex-direction:column;}.project-row .col-image{border-right:1px solid rgba(0,168,255,.2);border-bottom:none;border-top-left-radius:8px;border-top-right-radius:8px;border-bottom-left-radius:0;}.project-row .col-terminal .term-card{border-left:1px solid rgba(0,168,255,.2);border-top:none;border-top-left-radius:0;border-top-right-radius:0;border-bottom-left-radius:8px;border-bottom-right-radius:8px;}}
     @media(max-width:720px){.header-content{flex-direction:column;gap:10px}body{padding-top:110px}.nav-item{padding:6px 10px;font-size:.75rem}section{scroll-margin-top:130px}}
     
@@ -207,8 +184,7 @@
         </span>
         <nav class="header-nav" aria-label="Navegación principal">
           <ul class="nav-list">
-            <li><a class="nav-item active" href="#sobre">Sobre mí</a></li>
-            <li><a class="nav-item" href="#proyectos">Proyectos</a></li>
+            <li><a class="nav-item active" href="#proyectos">Proyectos</a></li>
             <li><a class="nav-item" href="herramientas/">Herramientas</a></li>
             <li><a class="nav-item" href="#contacto">Contacto</a></li>
           </ul>
@@ -216,11 +192,11 @@
       </div>
     </header>
 
-    <!-- BARRA LATERAL IZQUIERDA (ESTILO LINKEDIN) -->
+    <!-- BARRA LATERAL IZQUIERDA (ESTILO LINKEDIN - SIN STICKY) -->
     <aside class="sidebar fade-in delay-1">
       <div class="profile-header">
-        <!-- CAMBIA ESTA RUTA POR TU FOTO REAL (ej: imagenes/mi_foto.jpg) -->
-        <img src="https://via.placeholder.com/150/020b14/00a8ff?text=TU+FOTO" alt="José Luis Trigo" class="profile-img" />
+        <!-- Círculo vacío (sin placeholder) -->
+        <div class="profile-img"></div>
         <h2>José Luis Trigo</h2>
         <div class="profile-title">Ethical Hacker &amp; Security Researcher</div>
         <div class="profile-location">Salamanca, España</div>
@@ -234,10 +210,6 @@
           <span class="skill">Forense</span>
           <span class="skill">Snort</span>
         </div>
-      </div>
-      <div class="profile-footer">
-        <a href="mailto:jltrigoc01@gmail.com"><span>✉️</span> jltrigoc01@gmail.com</a>
-        <a href="https://github.com/JoseLTC" target="_blank"><span>🐙</span> github.com/JoseLTC</a>
       </div>
     </aside>
 
@@ -409,12 +381,12 @@
             <div><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></div>
           </div>
           <div class="contact-block">
-            <strong>GitHub</strong>
-            <div><a href="https://github.com/JoseLTC" target="_blank" rel="noopener">github.com/JoseLTC</a></div>
+            <strong>LinkedIn</strong>
+            <div><a href="https://www.linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></div>
           </div>
           <div class="contact-block">
-            <strong>PGP</strong>
-            <div><small style="color:#4a75a0">Disponibilidad bajo petición</small></div>
+            <strong>GitHub</strong>
+            <div><a href="https://github.com/JoseLTC" target="_blank" rel="noopener">github.com/JoseLTC</a></div>
           </div>
         </div>
       </section>
