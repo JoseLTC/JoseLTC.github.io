@@ -132,7 +132,6 @@
 
     .categoria-grid {
       display: grid;
-      /* Usamos 1fr para que las tarjetas ocupen todo el ancho disponible y se repartan equitativamente */
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       margin-top: 10px;
@@ -147,10 +146,11 @@
       transition: all 0.3s ease;
       text-decoration: none;
       color: inherit;
-      display: block;
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      height: 100%; /* CRUCIAL: Hace que todas las tarjetas ocupen toda la altura de la celda de la cuadrícula */
-      align-self: stretch; /* CRUCIAL: Fuerza a la tarjeta a estirarse para igualar la altura de sus vecinas */
+      height: 100%;
+      align-self: stretch;
     }
 
     .imagen-card:hover {
@@ -163,9 +163,7 @@
     .imagen-wrapper {
       position: relative;
       width: 100%;
-      /* Esto fuerza a que el contenedor de la imagen siempre tenga una proporción de 1:1 (cuadrado perfecto). 
-         Cambia el 100% por 75% si quieres que sean rectángulos (proporción 4:3) */
-      aspect-ratio: 1 / 1; 
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       display: block;
     }
@@ -176,10 +174,78 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Mantiene la proporción de la imagen, la ajusta al cajón sin cortarla */
+      object-fit: contain;
       display: block;
-      padding: 10px; /* Un pequeño padding para que la imagen no toque los bordes */
+      padding: 10px;
       box-sizing: border-box;
+    }
+
+    /* --- MEJORAS DE DESCRIPCIÓN --- */
+    
+    /* Título flotante sobre la imagen */
+    .overlay-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 14px 0 10px 0;
+      background: linear-gradient(to top, rgba(2, 11, 20, 0.95) 30%, transparent);
+      text-align: center;
+      color: #e3edf7;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+      pointer-events: none; /* Para no interferir con el clic */
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .imagen-card:hover .overlay-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Botón "Explorar" que aparece al hacer hover */
+    .explore-btn {
+      position: absolute;
+      bottom: 50px; /* Posición por encima del texto */
+      right: 15px;
+      background: #00a8ff;
+      color: #020b14;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .imagen-card:hover .explore-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Pie de tarjeta con el contador de herramientas */
+    .card-footer {
+      background: #020b14;
+      padding: 10px 0;
+      text-align: center;
+      border-top: 1px solid rgba(0, 168, 255, 0.1);
+      margin-top: auto; /* Empuja el footer hacia el fondo */
+    }
+
+    .tool-count {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(0, 168, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
     }
 
     footer{
@@ -205,7 +271,7 @@
       .header-content { flex-direction: column; gap: 10px; }
       body { padding-top: 110px; }
       .nav-item { padding: 6px 10px; font-size: 0.75rem; }
-      .categoria-grid { grid-template-columns: 1fr; } /* Una columna en móviles */
+      .categoria-grid { grid-template-columns: 1fr; }
     }
 
     .fade-in {opacity:0;transform:translateY(8px);animation:fadeIn .6s ease forwards}
@@ -240,7 +306,7 @@
 
     <section class="fade-in delay-1">
       <h1 class="page-title">Catálogo de Herramientas</h1>
-      <p class="subtitle">Organizadas por fase de pentesting. Haz clic en cada categoría para ver los comandos que he utilizado en cada una de ellas.</p>
+      <p class="subtitle">Explora las herramientas esenciales de ciberseguridad. Cada fase contiene comandos reales, ejemplos prácticos y casos de uso.</p>
     </section>
 
     <section class="fade-in delay-2">
@@ -248,44 +314,74 @@
       <div class="categoria-grid">
         
         <!-- Escaneo y Reconocimiento -->
-        <a href="escaneo.html" class="imagen-card">
+        <a href="escaneo.html" class="imagen-card" title="Escaneo y Reconocimiento - 5 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/esc-rec.png" alt="Escaneo y Reconocimiento" />
+            <div class="overlay-text">Escaneo y Reconocimiento</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">5 herramientas</span>
           </div>
         </a>
 
         <!-- Enumeración Web -->
-        <a href="enumeracion-web.html" class="imagen-card">
+        <a href="enumeracion-web.html" class="imagen-card" title="Enumeración Web - 5 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/enum_web.png" alt="Enumeración Web" />
+            <div class="overlay-text">Enumeración Web</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">5 herramientas</span>
           </div>
         </a>
 
         <!-- Explotación -->
-        <a href="explotacion.html" class="imagen-card">
+        <a href="explotacion.html" class="imagen-card" title="Explotación - 5 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/explot.png" alt="Explotación" />
+            <div class="overlay-text">Explotación</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">5 herramientas</span>
           </div>
         </a>
 
         <!-- Escucha y Captura -->
-        <a href="escucha-captura.html" class="imagen-card">
+        <a href="escucha-captura.html" class="imagen-card" title="Escucha y Captura - 4 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/esc_cap.png" alt="Escucha y Captura" />
+            <div class="overlay-text">Escucha y Captura</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">4 herramientas</span>
           </div>
         </a>
 
         <!-- Post-Explotación -->
-        <a href="post-explotacion.html" class="imagen-card">
+        <a href="post-explotacion.html" class="imagen-card" title="Post-Explotación - 3 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/post_expl.png" alt="Post-Explotación" />
+            <div class="overlay-text">Post-Explotación</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">3 herramientas</span>
           </div>
         </a>
 
         <!-- Forense y Defensa -->
-        <a href="forense.html" class="imagen-card">
+        <a href="forense.html" class="imagen-card" title="Forense y Defensa - 4 herramientas">
           <div class="imagen-wrapper">
             <img src="imagenes/for_def.png" alt="Forense y Defensa" />
+            <div class="overlay-text">Forense y Defensa</div>
+            <span class="explore-btn">➜ Explorar</span>
+          </div>
+          <div class="card-footer">
+            <span class="tool-count">4 herramientas</span>
           </div>
         </a>
 
