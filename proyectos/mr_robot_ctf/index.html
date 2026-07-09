@@ -471,7 +471,7 @@
         <img src="imagenes/mr-robot8.png" alt="Resultado de wc y sort uniq" />
         <figcaption>Reducción del diccionario</figcaption>
       </figure>
-      <p>Al ser una máquina temática ( pertenece a la serie mr robot) antes de usar el mismo diccionario para intentar obtener usuario y contraseña( podría llevarnos horas) vamos a formar un archivo con los nombres de los protagonistas de la serie como posible nombre de usuario.</p>
+      <p>Al ser una máquina temática ( pertenece a la serie Mr.Robot) antes de usar el mismo diccionario para intentar obtener usuario y contraseña( podría llevarnos horas) vamos a formar un archivo con los nombres de los protagonistas de la serie como posible nombre de usuario.</p>
       <figure>
         <img src="imagenes/mr-robot9.png" alt="Lista de usuarios potenciales" />
         <figcaption>users.txt con nombres de la serie</figcaption>
@@ -620,11 +620,13 @@
       <div class="term-block">
         <span class="prompt">$</span> cd /usr/local/bin
       </div>
-      <p>Luego comprobaremos que versión de nmap tiene la máquina con nmap --version para ver si es vulnerable.</p>
+      <!-- AQUÍ ESTÁ LA ÚNICA CORRECCIÓN: EL COMANDO nmap --version AHORA ESTÁ EN SU BLOQUE DE CÓDIGO -->
+      <p>Luego comprobaremos que versión de nmap tiene la máquina para ver si es vulnerable.</p>
       <div class="term-block">
         <span class="prompt">$</span> nmap --version
       </div>
-      <p>La versión es 3.81 y tras una breve búsqueda en la red podemos encontrar una vulnerabilidad que nos permite escalar privilegios en la shell con el comando ¡sh</p>
+      <p>La versión es 3.81 y tras una breve búsqueda en la red podemos encontrar una vulnerabilidad que nos permite escalar privilegios en la shell con el comando ¡sh
+	  La versión 3.81 de nmap tiene una vulnerabilidad en su modo interactivo (--interactive). Este modo permite ejecutar comandos del sistema con el prefijo !. Como el binario tiene el bit SUID activo (lo hemos visto con find / -user root -perm -4000), cualquier comando que ejecutemos con ! se ejecutará con privilegios de root.</p>
       <p><a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a</a>.</p>
       <p>Para introducir el comando ¡sh debemos abrir una shell interactiva con el comando nmap --interactive. Una vez ejecutado, con whoami ya podemos ver que somos root. Y además podemos navegar hacia la ruta /home/root donde ya podemos consultar la key 2 con el comando cat.</p>
       <div class="term-block">
@@ -666,8 +668,9 @@
       <h3>5.- Resultados obtenidos:</h3>
       <div class="table-wrap">
         <table>
-          <thead><tr><th><strong>Key 1</strong></th><th>073403c8a58a1f80d943455fb30724b9</th></tr></thead>
+          <thead></thead>
           <tbody>
+			<tr><td><strong>Key 1</strong></td><td>073403c8a58a1f80d943455fb30724b9</td></tr>
             <tr><td><strong>Key 2</strong></td><td>822c73956184f694993bede3eb39f959</td></tr>
             <tr><td><strong>Key 3</strong></td><td>04787ddef27c3dee1ee161b21670b4e4</td></tr>
           </tbody>
