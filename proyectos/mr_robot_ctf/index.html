@@ -365,7 +365,7 @@
       <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.101)</p>
       <p>Con el comando <strong>sudo nmap -sn 192.168.56.0/24</strong> buscamos la IP de nuestra máquina MR Robot.</p>
       <figure>
-        <img src="imagenes/mr_robot1.png" alt="Resultado del escaneo de red con nmap" />
+        <img src="imagenes/mr-robot1.png" alt="Resultado del escaneo de red con nmap" />
         <figcaption>Escaneo de red: IP de MR Robot = 192.168.56.102</figcaption>
       </figure>
       <p>Ahora procederemos a escanear la máquina Mr Robot más a fondo para saber los servicios que está prestando y en que puertos.</p>
@@ -413,7 +413,7 @@
         <li><strong>key-1-of-3.txt</strong></li>
       </ul>
       <figure>
-        <img src="imagenes/mr-robot4_3.png" alt="Contenido de robots.txt" />
+        <img src="imagenes/mr-robot5.png" alt="Contenido de robots.txt" />
         <figcaption>robots.txt muestra los archivos</figcaption>
       </figure>
       <p>Vamos a descargar los archivos y ver que es lo que contienen:</p>
@@ -422,12 +422,12 @@
         <span class="highlight">Key 1: 073403c8a58a1f80d943455fb30724b9</span>
       </div>
       <figure>
-        <img src="imagenes/mr-robot4_4.png" alt="Contenido de key-1-of-3.txt" />
+        <img src="imagenes/mr-robot6.png" alt="Contenido de key-1-of-3.txt" />
         <figcaption>Primera key encontrada</figcaption>
       </figure>
       <p>Con el comando <strong>wget http://192.168.56.102/fsocity.dic</strong> descargamos el archivo fsocity.dic y comprobamos que es un diccionario con posibles nombres o contraseñas para acceder a wordpress.</p>
       <figure>
-        <img src="imagenes/mr-robot5.png" alt="Vista del diccionario fsocity.dic" />
+        <img src="imagenes/mr-robot7.png" alt="Vista del diccionario fsocity.dic" />
         <figcaption>fsocity.dic: 858.160 líneas</figcaption>
       </figure>
 
@@ -438,17 +438,17 @@
       <h4>Primera opción:</h4>
       <p>Con el objetivo de reducir el tiempo de ejecución a la hora de intentar hacer el ataque de fuerza bruta , utilizamos el comando <strong>wc -l fsocity.dic</strong> para saber el numero de palabras que contiene el fichero y el comando <strong>sort fsocity.dic | uniq | wc -l</strong> para quedarnos solo una vez con cada palabra, quitando así las repetidas y reduciendo el tiempo del ataque considerablemente. (Hemos pasado de tener 858160 palabras a 11451).</p>
       <figure>
-        <img src="imagenes/mr-robot6.png" alt="Resultado de wc y sort uniq" />
+        <img src="imagenes/mr-robot8.png" alt="Resultado de wc y sort uniq" />
         <figcaption>Reducción del diccionario</figcaption>
       </figure>
       <p>Al ser una máquina temática ( pertenece a la serie mr robot) antes de usar el mismo diccionario para intentar obtener usuario y contraseña( podría llevarnos horas) vamos a formar un archivo con los nombres de los protagonistas de la serie como posible nombre de usuario.</p>
       <figure>
-        <img src="imagenes/mr-robot7.png" alt="Lista de usuarios potenciales" />
+        <img src="imagenes/mr-robot9.png" alt="Lista de usuarios potenciales" />
         <figcaption>users.txt con nombres de la serie</figcaption>
       </figure>
       <p>Ahora ya podemos realizar el ataque de fuerza bruta para intentar obtener acceso a wordpress.Para ello utilizaremos el comando <strong>wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login</strong></p>
       <figure>
-        <img src="imagenes/mr-robot8.png" alt="Resultado de WPScan" />
+        <img src="imagenes/mr-robot11.png" alt="Resultado de WPScan" />
         <figcaption>WPScan encuentra dos usuarios: Elliot y elliot, con la misma contraseña: ER28-0652</figcaption>
       </figure>
       <p>Como podemos ver hemos obtenido dos posibles usuarios:</p>
@@ -462,15 +462,17 @@
       </div>
       <p>Y tras probar con la primera opción , vemos que ya podemos acceder a wordpress.</p>
       <figure>
-        <img src="imagenes/mr-robot9.png" alt="Acceso al panel de WordPress" />
+        <img src="imagenes/mr-robot12.png" alt="Acceso al panel de WordPress" />
         <figcaption>Dashboard de WordPress</figcaption>
       </figure>
 
       <h4>Segunda opción:</h4>
       <p>Investigando el resto de los directorios obtenidos con los escaneos, en el directorio License podemos encontrar una pista.</p>
       <figure>
-        <img src="imagenes/mr-robot10.png" alt="Página de licencia" />
+        <img src="imagenes/mr-robot4_2.png" alt="Página de licencia" />
         <figcaption>Página de licencia</figcaption>
+		<img src="imagenes/mr-robot4_3.png" alt="CódigoB64" />
+        <figcaption>Código en base64 al final de la página</figcaption>
       </figure>
       <figure>
         <img src="imagenes/mr-robot11.png" alt="Código en base64" />
@@ -482,7 +484,7 @@
         <span class="prompt">root@kali:~$</span> echo "ZWxsaW90OkVSMjgtMDY1Mgo=" | base64 -d
       </div>
       <figure>
-        <img src="imagenes/mr-robot12.png" alt="Resultado del descifrado" />
+        <img src="imagenes/mr-robot4_4.png" alt="Resultado del descifrado" />
         <figcaption>Usuario: elliot, Contraseña: ER28-0652</figcaption>
       </figure>
       <p>Y podemos ver que contiene el usuario y la contraseña , que es el mismo que hemos conseguido con el ataque de fuerza bruta.</p>
