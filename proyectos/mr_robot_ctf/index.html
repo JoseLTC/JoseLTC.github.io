@@ -131,6 +131,7 @@
       color: #00a8ff;
       font-size: 1.2rem;
       margin: 1.2rem 0 0.5rem 0;
+      scroll-margin-top: 90px;
     }
     h4 {
       font-family: "JetBrains Mono", monospace;
@@ -280,17 +281,60 @@
       font-family: "JetBrains Mono", monospace;
     }
 
+    /* --- INDICE --- */
+    .indice {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .15);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0 24px 0;
+    }
+    .indice p {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      color: #4a75a0;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .indice ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .indice li {
+      margin: 0;
+    }
+    .indice a {
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color .2s, border-color .2s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .indice a:hover {
+      color: #fff;
+      border-bottom-color: #00a8ff;
+    }
+
     /* --- RESPONSIVE --- */
     @media (max-width: 720px) {
       .header-content { flex-direction: column; gap: 10px; }
       body { padding-top: 110px; }
       .nav-item { padding: 6px 10px; font-size: .75rem; }
       h1 { font-size: 1.6rem; }
+      .indice ul { gap: 6px 12px; }
+      .indice a { font-size: 0.75rem; }
     }
     @media (max-width: 480px) {
       .wrap { padding: 12px; }
       section { padding: 16px; }
       .term-block { font-size: 0.75rem; padding: 10px; }
+      .indice { padding: 12px; }
     }
   </style>
 </head>
@@ -362,8 +406,20 @@
     <section>
       <h2>RESOLUCIÓN PASO A PASO</h2>
 
+      <!-- ÍNDICE DE CONTENIDO -->
+      <div class="indice">
+        <p>📑 Índice</p>
+        <ul>
+          <li><a href="#reconocimiento">1. Reconocimiento</a></li>
+          <li><a href="#enumeracion">2. Enumeración Web</a></li>
+          <li><a href="#explotacion">3. Explotación WordPress</a></li>
+          <li><a href="#escalada">4. Escalada de privilegios</a></li>
+          <li><a href="#resultados">5. Resultados</a></li>
+        </ul>
+      </div>
+
       <!-- 1. Reconocimiento -->
-      <h3>1.- Reconocimiento de máquinas</h3>
+      <h3 id="reconocimiento">1.- Reconocimiento de máquinas</h3>
       <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
       <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.101)</p>
       <div class="term-block">
@@ -403,7 +459,7 @@
       </figure>
 
       <!-- 2. Enumeración Web -->
-      <h3>2.-Enumeración Web</h3>
+      <h3 id="enumeracion">2.-Enumeración Web</h3>
       <p>Ahora que ya sabemos que hay un servidor web , vamos a realizar un escaneo de enumeración web que usa Nmap para descubrir directorios y archivos ocultos en servidores web.</p>
       <p>Utilizaremos el comando <strong>nmap --script=http-enum.nse -p 80 192.168.56.102</strong></p>
       <div class="term-block">
@@ -456,7 +512,7 @@
       </figure>
 
       <!-- 3. Explotación de Wordpress -->
-      <h3>3.-Explotación de Wordpress</h3>
+      <h3 id="explotacion">3.-Explotación de Wordpress</h3>
       <p>Ya que los usuarios(admin,root) y contraseñas(admin,1234,password) comunes no nos dan acceso a wordpress vamos a utilizar el diccionario que nos han dado para intentar obtener ese acceso.</p>
 
       <h4>Primera opción:</h4>
@@ -601,7 +657,7 @@
       </figure>
 
       <!-- 4. Escalada -->
-      <h3>4.- Escalada de privilegios</h3>
+      <h3 id="escalada">4.- Escalada de privilegios</h3>
       <p>Al intentar acceder con el usuario robot , vemos que la terminal no está preparada para ejecutar comandos root.</p>
       <figure>
         <img src="imagenes/mr-robot19.png" alt="Intento de su robot" />
@@ -665,7 +721,7 @@
       </figure>
 
       <!-- 5. Resultados -->
-      <h3>5.- Resultados obtenidos:</h3>
+      <h3 id="resultados">5.- Resultados obtenidos:</h3>
       <div class="table-wrap">
         <table>
           <thead></thead>
