@@ -380,7 +380,7 @@
         </div>
       </a>
 
-      <a href="proyectos/vikings_ctf/index.html" class="project-row" aria-label="Ver proyecto Vikings CTF">
+            <a href="proyectos/vikings_ctf/index.html" class="project-row" aria-label="Ver proyecto Vikings CTF">
         <div class="col-image">
           <img src="imagenes/vikings_ctf.png" alt="Vikings CTF Portada" />
         </div>
@@ -394,24 +394,24 @@
               </div>
               <div class="term-title">CTF: Vikings (VulnHub)</div>
             </div>
-            <div class="term-body" id="proj-mrrobot">
-              <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.1.X</div>
+            <div class="term-body" id="proj-vikings">
+              <div><span class="prompt">root@kali:~$</span> nmap -sV -sC -A -Pn -p- 192.168.56.105</div>
               <div class="output">
-                [*] CTF basado en la serie Mr. Robot
-                [*] Objetivo: Comprometer sistema Linux
+                [*] CTF basado en la serie Vikings (History Channel)<br>
+                [*] Objetivo: Comprometer sistema Linux<br>
                 <br>
-                [*] Escaneo de puertos + Enumeración (WordPress)
-                [*] Plugin vulnerable detectado
+                [*] Escaneo de puertos: SSH (22) + HTTP (80) abiertos<br>
+                [*] Enumeración web: /site/war-is-over → archivo codificado en Base64<br>
                 <br>
-                [!] Explotación de vulnerabilidad → Shell inicial
-                [+] Usuario www-data obtenido
+                [*] Enumeración interna: pista de Collatz<br>
+                [*] Script Python → contraseña de ragnar<br>
                 <br>
-                [+] Escalada de privilegios (SUID) → Acceso root
-                [!] Flag de root encontrada
+                [*] Escalada de privilegios:<br>
+                [*] RPyC mal configurado (sudo python3 /usr/local/bin/rpyc_classic.py)<br>
               </div>
             </div>
             <div class="meta">
-              <div>WordPress · SUID · Escalada</div>
+              <div>SSH · Esteganografía · RPyC</div>
               <div>
                 <small>Jul 2026</small>
                 <span class="btn-project">Ir al proyecto →</span>
@@ -421,36 +421,6 @@
         </div>
       </a>
 
-      <!-- PROYECTO 3: OWASP SUITE -->
-      <a href="proyectos/owasp-suite/" class="project-row" aria-label="Ver proyecto OWASP Suite">
-        <div class="col-image" style="background: #020b14; min-height: 150px; display:flex; align-items:center; justify-content:center; color:#4a75a0; font-family: 'JetBrains Mono'; font-size:0.9rem; flex-direction:column;">
-          <div style="font-size: 2.5rem; margin-bottom:8px;">🌐</div>
-          <div>OWASP Top 10</div>
-        </div>
-        <div class="col-terminal">
-          <div class="term-card">
-            <div class="term-header">
-              <div class="term-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <div class="term-title">Pentesting: OWASP Suite</div>
-            </div>
-            <div class="term-body" id="proj3">
-              <div><span class="prompt">root@pentest:~$</span> ./run_tests.sh --profile=full</div>
-              <div class="output" id="out3"></div>
-            </div>
-            <div class="meta">
-              <div>Burp · SQLi · XSS · Exploits</div>
-              <div>
-                <small>Sep 2025</small>
-                <span class="btn-project">Ir al proyecto →</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </a>
     </section>
 
     <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS -->
