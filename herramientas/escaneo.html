@@ -241,7 +241,6 @@
     .fade-in.delay-3{animation-delay:0.3s}
     @keyframes fadeIn{to{opacity:1;transform:none}}
 
-    /* --- ESTILO PARA ICONOS --- */
     .tool-icon { 
       font-size: 1.5rem; 
       line-height: 1;
@@ -251,16 +250,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 1.5rem;  /* Mismo tamaño que los emojis */
-      height: 1.5rem; /* Mismo tamaño que los emojis */
+      width: 1.5rem;
+      height: 1.5rem;
     }
     .tool-icon-img img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
-      
-      /* ESTO ES LO NUEVO: Invierte el color de la imagen si es oscura */
       filter: invert(1) brightness(2) hue-rotate(180deg);
     }
   </style>
@@ -294,7 +291,7 @@
         <h1>Herramientas de Escaneo</h1>
         <span class="back-link"><a href="index.html">← Volver al catálogo</a></span>
       </div>
-      <p style="color:#4a75a0; font-size:1rem; margin-top:4px;">Escaneo de puertos, detección de servicios y fingerprinting.</p>
+      <p style="color:#4a75a0; font-size:1rem; margin-top:4px;">Escaneo de puertos, detección de servicios, enumeración web y análisis de archivos.</p>
     </section>
 
     <section class="fade-in delay-2">
@@ -315,58 +312,158 @@
 
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nmap -p 80,443 --script=http-enum 192.168.1.1</span>
+            <span class="cmd"><span class="prompt">$</span> nmap -sV 192.168.56.102</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> nmap -sn 192.168.1.0/24</span>
+            <span class="cmd"><span class="prompt">$</span> nmap -sn 192.168.56.0/24</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> nmap --script=http-enum.nse -p 80 192.168.56.102</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
         </div>
       </div>
 
-      <!-- Masscan -->
+      <!-- Gobuster -->
       <div class="tool-card">
         <div class="tool-name">
-          <span class="tool-icon">⚡</span>
-          <h3>Masscan</h3>
-          <span class="badge">Rápido</span>
+          <span class="tool-icon">💥</span>
+          <h3>Gobuster</h3>
+          <span class="badge">Fuzzing</span>
         </div>
-        <p class="desc">Escáner de puertos masivo de alta velocidad.</p>
+        <p class="desc">Herramienta de fuerza bruta para descubrir directorios y archivos en servidores web.</p>
 
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> masscan -p1-65535 --rate=1000 192.168.1.0/24 -oG masscan.gnmap</span>
+          <span class="cmd"><span class="prompt">$</span> gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> gobuster dir -u http://192.168.56.105/site/ -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt,zip</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WPScan -->
+      <div class="tool-card">
+        <div class="tool-name">
+          <span class="tool-icon">🔐</span>
+          <h3>WPScan</h3>
+          <span class="badge">WordPress</span>
+        </div>
+        <p class="desc">Escáner de seguridad para WordPress: enumeración de usuarios y ataques de fuerza bruta.</p>
+
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
       </div>
 
-      <!-- RustScan -->
+      <!-- Nikto -->
       <div class="tool-card">
         <div class="tool-name">
-          <span class="tool-icon">🦀</span>
-          <h3>RustScan</h3>
-          <span class="badge">Moderno</span>
+          <span class="tool-icon">⚠️</span>
+          <h3>Nikto</h3>
+          <span class="badge">Vulnerabilidades</span>
         </div>
-        <p class="desc">Escáner ultrarrápido escrito en Rust, integración con Nmap.</p>
+        <p class="desc">Escáner de vulnerabilidades para servidores web.</p>
 
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> rustscan -a 192.168.1.1 -- -A -sC</span>
+          <span class="cmd"><span class="prompt">$</span> nikto -h 192.168.56.105</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
       </div>
 
-      <!-- Netcat -->
+      <!-- Hydra -->
       <div class="tool-card">
         <div class="tool-name">
-          <span class="tool-icon-img"><img src="imagenes/netcat.png" alt="Netcat logo" /></span>
-          <h3>Netcat (nc)</h3>
-          <span class="badge">Versátil</span>
+          <span class="tool-icon">🐉</span>
+          <h3>Hydra</h3>
+          <span class="badge">Fuerza bruta</span>
         </div>
-        <p class="desc">Escaneo de puertos manual y creación de conexiones TCP/UDP.</p>
+        <p class="desc">Herramienta de fuerza bruta para ataques a servicios como SSH, FTP, HTTP, etc.</p>
 
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> nc -zv 192.168.1.1 1-1000 2&gt;&amp;1 | grep -v 'Connection refused'</span>
+          <span class="cmd"><span class="prompt">$</span> hydra -L users.txt -P diccionario.txt -t 4 -v ssh://192.168.56.105</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Herramientas de análisis de archivos -->
+      <div class="tool-card">
+        <div class="tool-name">
+          <span class="tool-icon">📂</span>
+          <h3>Análisis de archivos</h3>
+          <span class="badge">Esteganografía · Metadatos</span>
+        </div>
+        <p class="desc">Conjunto de herramientas para inspeccionar, extraer y analizar archivos ocultos o codificados.</p>
+
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> file hint</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> cat hint | base64 -d > pista</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> zip2john pista.zip > archivo</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> john --show archivo</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> 7z x pista.zip</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> exiftool King</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> steghide info King</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> binwalk -e King --run-as=root</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Utilidades básicas -->
+      <div class="tool-card">
+        <div class="tool-name">
+          <span class="tool-icon">⚙️</span>
+          <h3>Utilidades básicas</h3>
+          <span class="badge">Sistema</span>
+        </div>
+        <p class="desc">Comandos esenciales para manipulación de archivos y procesamiento de texto.</p>
+
+        <div class="extra-commands">
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> wc -l fsocity.dic</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> sort fsocity.dic | uniq | wc -l</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> wget http://192.168.56.102/key-1-of-3.txt</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> curl -s http://192.168.56.105/site/war-is-over/ > hint</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
         </div>
       </div>
 
