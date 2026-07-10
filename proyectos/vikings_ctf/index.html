@@ -430,7 +430,7 @@
         <span class="prompt">Joseltc@kali:~$</span> sudo nmap -sn 192.168.56.0/24
       </div>
       <figure>
-        <img src="imagenes/image2.png" alt="Resultado del escaneo de red con nmap" />
+        <img src="imagenes/vikings1.png" alt="Resultado del escaneo de red con nmap" />
         <figcaption>Escaneo de red: IP de Vikings = 192.168.56.105</figcaption>
       </figure>
       <p>Ahora procederemos a escanear la máquina Vikings más a fondo para saber los servicios que está prestando y en que puertos.</p>
@@ -439,7 +439,7 @@
         <span class="prompt">Joseltc@kali:~$</span> nmap -sV 192.168.56.105
       </div>
       <figure>
-        <img src="imagenes/image3.png" alt="Escaneo de puertos con nmap -sV" />
+        <img src="imagenes/vikings2.png" alt="Escaneo de puertos con nmap -sV" />
         <figcaption>Puertos abiertos: 22 (ssh), 80 (http)</figcaption>
       </figure>
       <p>Como podemos ver obtenemos que la máquina tiene abiertos los siguientes puertos y está ofreciendo los siguientes servicios:</p>
@@ -453,12 +453,12 @@
       </div>
       <p>Como vemos que en el puerto 80 hay un servidor Apache con un servidor web.Si introducimos la dirección IP de nuestra maquina Vikings podemos ver un directorio index con una carpeta llamada /site .Vamos a investigar la página para ver si encontramos alguna pista.</p>
       <figure>
-        <img src="imagenes/image4.png" alt="Directorio index con carpeta /site" />
+        <img src="imagenes/vikings3.png" alt="Directorio index con carpeta /site" />
         <figcaption>Directorio index con carpeta /site</figcaption>
       </figure>
       <p>Al entrar en el directorio encontramos una página con una foto de uno de los protagonistas de la serie Vikingos y un texto descriptivo.</p>
       <figure>
-        <img src="imagenes/image5.png" alt="Página principal de /site" />
+        <img src="imagenes/vikings4.png" alt="Página principal de /site" />
         <figcaption>Página principal de /site</figcaption>
       </figure>
 
@@ -470,7 +470,7 @@
         <span class="prompt">Joseltc@kali:~$</span> nmap --script=http-enum.nse -p 80 192.168.56.102
       </div>
       <figure>
-        <img src="imagenes/image6.png" alt="Resultado del script http-enum de Nmap" />
+        <img src="imagenes/vikings5.png" alt="Resultado del script http-enum de Nmap" />
         <figcaption>Enumeración con Nmap</figcaption>
       </figure>
       <p><strong>gobuster dir -u http://192.168.56.105 -w /usr/share/wordlists/dirb/common.txt</strong></p>
@@ -478,7 +478,7 @@
         <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.105 -w /usr/share/wordlists/dirb/common.txt
       </div>
       <figure>
-        <img src="imagenes/image7.png" alt="Resultado de gobuster" />
+        <img src="imagenes/vikings6.png" alt="Resultado de gobuster" />
         <figcaption>Directorio descubiertos con gobuster</figcaption>
       </figure>
       <p>Ninguno de los dos comandos nos da ninguna información que no sepamos con antelación, pues únicamente nos indica la existencia del directorio /site .</p>
@@ -492,19 +492,19 @@
         <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.105/site/ -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt,zip
       </div>
       <figure>
-        <img src="imagenes/image8.png" alt="Gobuster sobre /site" />
+        <img src="imagenes/vikings7.png" alt="Gobuster sobre /site" />
         <figcaption>Gobuster sobre /site</figcaption>
       </figure>
       <p>Con este comando hemos encontrado algunos directorios más que se encuentran dentro del directorio /site ( css, images,js) y un archivo txt llamado <strong>war.txt</strong> que nos puede ser de utilidad.</p>
       <p>Vamos a investigar los resultados obtenidos.</p>
       <p>La consulta del archivo war.txt ha sido todo un logro, pues nos muestra que hay otro directorio oculto<strong>(/war-is-over</strong>):</p>
       <figure>
-        <img src="imagenes/image9.png" alt="Contenido de war.txt" />
+        <img src="imagenes/vikings8.png" alt="Contenido de war.txt" />
         <figcaption>war.txt muestra el directorio /war-is-over</figcaption>
       </figure>
       <p>Este directorio contiene un código ininteligible que probablemente se encuentre codificado. Si comprobamos el final de la infinidad de líneas que contiene el código podemos ver que el código termina con un = ( lo que puede ser un indicio de que esté codificado en base64)</p>
       <figure>
-        <img src="imagenes/image10.png" alt="Código en /war-is-over" />
+        <img src="imagenes/vikings9.png" alt="Código en /war-is-over" />
         <figcaption>Código en /war-is-over</figcaption>
       </figure>
       <p>Vamos a descargar el archivo con <strong>curl -s http://192.168.56.105/site/war-is-over/ > hint</strong>. Con el comando <strong>file hint</strong> comprobamos que el texto que hay dentro del archivo está codificado en base64. Con el comando <strong>cat hint | base64 -d > pista</strong> revertimos la codificación y comprobamos que hemos obtenido un archivo .zip.</p>
@@ -519,7 +519,7 @@
       </div>
       <p>Cuando intentamos descomprimir el archivo nos pide una contraseña y nos indica que unzip necesita otra versión. Entonces utilizaremos 7z para descomprimir.</p>
       <figure>
-        <img src="imagenes/image11.png" alt="Intento de descompresión con 7z" />
+        <img src="imagenes/vikings10.png" alt="Intento de descompresión con 7z" />
         <figcaption>Descompresión con 7z</figcaption>
       </figure>
       <p>Con <strong>zip2john pista.zip > archivo</strong> obtenemos el hash del archivo para intentar obtener la contraseña que se nos está solicitando para descomprimir el archivo.</p>
@@ -532,7 +532,7 @@
         <span class="prompt">Joseltc@kali:~$</span> john --show archivo
       </div>
       <figure>
-        <img src="imagenes/image12.png" alt="Resultado de john" />
+        <img src="imagenes/vikings11.png" alt="Resultado de john" />
         <figcaption>Resultado de john</figcaption>
       </figure>
       <p>Con <strong>7z x pista.zip</strong> extraemos el archivo y vemos que, efectivamente ,el archivo se llama King y es una imagen JPEG.</p>
@@ -540,7 +540,7 @@
         <span class="prompt">Joseltc@kali:~$</span> 7z x pista.zip
       </div>
       <figure>
-        <img src="imagenes/image13.png" alt="Extracción de King.jpg" />
+        <img src="imagenes/vikings12.png" alt="Extracción de King.jpg" />
         <figcaption>Extracción de King.jpg</figcaption>
       </figure>
       <p>Vamos a utilizar una serie de comandos para intentar obtener información que puede contener la foto.</p>
@@ -549,7 +549,7 @@
         <span class="prompt">Joseltc@kali:~$</span> exiftool King
       </div>
       <figure>
-        <img src="imagenes/image14.png" alt="Metadatos de King.jpg" />
+        <img src="imagenes/vikings13.png" alt="Metadatos de King.jpg" />
         <figcaption>Metadatos de King.jpg</figcaption>
       </figure>
       <p>Con vlastas y viking021 haremos un archivo de users.txt y con la lista de palabras que hay en keywords haremos un archivo de diccionario.txt con el fin de intentar hacer un ataque con hydra al SSH. Usaremos el comando <strong>hydra -L users.txt -P diccionario.txt -t 4 -v ssh://192.168.56.105</strong></p>
@@ -557,7 +557,7 @@
         <span class="prompt">Joseltc@kali:~$</span> hydra -L users.txt -P diccionario.txt -t 4 -v ssh://192.168.56.105
       </div>
       <figure>
-        <img src="imagenes/image15.png" alt="Ataque de hydra sin éxito" />
+        <img src="imagenes/vikings14.png" alt="Ataque de hydra sin éxito" />
         <figcaption>Hydra sin éxito</figcaption>
       </figure>
       <p>No hemos obtenido ningún resultado. Habrá que explorar otras vías.</p>
@@ -570,12 +570,12 @@
         <span class="prompt">Joseltc@kali:~$</span> binwalk -e King --run-as=root
       </div>
       <figure>
-        <img src="imagenes/image16.png" alt="Resultado de binwalk" />
+        <img src="imagenes/vikings15.png" alt="Resultado de binwalk" />
         <figcaption>Resultado de binwalk</figcaption>
       </figure>
       <p>Consultado el directorio podemos ver que dentro hay un archivo user que contiene un posible usuario y contraseña y un archivo .zip.</p>
       <figure>
-        <img src="imagenes/image17.png" alt="Contenido de _king.extracted" />
+        <img src="imagenes/vikings16.png" alt="Contenido de _king.extracted" />
         <figcaption>Contenido de _king.extracted</figcaption>
       </figure>
 
@@ -593,13 +593,13 @@
         </table>
       </div>
       <figure>
-        <img src="imagenes/image18.png" alt="Acceso SSH" />
+        <img src="imagenes/vikings17.png" alt="Acceso SSH" />
         <figcaption>Acceso SSH</figcaption>
       </figure>
       <p>Ahora que ya estamos dentro de la máquina atacada vamos a investigar.</p>
       <p>Podemos ver que estamos en el home del usuario floki y hay dos archivos interesantes que podemos consultar</p>
       <figure>
-        <img src="imagenes/image19.png" alt="Archivos en /home/floki" />
+        <img src="imagenes/vikings18.png" alt="Archivos en /home/floki" />
         <figcaption>Archivos en /home/floki</figcaption>
       </figure>
       <p>Leyendo ambos archivos podemos encontrar alguna pista, pero no son muy aclaratorias. En el readme.txt se habla de Ragnar, vamos a ver que usuarios hay en el sistema.</p>
@@ -607,7 +607,7 @@
         <span class="prompt">$</span> cat /etc/passwd | grep /bin/bash
       </div>
       <figure>
-        <img src="imagenes/image20.png" alt="Usuarios del sistema" />
+        <img src="imagenes/vikings19.png" alt="Usuarios del sistema" />
         <figcaption>Usuarios del sistema</figcaption>
       </figure>
       <p>Podemos ver que también existe el directorio del usuario Ragnar.</p>
@@ -615,7 +615,7 @@
         <span class="prompt">$</span> ls -la /home/ragnar
       </div>
       <figure>
-        <img src="imagenes/image21.png" alt="Contenido de /home/ragnar" />
+        <img src="imagenes/vikings20.png" alt="Contenido de /home/ragnar" />
         <figcaption>Contenido de /home/ragnar</figcaption>
       </figure>
       <p>Dentro hay un fichero llamado user.txt que contiene la primera flag del CTF.</p>
@@ -623,7 +623,7 @@
         <span class="prompt">$</span> cat /home/ragnar/user.txt
       </div>
       <figure>
-        <img src="imagenes/image22.png" alt="user.txt con la primera flag" />
+        <img src="imagenes/vikings21.png" alt="user.txt con la primera flag" />
         <figcaption>Primera flag encontrada</figcaption>
       </figure>
       <div class="term-block" style="border-color:#00a8ff;">
@@ -631,12 +631,12 @@
       </div>
       <p>Vamos a volver a la pista que encontramos en el directorio de floki, que hablaba sobre el teorema de Collatz y que posiblemente nos sirve para obtener la contraseña del usuario Ragnar.</p>
       <figure>
-        <img src="imagenes/image23.png" alt="Pista sobre Collatz" />
+        <img src="imagenes/vikings22.png" alt="Pista sobre Collatz" />
         <figcaption>Pista sobre Collatz</figcaption>
       </figure>
       <p>Utilizaremos un código en Python con el que intentaremos obtener la contraseña.</p>
       <figure>
-        <img src="imagenes/image24.png" alt="Código Python de Collatz" />
+        <img src="imagenes/vikings23.png" alt="Código Python de Collatz" />
         <figcaption>Código Python de Collatz</figcaption>
       </figure>
       <p>Ejecutandolo con <strong>python3 collatz.py</strong> obtenemos lo siguiente:</p>
@@ -644,7 +644,7 @@
         <span class="prompt">$</span> python3 collatz.py
       </div>
       <figure>
-        <img src="imagenes/image25.png" alt="Resultado del script Collatz" />
+        <img src="imagenes/vikings24.png" alt="Resultado del script Collatz" />
         <figcaption>Resultado del script Collatz</figcaption>
       </figure>
       <div class="table-wrap">
@@ -657,7 +657,7 @@
       </div>
       <p>Y como podemos ver ya se puede acceder con el usuario Ragnar y leer sus archivos.</p>
       <figure>
-        <img src="imagenes/image26.png" alt="Acceso con usuario Ragnar" />
+        <img src="imagenes/vikings25.png" alt="Acceso con usuario Ragnar" />
         <figcaption>Acceso con usuario Ragnar</figcaption>
       </figure>
 
@@ -667,7 +667,7 @@
       <h4>Primera forma</h4>
       <p>Leyendo <strong>el archivo .profile</strong> de Ragnar encontramos lo siguiente:</p>
       <figure>
-        <img src="imagenes/image27.png" alt="Contenido de .profile" />
+        <img src="imagenes/vikings26.png" alt="Contenido de .profile" />
         <figcaption>Contenido de .profile</figcaption>
       </figure>
       <p>El archivo nos indica que ejecutando <strong>sudo python3 /usr/local/bin/rpyc_classic.py</strong> levantamos el servicio RPyC</p>
@@ -678,7 +678,7 @@
         <span class="prompt">$</span> ps aux | grep rpyc
       </div>
       <figure>
-        <img src="imagenes/image28.png" alt="Proceso rpyc ejecutándose como root" />
+        <img src="imagenes/vikings27.png" alt="Proceso rpyc ejecutándose como root" />
         <figcaption>Proceso rpyc ejecutándose como root</figcaption>
       </figure>
       <p>Desde una Shell con el usuario Ragnar logueado vamos a ejecutar el siguiente comando :</p>
@@ -687,7 +687,7 @@
       </div>
       <p>Este comando explota un servicio RPyC mal configurado que se ejecuta con privilegios de administrador, utilizando la librería rpyc para conectarse localmente al puerto 18812. A través de esta conexión, el atacante invoca el módulo os del sistema para ejecutar el comando chmod +s /bin/bash, el cual asigna el bit SUID al intérprete de comandos; esto permite que cualquier usuario pueda ejecutar bash con los privilegios de root, logrando así una escalada de privilegios inmediata</p>
       <figure>
-        <img src="imagenes/image29.png" alt="Ejecución del comando RPyC" />
+        <img src="imagenes/vikings28.png" alt="Ejecución del comando RPyC" />
         <figcaption>Ejecución del comando RPyC</figcaption>
       </figure>
       <p>Con el comando <strong>/bin/bash -p</strong> abrimos una nueva terminal dentro y al comprobar el usuario que somos con <strong>whoami</strong> podemos ver que somos <strong>root.</strong></p>
@@ -702,7 +702,7 @@
         <span class="prompt">#</span> cat /root/root.txt
       </div>
       <figure>
-        <img src="imagenes/image30.png" alt="root.txt con la segunda flag" />
+        <img src="imagenes/vikings29.png" alt="root.txt con la segunda flag" />
         <figcaption>Segunda flag encontrada</figcaption>
       </figure>
       <div class="term-block" style="border-color:#00a8ff;">
@@ -715,7 +715,7 @@
         <span class="prompt">$</span> groups floki
       </div>
       <figure>
-        <img src="imagenes/image31.png" alt="Grupo lxd de floki" />
+        <img src="imagenes/vikings30.png" alt="Grupo lxd de floki" />
         <figcaption>Grupo lxd de floki</figcaption>
       </figure>
       <p>El grupo lxd permite que un usuario no privilegiado gestione contenedores de sistema. La vulnerabilidad reside en que, al configurar un nuevo contenedor, puedes montar el sistema de archivos del host (la máquina víctima) dentro del contenedor.</p>
@@ -724,7 +724,7 @@
         <span class="prompt">$</span> searchsploit lxd
       </div>
       <figure>
-        <img src="imagenes/image32.png" alt="Resultado de searchsploit lxd" />
+        <img src="imagenes/vikings31.png" alt="Resultado de searchsploit lxd" />
         <figcaption>Resultado de searchsploit lxd</figcaption>
       </figure>
       <p>El archivo <strong>46978.sh</strong> se encargará de automatizar todo el proceso de creación del contenedor y el montaje del sistema de archivo del host dentro del mismo.</p>
@@ -734,28 +734,28 @@
       </div>
       <p>Dentro del archivo podemos ver los pasos que debemos seguir.</p>
       <figure>
-        <img src="imagenes/image33.png" alt="Contenido de 46978.sh" />
+        <img src="imagenes/vikings32.png" alt="Contenido de 46978.sh" />
         <figcaption>Contenido de 46978.sh</figcaption>
       </figure>
       <p>Lo primero que haremos será descargar una imagen de contenedor con</p>
       <figure>
-        <img src="imagenes/image34.png" alt="Descarga de imagen Alpine" />
+        <img src="imagenes/vikings33.png" alt="Descarga de imagen Alpine" />
         <figcaption>Descarga de imagen Alpine</figcaption>
       </figure>
       <p>Con bash build-alpine creamos un archivo comprimido, ya que para ejecutar el archivo sh debemos pasarle un archivo de estas características.</p>
       <p>Después de ejecutarlo debemos tener un archivo de este estilo</p>
       <figure>
-        <img src="imagenes/image35.png" alt="Archivo alpine.tar.gz" />
+        <img src="imagenes/vikings34.png" alt="Archivo alpine.tar.gz" />
         <figcaption>Archivo alpine.tar.gz</figcaption>
       </figure>
       <p>Ahora debemos meter tanto el archivo 46978.sh como el archivo tar.gz dentro de la máquina víctima.Para ello, abriremos una sesión sftp y subiremos los archivos.</p>
       <figure>
-        <img src="imagenes/image36.png" alt="Subida de archivos por sftp" />
+        <img src="imagenes/vikings35.png" alt="Subida de archivos por sftp" />
         <figcaption>Subida de archivos por sftp</figcaption>
       </figure>
       <p>Como podemos ver, los archivos ya se encuentran dentro de la máquina.</p>
       <figure>
-        <img src="imagenes/image37.png" alt="Archivos en la máquina víctima" />
+        <img src="imagenes/vikings36.png" alt="Archivos en la máquina víctima" />
         <figcaption>Archivos en la máquina víctima</figcaption>
       </figure>
       <p>Ahora debemos ejecutarlo, y se creará el contenedor.</p>
@@ -763,17 +763,17 @@
         <span class="prompt">$</span> bash 46978.sh alpine.tar.gz
       </div>
       <figure>
-        <img src="imagenes/image38.png" alt="Ejecución de 46978.sh" />
+        <img src="imagenes/vikings37.png" alt="Ejecución de 46978.sh" />
         <figcaption>Ejecución de 46978.sh</figcaption>
       </figure>
       <p>Dentro del contenedor debemos ir a la ruta /mnt/root y con chmod u+s bin/bash darle a la terminal el bit SUID para convertirnos en root cuando la ejecutemos.</p>
       <figure>
-        <img src="imagenes/image39.png" alt="Concesión de SUID a bash dentro del contenedor" />
+        <img src="imagenes/vikings38.png" alt="Concesión de SUID a bash dentro del contenedor" />
         <figcaption>Concesión de SUID a bash dentro del contenedor</figcaption>
       </figure>
       <p>Ahora salimos del contenedor con exit y ejecutamos bash -p y whoami para ver que al ejecutar la terminal ya somos root y , de esta manera,podemos acceder al archivo root.txt.</p>
       <figure>
-        <img src="imagenes/image40.png" alt="Escalada por LXD" />
+        <img src="imagenes/vikings39.png" alt="Escalada por LXD" />
         <figcaption>Escalada por LXD</figcaption>
       </figure>
 
@@ -804,12 +804,12 @@
       </div>
 
       <h3>Conclusión</h3>
-      <p>La resolución de la máquina MR Robot me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
+      <p>La resolución de la máquina Vikings me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
       <ul>
-        <li>Enumeración web para descubrir recursos ocultos ('robots.txt', 'fsocity.dic')</li>
-        <li>Ataque de fuerza bruta con WPScan para obtener credenciales</li>
-        <li>Reverse Shell mediante inyección de código PHP en WordPress</li>
-        <li>Escalada de privilegios aprovechando binarios SUID vulnerables (nmap 3.81)</li>
+        <li>Enumeración web para descubrir recursos ocultos (archivos codificados, esteganografía)</li>
+        <li>Ataque de fuerza bruta con Hydra para obtener credenciales SSH (aunque sin éxito)</li>
+        <li>Análisis de metadatos y extracción de información mediante esteganografía (exiftool, binwalk)</li>
+        <li>Escalada de privilegios mediante RPyC mal configurado y abuso de LXD</li>
       </ul>
 
       <!-- Botón de volver al portfolio -->
