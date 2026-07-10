@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jose L. Trigo - Explotación</title>
+  <title>Jose L. Trigo - Enumeración Web</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,94 +71,129 @@
       </div>
     </header>
 
-    <div class="breadcrumb fade-in"><a href="../">Inicio</a> &gt; <a href="index.html">Herramientas</a> &gt; Explotación</div>
+    <div class="breadcrumb fade-in"><a href="../">Inicio</a> &gt; <a href="index.html">Herramientas</a> &gt; Enumeración Web</div>
 
     <section class="fade-in delay-1">
       <div class="page-header">
-        <span class="icon">💥</span>
-        <h1>Explotación</h1>
+        <span class="icon">🌐</span>
+        <h1>Enumeración Web</h1>
         <span class="back-link"><a href="index.html">← Volver al catálogo</a></span>
       </div>
-      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Frameworks de explotación, fuerza bruta, inyecciones y exploits públicos.</p>
+      <p style="color:#4a75a0;font-size:1rem;margin-top:4px;">Escáneres, fuzzing, análisis de archivos y descubrimiento de recursos en servidores web.</p>
     </section>
 
     <section class="fade-in delay-2">
 
-      <!-- Metasploit -->
+      <!-- Escáneres web -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🎯</span><h3>Metasploit</h3><span class="badge">Framework</span></div>
-        <p class="desc">Framework completo para desarrollo y ejecución de exploits.</p>
+        <div class="tool-name"><span class="tool-icon">🔍</span><h3>Escáneres web</h3><span class="badge">Detección</span></div>
+        <p class="desc">Herramientas para detectar directorios, archivos ocultos y vulnerabilidades en servidores web.</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">msf6 &gt;</span> use exploit/multi/handler</span>
+          <span class="cmd"><span class="prompt">$</span> nmap --script=http-enum.nse -p 80 192.168.56.102</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> nikto -h 192.168.56.105</span>
+          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Fuzzing de directorios -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">💥</span><h3>Fuzzing de directorios</h3><span class="badge">Gobuster</span></div>
+        <p class="desc">Fuerza bruta para descubrir directorios y archivos en servidores web.</p>
+
+        <div class="command-block">
+          <span class="cmd"><span class="prompt">$</span> gobuster dir -u http://192.168.56.102 -w /usr/share/wordlists/dirb/common.txt</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">msf6 &gt;</span> set PAYLOAD windows/meterpreter/reverse_tcp</span>
-            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-          </div>
-          <div class="command-block">
-            <span class="cmd"><span class="prompt">msf6 &gt;</span> set LHOST 192.168.1.100</span>
+            <span class="cmd"><span class="prompt">$</span> gobuster dir -u http://192.168.56.105/site/ -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt,zip</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
         </div>
       </div>
 
-      <!-- SQLMap -->
+      <!-- Enumeración WordPress -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🗄️</span><h3>SQLMap</h3><span class="badge">Inyección SQL</span></div>
-        <p class="desc">Herramienta automatizada para detección y explotación de SQLi.</p>
+        <div class="tool-name"><span class="tool-icon">🔐</span><h3>Enumeración WordPress</h3><span class="badge">WPScan</span></div>
+        <p class="desc">Escáner de seguridad para WordPress: enumeración de usuarios y ataques de fuerza bruta al panel de login.</p>
+
         <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> sqlmap -u "http://ejemplo.com/page?id=1" --dbs</span>
+          <span class="cmd"><span class="prompt">$</span> wpscan --url http://192.168.56.102 -U users.txt -P words.dic --password-attack wp-login</span>
           <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
+      </div>
+
+      <!-- Descarga y análisis de archivos -->
+      <div class="tool-card">
+        <div class="tool-name"><span class="tool-icon">📂</span><h3>Descarga y análisis de archivos</h3><span class="badge">Extracción</span></div>
+        <p class="desc">Comandos para descargar, inspeccionar y extraer información de archivos web (codificación, metadatos, esteganografía).</p>
+
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> sqlmap -u "http://ejemplo.com/page?id=1" -D users --tables --dump</span>
+            <span class="cmd"><span class="prompt">$</span> curl -s http://192.168.56.105/site/war-is-over/ > hint</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> wget http://192.168.56.102/key-1-of-3.txt</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> wget http://192.168.56.102/fsocity.dic</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> file hint</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> cat hint | base64 -d > pista</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> zip2john pista.zip > archivo</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> john --show archivo</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> 7z x pista.zip</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> exiftool King</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> steghide info King</span>
+            <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
+          </div>
+          <div class="command-block">
+            <span class="cmd"><span class="prompt">$</span> binwalk -e King --run-as=root</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
         </div>
       </div>
 
-      <!-- Hydra -->
+      <!-- Utilidades básicas de procesamiento -->
       <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🔑</span><h3>Hydra</h3><span class="badge">Fuerza Bruta</span></div>
-        <p class="desc">Herramienta de fuerza bruta para servicios SSH, FTP, HTTP, etc.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.1</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-        </div>
+        <div class="tool-name"><span class="tool-icon">⚙️</span><h3>Utilidades de procesamiento</h3><span class="badge">Texto</span></div>
+        <p class="desc">Comandos para manipular listas de palabras, contar líneas y eliminar duplicados.</p>
+
         <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> hydra -L users.txt -P pass.txt http-post-form "/login:user=^USER^&amp;pass=^PASS^:F=incorrect"</span>
+            <span class="cmd"><span class="prompt">$</span> wc -l fsocity.dic</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
-        </div>
-      </div>
-
-      <!-- Searchsploit -->
-      <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">📚</span><h3>Searchsploit</h3><span class="badge">ExploitDB</span></div>
-        <p class="desc">Búsqueda local en la base de datos de Exploit-DB.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> searchsploit Apache 2.4</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
-        </div>
-        <div class="extra-commands">
           <div class="command-block">
-            <span class="cmd"><span class="prompt">$</span> searchsploit -m 12345</span>
+            <span class="cmd"><span class="prompt">$</span> sort fsocity.dic | uniq | wc -l</span>
             <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
           </div>
-        </div>
-      </div>
-
-      <!-- John the Ripper -->
-      <div class="tool-card">
-        <div class="tool-name"><span class="tool-icon">🔓</span><h3>John the Ripper</h3><span class="badge">Cracking</span></div>
-        <p class="desc">Cracker de contraseñas para hashes de diversos formatos.</p>
-        <div class="command-block">
-          <span class="cmd"><span class="prompt">$</span> john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
-          <button class="copy-btn" onclick="copyCommand(this)">Copiar</button>
         </div>
       </div>
 
@@ -173,7 +208,7 @@
       const cmdSpan = block.querySelector('.cmd');
       if (!cmdSpan) return;
       let cmdText = cmdSpan.textContent;
-      cmdText = cmdText.replace(/^(msf6\s*&gt;\s*|\$\s*)/, '').trim();
+      cmdText = cmdText.replace(/^\$\s*/, '').trim();
       navigator.clipboard.writeText(cmdText).then(() => {
         btn.textContent = '✓ Copiado';
         btn.classList.add('copied');
