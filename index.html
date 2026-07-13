@@ -218,7 +218,7 @@
       font-size: 0.9rem;
     }
     
-    /* --- ESTILO BASE DE LA TERMINAL (proyectos y catálogo) --- */
+    /* --- ESTILO BASE DE LA TERMINAL (proyectos) --- */
     .term-body {
       padding: 16px;
       font-size: 0.9rem;
@@ -270,50 +270,65 @@
       box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
     }
 
-    /* --- ESTILOS PARA LA TARJETA DEL CATÁLOGO (dentro de #herramientas) --- */
-    #herramientas .term-card {
+    /* --- ESTILOS PARA LA GALERÍA DE HERRAMIENTAS (OPCIÓN B) --- */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 16px;
       background: #020b14;
-      border: 1px solid rgba(0, 168, 255, 0.2);
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 170px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.5);
-      transition: all 0.25s ease;
-      margin-bottom: 0;
+      border: 1px solid rgba(0, 168, 255, 0.15);
+      border-radius: 8px;
+      padding: 24px 16px;
+      margin-bottom: 20px;
     }
-    #herramientas .term-card:hover {
-      border-color: #00a8ff;
-      box-shadow: 0 0 20px rgba(0, 168, 255, 0.25);
-      transform: translateY(-4px);
+
+    .tool-item {
+      text-align: center;
+      color: #4a75a0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      transition: all 0.25s;
+      padding: 8px 4px;
+      border-radius: 4px;
+      cursor: default;
     }
-    #herramientas .term-card .term-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: #051628;
-      border-bottom: 1px solid rgba(0, 168, 255, 0.15);
+    .tool-item:hover {
+      background: rgba(0, 168, 255, 0.05);
+      transform: translateY(-2px);
     }
-    #herramientas .term-card .term-dots {display:flex;gap:6px;}
-    #herramientas .term-card .dot {width:10px;height:10px;border-radius:50%;}
-    #herramientas .term-card .dot.red {background:#ff5f56;}
-    #herramientas .term-card .dot.yellow {background:#ffbd2e;}
-    #herramientas .term-card .dot.green {background:#27c93f;}
-    #herramientas .term-card .term-title {
-      color: #e3edf7;
+    .tool-item .icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .tool-item .name {
+      color: #cbd5dd;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .btn-catalogo {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid rgba(0, 168, 255, 0.4);
+      color: #00a8ff;
+      padding: 10px 28px;
+      border-radius: 4px;
       font-family: "JetBrains Mono", monospace;
       font-weight: 700;
       font-size: 0.9rem;
-      margin-left: 8px;
+      transition: all 0.3s;
+      text-decoration: none;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
     }
-    #herramientas .term-card .term-desc {
-      color: #4a75a0;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.75rem;
-      margin-left: 8px;
-      margin-top: 2px;
+    .btn-catalogo:hover {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+      box-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
     }
 
     /* --- RESPONSIVE --- */
@@ -350,11 +365,20 @@
       .banner h2 {
         font-size: 1.2rem;
       }
-      #herramientas .term-card .term-title {
-        font-size: 0.8rem;
+      .tools-grid {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 12px;
+        padding: 16px 12px;
       }
-      #herramientas .term-card .term-desc {
-        font-size: 0.7rem;
+      .tool-item .icon {
+        font-size: 2rem;
+      }
+      .tool-item .name {
+        font-size: 0.6rem;
+      }
+      .btn-catalogo {
+        font-size: 0.8rem;
+        padding: 8px 20px;
       }
     }
     @media(max-width:480px){
@@ -382,11 +406,20 @@
       }
       .contact-block { padding: 12px; }
       .nav-item { padding: 4px 8px; font-size: 0.65rem; }
-      #herramientas .term-card .term-title {
-        font-size: 0.7rem;
+      .tools-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 8px;
+        padding: 12px 8px;
       }
-      #herramientas .term-card .term-desc {
-        font-size: 0.6rem;
+      .tool-item .icon {
+        font-size: 1.6rem;
+      }
+      .tool-item .name {
+        font-size: 0.55rem;
+      }
+      .btn-catalogo {
+        font-size: 0.7rem;
+        padding: 6px 16px;
       }
     }
 
@@ -556,50 +589,59 @@
 
     </section>
 
-    <!-- SECCIÓN: ACCESO AL CATÁLOGO DE HERRAMIENTAS (OPCIÓN A) -->
+    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (OPCIÓN B) -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
-      <p class="lead">Explora el catálogo completo de herramientas organizadas por fases de pentesting.</p>
+      <p class="lead">Herramientas que utilizo en mis auditorías y CTFs.</p>
 
-      <a href="herramientas/index.html" style="text-decoration: none; color: inherit; display: block;">
-        <div class="term-card">
-
-          <!-- Encabezado con los puntitos -->
-          <div class="term-header">
-            <div class="term-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-            </div>
-            <div>
-              <div class="term-title">./catalogo.sh</div>
-              <div style="color: #4a75a0; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; margin-top: 2px;">Lista de herramientas por fase</div>
-            </div>
-          </div>
-
-          <!-- Cuerpo de la terminal -->
-          <div class="term-body">
-            <div><span class="prompt">root@portfolio:~$</span> ./catalogo.sh --list</div>
-            <div class="output">
-              [+] Cargando fases de pentesting...<br>
-              <span style="color: #4a75a0;">   Escaneo y Reconocimiento (5 herramientas)</span><br>
-              <span style="color: #4a75a0;">   Enumeración Web (5 herramientas)</span><br>
-              <span style="color: #4a75a0;">   Explotación (5 herramientas)</span><br>
-              <span style="color: #4a75a0;">   Escucha y Captura (4 herramientas)</span><br>
-              <span style="color: #4a75a0;">  ️ Post‑Explotación (3 herramientas)</span><br>
-              <span style="color: #4a75a0;">   Forense y Defensa (4 herramientas)</span><br>
-              [*] Total: 26 herramientas organizadas por fase.<br>
-              <span style="color: #ffbd2e;">[!] Haz clic para explorar el catálogo completo.</span>
-            </div>
-          </div>
-
-          <!-- Pie de página con el botón -->
-          <div class="term-meta">
-            <span></span>
-            <span class="btn-project">Ir al catálogo →</span>
-          </div>
-
+      <!-- Galería de iconos -->
+      <div class="tools-grid">
+        <div class="tool-item">
+          <span class="icon">🔍</span>
+          <span class="name">Nmap</span>
         </div>
+        <div class="tool-item">
+          <span class="icon">💥</span>
+          <span class="name">Gobuster</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🔐</span>
+          <span class="name">WPScan</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🔗</span>
+          <span class="name">Netcat</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🐉</span>
+          <span class="name">Hydra</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🔑</span>
+          <span class="name">John</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🐍</span>
+          <span class="name">RPyC</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">📦</span>
+          <span class="name">LXD</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">📡</span>
+          <span class="name">tcpdump</span>
+        </div>
+        <div class="tool-item">
+          <span class="icon">🧠</span>
+          <span class="name">Volatility</span>
+        </div>
+        <!-- Puedes añadir más herramientas aquí -->
+      </div>
+
+      <!-- Botón de acceso -->
+      <a href="herramientas/index.html" class="btn-catalogo">
+        Ver catálogo completo →
       </a>
     </section>
 
