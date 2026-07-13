@@ -297,14 +297,15 @@
       transform: translateY(-2px);
     }
 
-    /* LOGOS: unificados a blanco con filtro */
+    /* LOGOS: filtro mejorado para que se vean en fondo oscuro incluso con fondo blanco */
     .tool-logo {
       width: 40px;
       height: 40px;
       display: block;
       margin: 0 auto 4px;
-      filter: brightness(0) invert(1);
+      filter: invert(1) brightness(2) contrast(1.2);
       object-fit: contain;
+      background: transparent;
     }
 
     /* EMOJIS: mismo tamaño que los logos */
@@ -622,37 +623,43 @@
         
         <!-- Nmap (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/nmap.png" alt="Nmap" class="tool-logo">
+          <img src="imagenes/herramientas/nmap.png" alt="Nmap" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">🔍</span>
           <span class="name">Nmap</span>
         </div>
 
         <!-- WPScan (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/wpscan.png" alt="WPScan" class="tool-logo">
+          <img src="imagenes/herramientas/wpscan.png" alt="WPScan" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">🔐</span>
           <span class="name">WPScan</span>
         </div>
 
         <!-- Nikto (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/nikto.jpg" alt="Nikto" class="tool-logo">
+          <img src="imagenes/herramientas/nikto.jpg" alt="Nikto" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">⚠️</span>
           <span class="name">Nikto</span>
         </div>
 
         <!-- Netcat (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/netcat.png" alt="Netcat" class="tool-logo">
+          <img src="imagenes/herramientas/netcat.png" alt="Netcat" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">🔗</span>
           <span class="name">Netcat</span>
         </div>
 
         <!-- Hydra (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/hydra.png" alt="Hydra" class="tool-logo">
+          <img src="imagenes/herramientas/hydra.png" alt="Hydra" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">🐉</span>
           <span class="name">Hydra</span>
         </div>
 
         <!-- John the Ripper (logo local) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/john.jpg" alt="John the Ripper" class="tool-logo">
+          <img src="imagenes/herramientas/john.jpg" alt="John the Ripper" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">🔑</span>
           <span class="name">John</span>
         </div>
 
