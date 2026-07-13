@@ -21,7 +21,7 @@
     /* --- BLOQUE SUPERIOR (Perfil + Banner) --- */
     .top-row {
       display: flex;
-      gap: 30px;
+      gap: 40px;
       align-items: stretch;
       margin-bottom: 32px;
     }
@@ -36,6 +36,11 @@
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       align-self: stretch;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .sidebar:hover {
+      border-color: #00a8ff;
+      box-shadow: 0 0 30px rgba(0,168,255,0.1);
     }
 
     .sidebar .profile-header {
@@ -46,26 +51,26 @@
     }
 
     .sidebar .profile-img {
-      display: none; /* Oculto porque no hay foto */
+      display: none;
     }
 
-    .sidebar h2 {
+    .sidebar .profile-header h2 {
       color: #e3edf7;
       font-family: "JetBrains Mono", monospace;
-      font-size: 1.2rem;
-      margin: 0 0 4px 0;
+      font-size: 1.4rem;
+      margin: 0 0 6px 0;
     }
 
     .sidebar .profile-title {
       color: #00a8ff;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       margin-bottom: 4px;
     }
 
     .sidebar .profile-location {
       color: #4a75a0;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
 
     .sidebar .profile-body {
@@ -74,10 +79,16 @@
 
     .sidebar .profile-body p {
       color: #4a75a0;
-      font-size: 0.85rem;
-      line-height: 1.5;
+      font-size: 0.9rem;
+      line-height: 1.6;
       margin: 0 0 16px 0;
       text-align: left;
+    }
+
+    .sidebar .profile-body .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,168,255,0.2), transparent);
+      margin: 14px 0;
     }
 
     .sidebar .profile-skills {
@@ -90,11 +101,11 @@
 
     .sidebar .profile-skills .skill {
       background: rgba(0,168,255,.08);
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       color: #00a8ff;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 600;
       border: 1px solid rgba(0,168,255,.2);
     }
@@ -103,9 +114,12 @@
       border-top: 1px solid rgba(0,168,255,.1);
       padding-top: 12px;
       margin-top: 4px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #4a75a0;
       font-family: "JetBrains Mono", monospace;
+    }
+    .sidebar .profile-cert::before {
+      content: '🏅 ';
     }
     .sidebar .profile-cert span {
       color: #cbd5dd;
@@ -120,6 +134,7 @@
     }
 
     .banner-image-wrapper {
+      position: relative;
       background: #051628;
       border: 1px solid rgba(0, 168, 255, 0.2);
       border-radius: 8px;
@@ -128,9 +143,69 @@
       transition: border-color .3s,box-shadow .3s;
       display: inline-block;
       width: 100%;
+      overflow: hidden;
     }
-    .banner-image-wrapper:hover {border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.15)}
-    .banner-image-wrapper .title-img {display:block;width:100%;height:auto;border-radius:4px}
+    .banner-image-wrapper:hover {
+      border-color:#00a8ff;
+      box-shadow:0 0 25px rgba(0,168,255,.15);
+    }
+    .banner-image-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 11, 20, 0.4);
+      pointer-events: none;
+      border-radius: 4px;
+      z-index: 1;
+    }
+    .banner-image-wrapper .title-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      position: relative;
+      z-index: 0;
+    }
+
+    /* Texto superpuesto en el banner */
+    .banner-overlay-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 90%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .banner-overlay-text h1 {
+      color: #e3edf7;
+      font-size: 2.8rem;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      margin: 0;
+      text-shadow: 0 0 30px rgba(0,0,0,0.8);
+      letter-spacing: 2px;
+    }
+    .banner-overlay-text .subtitle {
+      color: #00a8ff;
+      font-size: 1.4rem;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      margin: 4px 0 0 0;
+      text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+    .banner-overlay-text .tags {
+      color: #4a75a0;
+      font-size: 0.9rem;
+      font-family: "Fira Sans", sans-serif;
+      margin: 8px 0 0 0;
+      text-shadow: 0 0 20px rgba(0,0,0,0.8);
+      letter-spacing: 1px;
+    }
 
     /* --- RESTO DE ESTILOS --- */
     .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
@@ -295,6 +370,7 @@
       padding: 8px;
       border: 1px solid rgba(0, 168, 255, 0.1);
       transition: all 0.25s ease;
+      filter: brightness(0) invert(1);
     }
     .tool-item:hover .tool-logo {
       border-color: #00a8ff;
@@ -346,6 +422,9 @@
       .top-row {flex-direction:column;}
       .sidebar {flex:auto;width:100%;}
       .banner-wrapper {flex:auto;width:100%;}
+      .banner-overlay-text h1 { font-size: 2.2rem; }
+      .banner-overlay-text .subtitle { font-size: 1.2rem; }
+      .banner-overlay-text .tags { font-size: 0.8rem; }
     }
     @media(max-width:768px){
       .project-row{flex-direction:column;}
@@ -389,6 +468,9 @@
         font-size: 0.8rem;
         padding: 8px 20px;
       }
+      .banner-overlay-text h1 { font-size: 1.8rem; }
+      .banner-overlay-text .subtitle { font-size: 1rem; }
+      .banner-overlay-text .tags { font-size: 0.7rem; }
     }
     @media(max-width:480px){
       .wrap { padding: 12px; }
@@ -434,6 +516,9 @@
         font-size: 0.7rem;
         padding: 6px 16px;
       }
+      .banner-overlay-text h1 { font-size: 1.4rem; }
+      .banner-overlay-text .subtitle { font-size: 0.9rem; }
+      .banner-overlay-text .tags { font-size: 0.6rem; }
     }
 
     @media(max-width:720px){
@@ -471,15 +556,18 @@
     <!-- BLOQUE SUPERIOR -->
     <div class="top-row fade-in delay-1">
       
-      <!-- BARRA LATERAL (ACTUALIZADA) -->
+      <!-- BARRA LATERAL (ACTUALIZADA Y MEJORADA) -->
       <aside class="sidebar">
         <div class="profile-header">
-          <!-- Círculo de foto oculto -->
           <h2>José Luis Trigo Calvo</h2>
           <div class="profile-title">Técnico en Ciberseguridad · Administrador de Sistemas</div>
+          <div class="profile-location">Salamanca, España</div>
         </div>
         <div class="profile-body">
-          <p>Portfolio técnico donde documentar mis proyectos de ciberseguridad: write-ups de CTFs resueltos paso a paso, análisis de vulnerabilidades y un catálogo de herramientas utilizadas en auditorías. Un espacio para compartir mi enfoque práctico y aprendizaje continuo en seguridad ofensiva.</p>
+          <p>📂 Portfolio técnico donde documentar mis proyectos de ciberseguridad: write-ups de CTFs resueltos paso a paso, análisis de vulnerabilidades y un catálogo de herramientas utilizadas en auditorías. Un espacio para compartir mi enfoque práctico y aprendizaje continuo en seguridad ofensiva.</p>
+          
+          <div class="divider"></div>
+          
           <div class="profile-skills">
             <span class="skill">Python</span>
             <span class="skill">Bash</span>
@@ -488,22 +576,30 @@
             <span class="skill">Metasploit</span>
             <span class="skill">Nessus</span>
           </div>
+          
+          <div class="divider"></div>
+          
           <div class="profile-cert">
             <span>Certificaciones:</span> CEH · INCIBE · Google IT Support
           </div>
         </div>
       </aside>
 
-      <!-- BANNER PRINCIPAL (SIN EL BLOQUE "BIENVENIDO") -->
+      <!-- BANNER PRINCIPAL (CON OVERLAY Y TEXTO SUPERPUESTO) -->
       <div class="banner-wrapper">
         <div class="banner-image-wrapper">
           <img src="imagenes/banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
+          <div class="banner-overlay-text">
+            <h1>JOSÉ L. TRIGO</h1>
+            <p class="subtitle">ETHICAL HACKER</p>
+            <p class="tags">Red Team · Offensive Security · Pentesting</p>
+          </div>
         </div>
         <!-- EL BLOQUE "BIENVENIDO" HA SIDO ELIMINADO -->
       </div>
     </div>
 
-    <!-- BLOQUE INFERIOR -->
+    <!-- PROYECTOS -->
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos</h3>
       <p class="lead">Resolución paso a paso de cada reto CTF.</p>
@@ -594,77 +690,77 @@
 
     </section>
 
-    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (INTACTO) -->
+    <!-- CATÁLOGO DE HERRAMIENTAS (INTACTO) -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
       <p class="lead">Herramientas que utilizo en mis auditorías y CTFs.</p>
 
       <div class="tools-grid">
         
-        <!-- Nmap (SVG) -->
+        <!-- Nmap -->
         <div class="tool-item">
           <img src="imagenes/herramientas/nmap.svg" alt="Nmap" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔍</span>
           <span class="name">Nmap</span>
         </div>
 
-        <!-- WPScan (SVG) -->
+        <!-- WPScan -->
         <div class="tool-item">
           <img src="imagenes/herramientas/wpscan.svg" alt="WPScan" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔐</span>
           <span class="name">WPScan</span>
         </div>
 
-        <!-- Nikto (SVG) -->
+        <!-- Nikto -->
         <div class="tool-item">
           <img src="imagenes/herramientas/nikto.svg" alt="Nikto" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">⚠️</span>
           <span class="name">Nikto</span>
         </div>
 
-        <!-- Netcat (SVG) -->
+        <!-- Netcat -->
         <div class="tool-item">
           <img src="imagenes/herramientas/netcat.svg" alt="Netcat" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔗</span>
           <span class="name">Netcat</span>
         </div>
 
-        <!-- Hydra (SVG) -->
+        <!-- Hydra -->
         <div class="tool-item">
           <img src="imagenes/herramientas/hydra.svg" alt="Hydra" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🐉</span>
           <span class="name">Hydra</span>
         </div>
 
-        <!-- John the Ripper (SVG) -->
+        <!-- John -->
         <div class="tool-item">
           <img src="imagenes/herramientas/john.svg" alt="John the Ripper" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔑</span>
           <span class="name">John</span>
         </div>
 
-        <!-- Gobuster (SVG) -->
+        <!-- Gobuster -->
         <div class="tool-item">
           <img src="imagenes/herramientas/gobuster.svg" alt="Gobuster" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">💥</span>
           <span class="name">Gobuster</span>
         </div>
 
-        <!-- Dirbuster (SVG) -->
+        <!-- Dirbuster -->
         <div class="tool-item">
           <img src="imagenes/herramientas/dirbuster.svg" alt="Dirbuster" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">📡</span>
           <span class="name">Dirbuster</span>
         </div>
 
-        <!-- Wordlists (SVG) -->
+        <!-- Wordlists -->
         <div class="tool-item">
           <img src="imagenes/herramientas/wordlists.svg" alt="Wordlists" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🧠</span>
           <span class="name">Wordlists</span>
         </div>
 
-        <!-- Steghide (SVG) -->
+        <!-- Steghide -->
         <div class="tool-item">
           <img src="imagenes/herramientas/steghide.svg" alt="Steghide" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🐍</span>
@@ -678,9 +774,10 @@
       </a>
     </section>
 
+    <!-- CONTACTO -->
     <section id="contacto" class="fade-in delay-1">
       <h3 class="section-title">Contacto</h3>
-      <p class="lead">Si quieres o necesitas ponerte en contacto conmigo, escríbeme.</p>
+      <p class="lead">Si quieres colaborar, revisar un proyecto o contratar auditorías, escríbeme.</p>
       <div class="contact-grid">
         <div class="contact-block">
           <strong>Email</strong>
