@@ -383,6 +383,13 @@
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">LinkedIn</td><td style="padding:4px 0; border:none;"><a href="https://linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></td></tr>
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Web</td><td style="padding:4px 0; border:none;"><a href="https://joseltc.github.io/" target="_blank">joseltc.github.io/</a></td></tr>
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Email</td><td style="padding:4px 0; border:none;"><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></td></tr>
+          <!-- NUEVA FILA: ENLACE DE DESCARGA PDF (ubicación 1) -->
+          <tr>
+            <td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Descarga</td>
+            <td style="padding:4px 0; border:none;">
+              <a href="mr_robot_ctf.pdf" download style="color:#00a8ff; font-weight:600;">📄 PDF (versión 1.0)</a>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -682,7 +689,7 @@
         <span class="prompt">$</span> nmap --version
       </div>
       <p>La versión es 3.81 y tras una breve búsqueda en la red podemos encontrar una vulnerabilidad que nos permite escalar privilegios en la shell con el comando ¡sh.</p>
-	  <p>Esta versión de nmap tiene una vulnerabilidad en su modo interactivo (--interactive). Este modo permite ejecutar comandos del sistema con el prefijo !. Como el binario tiene el bit SUID activo (lo hemos visto con find / -user root -perm -4000), cualquier comando que ejecutemos con ! se ejecutará con privilegios de root.</p>
+      <p>Esta versión de nmap tiene una vulnerabilidad en su modo interactivo (--interactive). Este modo permite ejecutar comandos del sistema con el prefijo !. Como el binario tiene el bit SUID activo (lo hemos visto con find / -user root -perm -4000), cualquier comando que ejecutemos con ! se ejecutará con privilegios de root.</p>
       <p>Link de la vulnerabilidad:<a href="https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a" target="_blank">https://medium.com/@abinreji8/interactive-mode-vulnerability-in-nmap-3-81-971ddfd1b27a</a>.</p>
       <p>Para introducir el comando ¡sh debemos abrir una shell interactiva con el comando nmap --interactive. Una vez ejecutado, con whoami ya podemos ver que somos root. Y además podemos navegar hacia la ruta /home/root donde ya podemos consultar la key 2 con el comando cat.</p>
       <div class="term-block">
@@ -726,7 +733,7 @@
         <table>
           <thead></thead>
           <tbody>
-			<tr><td><strong>Key 1</strong></td><td>073403c8a58a1f80d943455fb30724b9</td></tr>
+            <tr><td><strong>Key 1</strong></td><td>073403c8a58a1f80d943455fb30724b9</td></tr>
             <tr><td><strong>Key 2</strong></td><td>822c73956184f694993bede3eb39f959</td></tr>
             <tr><td><strong>Key 3</strong></td><td>04787ddef27c3dee1ee161b21670b4e4</td></tr>
           </tbody>
@@ -756,8 +763,9 @@
         <li>Escalada de privilegios aprovechando binarios SUID vulnerables (nmap 3.81)</li>
       </ul>
 
-      <!-- Botón de volver al portfolio -->
-      <div style="margin-top:30px; text-align:center;">
+      <!-- Botones de volver y descarga (ubicación 2) -->
+      <div style="margin-top:30px; text-align:center; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+        <a href="mr_robot_ctf.pdf" download class="btn-back"> Descargar PDF</a>
         <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
       </div>
 
