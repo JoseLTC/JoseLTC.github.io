@@ -218,19 +218,22 @@
       font-size: 0.9rem;
     }
     
+    /* --- ESTILO BASE DE LA TERMINAL --- */
     .project-row .col-terminal .term-body {
       padding: 16px;
       font-size: 0.9rem;
       line-height: 1.5;
       color: #4a75a0;
-      white-space: pre-wrap;
-      word-break: break-word;  /* NUEVO: fuerza saltos de línea en palabras largas */
+      white-space: pre-wrap;  /* Mantiene saltos de línea */
+      word-break: break-word; /* Rompe palabras largas */
+      overflow-x: auto;       /* Scroll horizontal si es necesario */
       min-height: 96px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       font-family: "JetBrains Mono", ui-monospace, monospace;
       flex: 1;
+      max-width: 100%;        /* Asegura que no se salga del contenedor */
     }
     .project-row .col-terminal .prompt {color:#00a8ff;font-weight:700;}
     .project-row .col-terminal .output {color:#e3edf7;font-family:inherit;}
@@ -266,10 +269,14 @@
       .project-row{flex-direction:column;}
       .project-row .col-image{border-right:1px solid rgba(0,168,255,.2);border-bottom:none;border-top-left-radius:8px;border-top-right-radius:8px;border-bottom-left-radius:0;}
       .project-row .col-terminal .term-card{border-left:1px solid rgba(0,168,255,.2);border-top:none;border-top-left-radius:0;border-top-right-radius:0;border-bottom-left-radius:8px;border-bottom-right-radius:8px;}
-      /* Ajustes para móvil */
+      
+      /* === MEJORAS PARA MÓVIL === */
       .project-row .col-terminal .term-body {
-        font-size: 0.75rem;  /* Reducir tamaño de fuente */
+        font-size: 0.75rem;
         padding: 12px;
+        white-space: pre-line;   /* Permite que el texto se envuelva */
+        word-break: break-word;
+        overflow-x: auto;
       }
       .project-row .col-terminal .term-title {
         font-size: 0.8rem;
@@ -293,9 +300,23 @@
       .banner h2 { font-size: 1.1rem; }
       .banner p.lead { font-size: 0.9rem; }
       .sidebar .profile-img { width: 70px; height: 70px; }
-      .project-row .col-terminal .term-body { font-size: 0.7rem; padding: 10px; min-height: 70px; }
-      .project-row .col-terminal .term-title { font-size: 0.7rem; }
-      .project-row .col-terminal .btn-project { font-size: 0.6rem; padding: 2px 8px; }
+      
+      /* Tamaño aún más pequeño en móviles muy estrechos */
+      .project-row .col-terminal .term-body {
+        font-size: 0.65rem;
+        padding: 10px;
+        min-height: 70px;
+        white-space: pre-line;
+        word-break: break-all;   /* Fuerza el salto en cualquier punto */
+        overflow-x: auto;
+      }
+      .project-row .col-terminal .term-title {
+        font-size: 0.7rem;
+      }
+      .project-row .col-terminal .btn-project {
+        font-size: 0.6rem;
+        padding: 2px 8px;
+      }
       .contact-block { padding: 12px; }
       .nav-item { padding: 4px 8px; font-size: 0.65rem; }
     }
@@ -320,7 +341,6 @@
     <header class="fixed-header">
       <div class="header-content">
         <span class="logo-container">
-          <!-- Asegúrate de que el archivo logo.png existe en la carpeta imagenes/ -->
           <img src="imagenes/logo.png" alt="Logo JT" class="logo-img" />
         </span>
         <nav class="header-nav" aria-label="Navegación principal">
