@@ -126,26 +126,6 @@
     .banner-image-wrapper:hover {border-color:#00a8ff;box-shadow:0 0 25px rgba(0,168,255,.15)}
     .banner-image-wrapper .title-img {display:block;width:100%;height:auto;border-radius:4px}
 
-    .banner {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      padding: 24px;
-      border-radius: 8px;
-      background: #051628;
-      border: 1px solid #00a8ff;
-      box-shadow: 0 0 15px rgba(0,168,255,.1);
-      overflow: hidden;
-      flex: 1;
-    }
-    .banner .left{flex:1;min-width:260px}
-    .banner .right{flex:0 0 420px;display:flex;align-items:center;justify-content:center}
-    .banner h2{margin:0;color:#e3edf7;font-size:1.4rem;font-family:"JetBrains Mono",monospace;font-weight:700;letter-spacing:.4px}
-    .banner p.lead{margin:12px 0 0;color:#4a75a0;font-size:1rem}
-    .banner .tagline{display:inline-block;margin-top:16px;padding:6px 12px;border-radius:4px;background:rgba(0,168,255,.1);color:#00a8ff;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:.85rem;border:1px solid rgba(0,168,255,.2)}
-    .banner .term-wrap{width:380px;height:160px;border-radius:6px;border:1px solid rgba(0,168,255,.3);overflow:hidden;background:#020b14;display:flex;align-items:center;justify-content:center}
-    .banner .term-wrap img{width:100%;height:100%;object-fit:cover;opacity:.85}
-
     /* --- RESTO DE ESTILOS --- */
     .fixed-header{position:fixed;top:0;left:0;width:100%;background:#000D1F;color:#e3edf7;border-bottom:1px solid #00a8ff;z-index:1000;padding:.5rem 1.5rem;box-shadow:0 2px 20px rgba(0,168,255,.15)}
     .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1132px;margin:0 auto}
@@ -309,6 +289,7 @@
       padding: 8px;
       border: 1px solid rgba(0, 168, 255, 0.1);
       transition: all 0.25s ease;
+      filter: brightness(0) invert(1);
     }
     .tool-item:hover .tool-logo {
       border-color: #00a8ff;
@@ -385,9 +366,6 @@
       .nav-item {
         padding: 6px 10px;
         font-size: 0.75rem;
-      }
-      .banner h2 {
-        font-size: 1.2rem;
       }
       .tools-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -513,23 +491,12 @@
         </div>
       </aside>
 
-      <!-- BANNER PRINCIPAL -->
+      <!-- BANNER PRINCIPAL (SIN EL BLOQUE "BIENVENIDO") -->
       <div class="banner-wrapper">
         <div class="banner-image-wrapper">
           <img src="imagenes/banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
         </div>
-
-        <div class="banner" role="region" aria-label="banner principal">
-          <div class="left">
-            <h2 style="font-size:1.6rem;">Bienvenido a mi Portfolio</h2>
-            <p class="lead">Aquí encontrarás proyectos prácticos de ciberseguridad, write-ups de CTFs y herramientas open source que he desarrollado para auditorías, análisis forense y explotación controlada.</p>
-          </div>
-          <div class="right">
-            <div class="term-wrap" aria-hidden="true">
-              <img src="imagenes/portfolio.png" alt="Terminal visualizer" />
-            </div>
-          </div>
-        </div>
+        <!-- EL BLOQUE "BIENVENIDO" HA SIDO ELIMINADO -->
       </div>
     </div>
 
@@ -680,28 +647,29 @@
           <span class="name">Gobuster</span>
         </div>
 
-        <!-- Dirbuster (SVG) -->
+        <!-- tcpdump (sin logo → emoji) -->
         <div class="tool-item">
-		  <img src="imagenes/herramientas/dirbuster.svg" alt="Dirbuster" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="icon-emoji" style="display:none;">📡</span>
-          <span class="name">Dirbuster</span>
+          <span class="icon-emoji">📡</span>
+          <span class="name">tcpdump</span>
         </div>
 
-        <!-- Wordlists -->
+        <!-- Volatility (sin logo → emoji) -->
         <div class="tool-item">
-		  <img src="imagenes/herramientas/wordlists.svg" alt="Wordlists" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-
-          <span class="icon-emoji" style="display:none;">🧠</span>
-          <span class="name">Wordlists</span>
+          <span class="icon-emoji">🧠</span>
+          <span class="name">Volatility</span>
         </div>
 
-        <!-- Steghide -->
+        <!-- RPyC (sin logo → emoji) -->
         <div class="tool-item">
-		  <img src="imagenes/herramientas/steghide.svg" alt="Steghide" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="icon-emoji"style="display:none;">🐍</span>
-          <span class="name">Steghide</span>
+          <span class="icon-emoji">🐍</span>
+          <span class="name">RPyC</span>
         </div>
 
+        <!-- LXD (sin logo → emoji) -->
+        <div class="tool-item">
+          <span class="icon-emoji">📦</span>
+          <span class="name">LXD</span>
+        </div>
 
       </div>
 
