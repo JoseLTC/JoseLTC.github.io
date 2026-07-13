@@ -376,13 +376,20 @@
           <img src="../../imagenes/vikings_ctf.png" alt="Vikings CTF" style="max-width:180px; border-radius:6px; border:1px solid rgba(0,168,255,.3);" />
         </div>
       </div>
-      <!-- Datos del autor en tabla -->
+      <!-- Datos del autor en tabla (CON ENLACE AL PDF) -->
       <div style="margin-top:20px; border-top:1px solid rgba(0,168,255,.1); padding-top:16px;">
         <table style="width:auto; background:transparent; border:none; font-size:0.9rem;">
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Autor</td><td style="padding:4px 0; border:none; color:#e3edf7;">José Luis Trigo Calvo</td></tr>
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">LinkedIn</td><td style="padding:4px 0; border:none;"><a href="https://linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></td></tr>
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Web</td><td style="padding:4px 0; border:none;"><a href="https://joseltc.github.io/" target="_blank">joseltc.github.io/</a></td></tr>
           <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Email</td><td style="padding:4px 0; border:none;"><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></td></tr>
+          <!-- NUEVA FILA PARA PDF -->
+          <tr>
+            <td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Descarga</td>
+            <td style="padding:4px 0; border:none;">
+              <a href="vikings.pdf" download style="color:#00a8ff; font-weight:600;">📄 PDF (versión 1.0)</a>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -812,8 +819,9 @@
         <li>Escalada de privilegios mediante RPyC mal configurado y abuso de LXD</li>
       </ul>
 
-      <!-- Botón de volver al portfolio -->
-      <div style="margin-top:30px; text-align:center;">
+      <!-- Botones de volver y descarga (Ubicación 2) -->
+      <div style="margin-top:30px; text-align:center; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+        <a href="vikings.pdf" download class="btn-back">📄 Descargar PDF</a>
         <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
       </div>
 
