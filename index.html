@@ -270,7 +270,7 @@
       box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
     }
 
-    /* --- ESTILOS PARA LA GALERÍA DE HERRAMIENTAS (OPCIÓN B) --- */
+    /* --- ESTILOS PARA LA GALERÍA DE HERRAMIENTAS (CON TUS LOGOS) --- */
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -296,18 +296,33 @@
       background: rgba(0, 168, 255, 0.05);
       transform: translateY(-2px);
     }
-    .tool-item .icon {
+
+    /* LOGOS: unificados a blanco con filtro */
+    .tool-logo {
+      width: 40px;
+      height: 40px;
+      display: block;
+      margin: 0 auto 4px;
+      filter: brightness(0) invert(1);
+      object-fit: contain;
+    }
+
+    /* EMOJIS: mismo tamaño que los logos */
+    .icon-emoji {
       font-size: 2.5rem;
       display: block;
-      margin-bottom: 4px;
+      margin: 0 auto 4px;
       line-height: 1.2;
     }
+
     .tool-item .name {
       color: #cbd5dd;
       font-size: 0.7rem;
       font-weight: 500;
+      display: block;
     }
 
+    /* Botón de acceso al catálogo */
     .btn-catalogo {
       display: inline-block;
       background: transparent;
@@ -370,7 +385,11 @@
         gap: 12px;
         padding: 16px 12px;
       }
-      .tool-item .icon {
+      .tool-logo {
+        width: 34px;
+        height: 34px;
+      }
+      .icon-emoji {
         font-size: 2rem;
       }
       .tool-item .name {
@@ -411,7 +430,11 @@
         gap: 8px;
         padding: 12px 8px;
       }
-      .tool-item .icon {
+      .tool-logo {
+        width: 28px;
+        height: 28px;
+      }
+      .icon-emoji {
         font-size: 1.6rem;
       }
       .tool-item .name {
@@ -589,54 +612,80 @@
 
     </section>
 
-    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (OPCIÓN B) -->
+    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (CON TUS LOGOS) -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
       <p class="lead">Herramientas que utilizo en mis auditorías y CTFs.</p>
 
-      <!-- Galería de iconos -->
+      <!-- Galería de logos -->
       <div class="tools-grid">
+        
+        <!-- Nmap (logo local) -->
         <div class="tool-item">
-          <span class="icon">🔍</span>
+          <img src="imagenes/herramientas/nmap.png" alt="Nmap" class="tool-logo">
           <span class="name">Nmap</span>
         </div>
+
+        <!-- WPScan (logo local) -->
         <div class="tool-item">
-          <span class="icon">💥</span>
-          <span class="name">Gobuster</span>
-        </div>
-        <div class="tool-item">
-          <span class="icon">🔐</span>
+          <img src="imagenes/herramientas/wpscan.png" alt="WPScan" class="tool-logo">
           <span class="name">WPScan</span>
         </div>
+
+        <!-- Nikto (logo local) -->
         <div class="tool-item">
-          <span class="icon">🔗</span>
+          <img src="imagenes/herramientas/nikto.jpg" alt="Nikto" class="tool-logo">
+          <span class="name">Nikto</span>
+        </div>
+
+        <!-- Netcat (logo local) -->
+        <div class="tool-item">
+          <img src="imagenes/herramientas/netcat.png" alt="Netcat" class="tool-logo">
           <span class="name">Netcat</span>
         </div>
+
+        <!-- Hydra (logo local) -->
         <div class="tool-item">
-          <span class="icon">🐉</span>
+          <img src="imagenes/herramientas/hydra.png" alt="Hydra" class="tool-logo">
           <span class="name">Hydra</span>
         </div>
+
+        <!-- John the Ripper (logo local) -->
         <div class="tool-item">
-          <span class="icon">🔑</span>
+          <img src="imagenes/herramientas/john.jpg" alt="John the Ripper" class="tool-logo">
           <span class="name">John</span>
         </div>
+
+        <!-- Gobuster (sin logo → emoji) -->
         <div class="tool-item">
-          <span class="icon">🐍</span>
-          <span class="name">RPyC</span>
+          <span class="icon-emoji">💥</span>
+          <span class="name">Gobuster</span>
         </div>
+
+        <!-- tcpdump (sin logo → emoji) -->
         <div class="tool-item">
-          <span class="icon">📦</span>
-          <span class="name">LXD</span>
-        </div>
-        <div class="tool-item">
-          <span class="icon">📡</span>
+          <span class="icon-emoji">📡</span>
           <span class="name">tcpdump</span>
         </div>
+
+        <!-- Volatility (sin logo → emoji) -->
         <div class="tool-item">
-          <span class="icon">🧠</span>
+          <span class="icon-emoji">🧠</span>
           <span class="name">Volatility</span>
         </div>
-        <!-- Puedes añadir más herramientas aquí -->
+
+        <!-- RPyC (sin logo → emoji) -->
+        <div class="tool-item">
+          <span class="icon-emoji">🐍</span>
+          <span class="name">RPyC</span>
+        </div>
+
+        <!-- LXD (sin logo → emoji) -->
+        <div class="tool-item">
+          <span class="icon-emoji">📦</span>
+          <span class="name">LXD</span>
+        </div>
+
       </div>
 
       <!-- Botón de acceso -->
