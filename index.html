@@ -270,7 +270,7 @@
       box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
     }
 
-    /* --- ESTILOS PARA LA GALERÍA DE HERRAMIENTAS (VERSIÓN MEJORADA) --- */
+    /* --- ESTILOS PARA LA GALERÍA DE HERRAMIENTAS (CON SVG) --- */
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -297,6 +297,7 @@
       box-shadow: 0 8px 25px rgba(0, 168, 255, 0.08);
     }
 
+    /* SVG en blanco con filtro */
     .tool-logo {
       width: 52px;
       height: 52px;
@@ -308,6 +309,7 @@
       padding: 8px;
       border: 1px solid rgba(0, 168, 255, 0.1);
       transition: all 0.25s ease;
+      filter: brightness(0) invert(1);
     }
     .tool-item:hover .tool-logo {
       border-color: #00a8ff;
@@ -623,89 +625,87 @@
 
     </section>
 
-    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (VERSIÓN MEJORADA) -->
+    <!-- SECCIÓN: CATÁLOGO DE HERRAMIENTAS (CON SVG) -->
     <section id="herramientas" class="fade-in delay-2">
       <h3 class="section-title">Catálogo de Herramientas</h3>
       <p class="lead">Herramientas que utilizo en mis auditorías y CTFs.</p>
 
-      <!-- Galería de logos -->
       <div class="tools-grid">
         
-        <!-- Nmap (logo local) -->
+        <!-- Nmap (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/nmap.png" alt="Nmap" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/nmap.svg" alt="Nmap" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔍</span>
           <span class="name">Nmap</span>
         </div>
 
-        <!-- WPScan (logo local) -->
+        <!-- WPScan (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/wpscan.png" alt="WPScan" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/wpscan.svg" alt="WPScan" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔐</span>
           <span class="name">WPScan</span>
         </div>
 
-        <!-- Nikto (logo local) -->
+        <!-- Nikto (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/nikto.jpg" alt="Nikto" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/nikto.svg" alt="Nikto" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">⚠️</span>
           <span class="name">Nikto</span>
         </div>
 
-        <!-- Netcat (logo local) -->
+        <!-- Netcat (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/netcat.png" alt="Netcat" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/netcat.svg" alt="Netcat" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔗</span>
           <span class="name">Netcat</span>
         </div>
 
-        <!-- Hydra (logo local) -->
+        <!-- Hydra (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/hydra.png" alt="Hydra" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/hydra.svg" alt="Hydra" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🐉</span>
           <span class="name">Hydra</span>
         </div>
 
-        <!-- John the Ripper (logo local) -->
+        <!-- John the Ripper (SVG) -->
         <div class="tool-item">
-          <img src="imagenes/herramientas/john.jpg" alt="John the Ripper" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="imagenes/herramientas/john.svg" alt="John the Ripper" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji" style="display:none;">🔑</span>
           <span class="name">John</span>
         </div>
 
-        <!-- Gobuster (sin logo → emoji) -->
+        <!-- Gobuster (SVG) -->
         <div class="tool-item">
-          <span class="icon-emoji">💥</span>
+          <img src="imagenes/herramientas/gobuster.svg" alt="Gobuster" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="icon-emoji" style="display:none;">💥</span>
           <span class="name">Gobuster</span>
         </div>
 
-        <!-- tcpdump (sin logo → emoji) -->
+        <!-- Dirbuster (SVG) -->
         <div class="tool-item">
+		  <img src="imagenes/herramientas/dirbuster.svg" alt="Dirbuster" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji">📡</span>
-          <span class="name">tcpdump</span>
+          <span class="name">Dirbuster</span>
         </div>
 
-        <!-- Volatility (sin logo → emoji) -->
+        <!-- Wordlists -->
         <div class="tool-item">
+		  <img src="imagenes/herramientas/wordlists.svg" alt="Wordlists" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+
           <span class="icon-emoji">🧠</span>
-          <span class="name">Volatility</span>
+          <span class="name">Wordlists</span>
         </div>
 
-        <!-- RPyC (sin logo → emoji) -->
+        <!-- Steghide -->
         <div class="tool-item">
+		  <img src="imagenes/herramientas/steghide.svg" alt="Steghide" class="tool-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span class="icon-emoji">🐍</span>
           <span class="name">RPyC</span>
         </div>
 
-        <!-- LXD (sin logo → emoji) -->
-        <div class="tool-item">
-          <span class="icon-emoji">📦</span>
-          <span class="name">LXD</span>
-        </div>
 
       </div>
 
-      <!-- Botón de acceso -->
       <a href="herramientas/index.html" class="btn-catalogo">
         Ver catálogo completo →
       </a>
