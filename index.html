@@ -26,7 +26,7 @@
       margin-bottom: 32px;
     }
     
-    /* Barra lateral izquierda */
+    /* Barra lateral izquierda (sin foto) */
     .sidebar {
       flex: 0 0 320px;
       background: #051628;
@@ -45,14 +45,9 @@
       border-bottom: 1px solid rgba(0, 168, 255, 0.1);
     }
 
+    /* Eliminamos el círculo de la foto */
     .sidebar .profile-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 2px solid #00a8ff;
-      margin: 0 0 12px 0;
-      display: block;
-      background: #020b14;
+      display: none;
     }
 
     .sidebar h2 {
@@ -91,7 +86,7 @@
       flex-wrap: wrap;
       gap: 8px;
       justify-content: flex-start;
-      margin-bottom: 0;
+      margin-bottom: 8px;
     }
 
     .sidebar .profile-skills .skill {
@@ -103,6 +98,18 @@
       font-size: 0.7rem;
       font-weight: 600;
       border: 1px solid rgba(0,168,255,.2);
+    }
+
+    .sidebar .profile-cert {
+      border-top: 1px solid rgba(0,168,255,.1);
+      padding-top: 12px;
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: #4a75a0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    .sidebar .profile-cert span {
+      color: #cbd5dd;
     }
 
     /* --- CONTENEDOR DEL BANNER DERECHO --- */
@@ -471,32 +478,35 @@
     <!-- BLOQUE SUPERIOR -->
     <div class="top-row fade-in delay-1">
       
-      <!-- BARRA LATERAL -->
+      <!-- BARRA LATERAL (actualizada con datos del CV) -->
       <aside class="sidebar">
         <div class="profile-header">
-          <div class="profile-img"></div>
-          <h2>José Luis Trigo</h2>
-          <div class="profile-title">Ethical Hacker &amp; Pentester</div>
-          <div class="profile-location">España</div>
+          <!-- Eliminado el círculo de la foto -->
+          <h2>José Luis Trigo Calvo</h2>
+          <div class="profile-title">Técnico en Ciberseguridad · Administrador de Sistemas</div>
+          <div class="profile-location">Salamanca, España</div>
         </div>
         <div class="profile-body">
-          <p>Administrador de Sistemas informáticos especializado en ciberseguridad. Apasionado por el análisis forense, el pentesting y la seguridad ofensiva.</p>
+          <p>Técnico en ciberseguridad y administración de sistemas con formación en Python. Busco mi primera oportunidad en un equipo de seguridad ofensiva o defensiva, aportando capacidad de aprendizaje y enfoque metódico.</p>
           <div class="profile-skills">
             <span class="skill">Python</span>
             <span class="skill">Bash</span>
+            <span class="skill">Kali Linux</span>
             <span class="skill">Wireshark</span>
-            <span class="skill">Forense</span>
-            <span class="skill">Snort</span>
+            <span class="skill">Metasploit</span>
+            <span class="skill">Nessus</span>
+          </div>
+          <div class="profile-cert">
+            <span>Certificaciones:</span> CEH · INCIBE · Google IT Support
           </div>
         </div>
       </aside>
 
-      <!-- BANNER PRINCIPAL (SIN EL BLOQUE "BIENVENIDO") -->
+      <!-- BANNER PRINCIPAL -->
       <div class="banner-wrapper">
         <div class="banner-image-wrapper">
           <img src="imagenes/banner2.png" class="title-img" alt="Jose L. Trigo - Ethical Hacker" />
         </div>
-        <!-- EL BLOQUE "BIENVENIDO" HA SIDO ELIMINADO -->
       </div>
     </div>
 
