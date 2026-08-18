@@ -504,8 +504,51 @@
     <section id="proyectos" class="fade-in delay-3">
       <h3 class="section-title">Proyectos</h3>
       <p class="lead">Resolución paso a paso de cada reto CTF.</p>
-	
-	  <!-- PROYECTO 2: VIKINGS -->
+  
+      <!-- PROYECTO 1: AVENGERS ARMOUR (MÁS RECIENTE - AGO 2026) -->
+      <a href="proyectos/avengers_ctf/index.html" class="project-row" aria-label="Ver proyecto Avengers Armour CTF">
+        <div class="col-image">
+          <img src="imagenes/avengers_ctf.png" alt="Avengers Armour CTF Portada" />
+        </div>
+        <div class="col-terminal">
+          <div class="term-card">
+            <div class="term-header">
+              <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="term-title">CTF: Avengers Armour (VulnHub)</div>
+            </div>
+            <div class="term-body" id="proj-avengers">
+              <div><span class="prompt">root@kali:~$</span> nmap -p- -sV -sC -A -Pn 192.168.56.128</div>
+              <div class="output">
+                [*] CTF basado en el universo Marvel
+                [*] Objetivo: Recuperar las 5 armaduras ocultas de los Vengadores
+                <br>
+                [*] Escaneo de puertos: HTTP (80) + Tomcat (8080) + SSH (65534)
+                [*] Enumeración web + LFI (Local File Inclusion)
+                [*] Credenciales extraídas: armour / TheOlympicsmaybeevenaStarBucks
+                <br>
+                [*] Explotación de Tomcat con Metasploit → Meterpreter
+                [*] Port forwarding → Black Panther Armour
+                <br>
+                [*] Escalada de privilegios: modificación de apache2.conf + reverse shell
+                [+] Root obtenido → Ironman Armour
+              </div>
+            </div>
+            <div class="term-meta">
+              <div>LFI · Tomcat · Metasploit</div>
+              <div>
+                <small>Ago 2026</small>
+                <span class="btn-project">Ir al proyecto →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROYECTO 2: VIKINGS (JUL 2026) -->
       <a href="proyectos/vikings_ctf/index.html" class="project-row" aria-label="Ver proyecto Vikings CTF">
         <div class="col-image">
           <img src="imagenes/vikings_ctf.png" alt="Vikings CTF Portada" />
@@ -546,8 +589,8 @@
           </div>
         </div>
       </a>
-        
-      <!-- PROYECTO 1: MR. ROBOT -->
+
+      <!-- PROYECTO 3: MR. ROBOT (MÁS ANTIGUO - JUL 2026) -->
       <a href="proyectos/mr_robot_ctf/index.html" class="project-row" aria-label="Ver proyecto Mr. Robot CTF">
         <div class="col-image">
           <img src="imagenes/mr_robot.png" alt="Mr. Robot CTF Portada" />
@@ -588,8 +631,6 @@
           </div>
         </div>
       </a>
-
-      
 
     </section>
 
