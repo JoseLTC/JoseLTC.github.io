@@ -204,6 +204,16 @@
       font-family: "JetBrains Mono", monospace;
     }
 
+    /* --- IMÁGENES DE SUPERHÉROES EN TABLAS --- */
+    .hero-img {
+      max-width: 60px;
+      height: auto;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 168, 255, 0.3);
+      display: block;
+      margin: 0 auto;
+    }
+
     /* --- TABLAS --- */
     .table-wrap {
       overflow-x: auto;
@@ -329,12 +339,14 @@
       h1 { font-size: 1.6rem; }
       .indice ul { gap: 6px 12px; }
       .indice a { font-size: 0.75rem; }
+      .hero-img { max-width: 40px; }
     }
     @media (max-width: 480px) {
       .wrap { padding: 12px; }
       section { padding: 16px; }
       .term-block { font-size: 0.75rem; padding: 10px; }
       .indice { padding: 12px; }
+      .hero-img { max-width: 35px; }
     }
   </style>
 </head>
@@ -469,7 +481,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
-		  <tr><td><img src="imagenes/avengers5.png" alt="Imagen Hulk" /></td></tr>
+            <tr><td><img src="imagenes/avengers5.png" alt="Hulk" class="hero-img" /></td></tr>
             <tr><td><strong>HULK ARMOUR</strong></td><td>7BDA7019C06B53AEFC8EE95D2CDACCAA</td></tr>
             <tr><td><strong>HINT 1</strong></td><td>TheOlympics</td></tr>
           </tbody>
@@ -531,7 +543,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
-		    <tr><td><img src="imagenes/avengers12.png" alt="Spiderman" /></td></tr>
+            <tr><td><img src="imagenes/avengers12.png" alt="Spiderman" class="hero-img" /></td></tr>
             <tr><td><strong>Spiderman Armour</strong></td><td>83A75F0B31435193BAFD3B9C5FD45AEC</td></tr>
             <tr><td><strong>Hint 2</strong></td><td>maybeevena</td></tr>
           </tbody>
@@ -603,7 +615,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
-		  <tr><td><img src="imagenes/avengers18.png" alt="Antman" /><td><tr>
+            <tr><td><img src="imagenes/avengers18.png" alt="Antman" class="hero-img" /></td></tr>
             <tr><td><strong>Antman Armour</strong></td><td>A9F56B7ECE2113C9C4A1214A19EDE99C</td></tr>
             <tr><td><strong>Hint 3</strong></td><td>StarBucks</td></tr>
           </tbody>
@@ -755,7 +767,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
-		  <tr><td><img src="imagenes/avengers32.png" alt="Black Panther" /></td></tr>
+            <tr><td><img src="imagenes/avengers32.png" alt="Black Panther" class="hero-img" /></td></tr>
             <tr><td><strong>Black Panther Armour</strong></td><td>690B4BAC6CA9FB81814128A294470F92</td></tr>
           </tbody>
         </table>
@@ -862,7 +874,7 @@
       <div class="table-wrap">
         <table>
           <tbody>
-		  <tr><td><img src="imagenes/avengers48.png" alt="Ironman" /></td></tr>
+            <tr><td><img src="imagenes/avengers48.png" alt="Ironman" class="hero-img" /></td></tr>
             <tr><td><strong>Ironman Armour</strong></td><td>3AE9D8799D1BB5E201E5704293BB54EF</td></tr>
           </tbody>
         </table>
